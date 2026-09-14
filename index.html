@@ -3,41 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parcours de Réservation</title>
+    <title>Système de Réservation - Moteur Complet</title>
     <style>
-        /* CSS ultra basique juste pour structurer l'affichage */
-        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
-        .etape { display: none; background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        /* CSS basique pour structurer la logique en attendant le vrai design */
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; color: #333; }
+        .etape { display: none; background: white; padding: 25px; border-radius: 8px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .etape.active { display: block; }
         
-        .choix-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px; cursor: pointer; }
-        .choix-box:hover { border-color: #000; background: #fafafa; }
+        .choix-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px; cursor: pointer; background: #fff; }
+        .choix-box:hover { border-color: #000; }
+        .choix-box.occupee { border: 1px solid red; background: #ffeeee; opacity: 0.7; cursor: not-allowed; }
         
         .form-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .form-row input[type="date"], .form-row input[type="number"] { padding: 8px; width: 150px; }
+        .form-row input, .form-row select { padding: 10px; width: 180px; border: 1px solid #ccc; border-radius: 4px; }
         
-        button { background: #000; color: #fff; border: none; padding: 12px 20px; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 10px;}
-        button.btn-retour { background: #ccc; color: #000; width: auto; margin-bottom: 20px; }
+        button { background: #000; color: #fff; border: none; padding: 12px 20px; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 10px; font-weight: bold; }
+        button:hover { background: #333; }
+        button:disabled { background: #999; cursor: not-allowed; }
+        button.btn-retour { background: #ccc; color: #000; width: auto; margin-bottom: 20px; padding: 8px 15px; }
+        
+        .zone-photos { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .photo-placeholder { background: #ddd; padding: 20px; font-size: 12px; min-width: 80px; text-align: center; border-radius: 4px; border: 1px dashed #999; }
+        
+        .recu-box { border: 2px dashed #000; padding: 20px; text-align: left; background: #fffcf0; margin-bottom: 20px; }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-whatsapp:hover { background: #1ebd5a; }
     </style>
 </head>
 <body>
 
-    <!-- ÉTAPE 1 : Choix du type de service -->
+    <!-- ÉTAPE 1 : Accueil / Choix principal -->
     <div id="etape-1" class="etape active">
-        <h2>Étape 1 : Que souhaitez-vous faire ?</h2>
+        <h2>Étape 1 : Que souhaitez-vous réserver ?</h2>
         
         <div class="choix-box" onclick="allerAEtape('etape-2')">
             <h3>🛏️ Hébergement</h3>
             <p>Réserver une chambre ou un appartement.</p>
         </div>
         
-        <div class="choix-box" onclick="alert('Le module événementiel sera développé plus tard.')">
+        <div class="choix-box" onclick="alert('Module Événements en construction.')">
             <h3>🎉 Événements</h3>
-            <p>Réserver une salle pour une réunion ou une fête.</p>
+            <p>Réserver une salle pour une réunion ou un événement.</p>
         </div>
     </div>
 
-    <!-- ÉTAPE 2 : Dates et Personnes -->
+    <!-- ÉTAPE 2 : Calendrier et Personnes -->
     <div id="etape-2" class="etape">
         <button class="btn-retour" onclick="allerAEtape('etape-1')">← Retour</button>
         <h2>Étape 2 : Votre séjour</h2>
@@ -51,7 +61,7 @@
             <input type="date" id="date-depart">
         </div>
         
-        <hr style="margin: 20px 0;">
+        <hr style="margin: 20px 0; border-top: 1px solid #eee;">
         
         <div class="form-row">
             <label>Adultes :</label>
@@ -62,70 +72,114 @@
             <input type="number" id="nb-enfants" value="0" min="0">
         </div>
         
-        <button onclick="validerDatesEtPersonnes()">Voir les disponibilités</button>
+        <button onclick="validerDatesEtPersonnes()">Voir les chambres disponibles</button>
     </div>
 
-    <!-- ÉTAPE 3 : Choix de la chambre (adapté aux réalités locales) -->
+    <!-- ÉTAPE 3 : Choix de la Chambre (avec photos et logique de blocage) -->
     <div id="etape-3" class="etape">
-        <button class="btn-retour" onclick="allerAEtape('etape-2')">← Retour</button>
+        <button class="btn-retour" onclick="allerAEtape('etape-2')">← Retour au calendrier</button>
         <h2>Étape 3 : Choisissez votre espace</h2>
         <p id="resume-recherche" style="color: #666; font-size: 0.9em; margin-bottom: 20px;"></p>
         
-        <div class="choix-box">
-            <h3>Chambre Standard (Simple)</h3>
-            <p>Idéal pour un court séjour. 1 lit double, salle de bain interne.</p>
-            <p><strong>35 000 FCFA / nuit</strong></p>
-            <button onclick="choisirChambre('Chambre Standard', 35000)">Sélectionner</button>
-        </div>
-
-        <div class="choix-box">
-            <h3>Appartement : 1 Chambre + Salon</h3>
-            <p>Espace plus grand avec un petit salon équipé et une kitchenette.</p>
-            <p><strong>60 000 FCFA / nuit</strong></p>
-            <button onclick="choisirChambre('1 Chambre + Salon', 60000)">Sélectionner</button>
-        </div>
-
-        <div class="choix-box">
-            <h3>Appartement : 2 Chambres + Salon</h3>
-            <p>Idéal pour les familles ou groupes. Deux chambres indépendantes, grand salon.</p>
-            <p><strong>100 000 FCFA / nuit</strong></p>
-            <button onclick="choisirChambre('2 Chambres + Salon', 100000)">Sélectionner</button>
-        </div>
+        <!-- C'est ici que le JavaScript va injecter les chambres -->
+        <div id="liste-chambres"></div>
     </div>
 
-    <!-- ÉTAPE 4 : Confirmation finale -->
+    <!-- ÉTAPE 4 : Paiement Mobile Money (Simulation) -->
     <div id="etape-4" class="etape">
-        <button class="btn-retour" onclick="allerAEtape('etape-3')">← Retour</button>
-        <h2>Étape 4 : Validation</h2>
+        <button class="btn-retour" onclick="allerAEtape('etape-3')">← Changer de chambre</button>
+        <h2>Étape 4 : Paiement Mobile Money</h2>
         
-        <div style="background: #eee; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-            <h3>Récapitulatif de votre commande :</h3>
-            <p id="recap-final"></p>
+        <div style="background: #e9ecef; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <p id="recap-paiement" style="margin: 0; line-height: 1.5;"></p>
         </div>
 
-        <button onclick="finaliser()">Envoyer la demande</button>
+        <p><strong>Réglez par Mobile Money pour bloquer cette chambre immédiatement.</strong></p>
+        
+        <div class="form-row">
+            <label>Votre Réseau :</label>
+            <select id="reseau-momo">
+                <option value="MTN">MTN Mobile Money</option>
+                <option value="Airtel">Airtel Money</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label>Numéro de compte :</label>
+            <input type="text" id="numero-client" placeholder="Ex: 06 000 00 00">
+        </div>
+        
+        <!-- Le code PIN (Dans la vraie vie, c'est un menu USSD sur le téléphone du client qui demande le code) -->
+        <div class="form-row">
+            <label>Validez la transaction :</label>
+            <button onclick="simulerPaiementMomo()" style="width: auto;">Payer maintenant</button>
+        </div>
     </div>
 
+    <!-- ÉTAPE 5 : Le Reçu Final et Envoi WhatsApp -->
+    <div id="etape-5" class="etape">
+        <h2 style="color: green;">✅ Paiement Validé !</h2>
+        <p>Votre chambre est désormais bloquée et réservée pour vous.</p>
+        
+        <div class="recu-box" id="recu-final">
+            <!-- Le contenu du reçu sera généré ici -->
+        </div>
+
+        <p style="font-size: 0.9em; color: #666; margin-bottom: 20px;">
+            📸 Veuillez faire une capture d'écran de ce reçu. Il vous sera demandé à la réception.
+        </p>
+
+        <button class="btn-whatsapp" id="btn-envoyer-whatsapp">
+            Envoyer mon reçu au Gérant (WhatsApp)
+        </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MOTEUR JAVASCRIPT : LA LOGIQUE DU SYSTÈME -->
+    <!-- ========================================== -->
     <script>
-        // Objet JavaScript pour stocker les données du client tout au long de sa navigation
+        // 1. NOTRE BASE DE DONNÉES (Les chambres)
+        let baseDeDonneesChambres = [
+            {
+                id: 'chambre_01',
+                nom: 'Chambre Standard (Simple)',
+                description: 'Idéal pour un court séjour. 1 lit double, salle de bain interne.',
+                prix: 35000,
+                statut: 'libre', // Chambre disponible
+                photos: ['Photo Lit', 'Photo Douche', 'Photo Vue']
+            },
+            {
+                id: 'app_01',
+                nom: 'Appartement : 1 Chambre + Salon',
+                description: 'Espace plus grand avec un petit salon équipé et une kitchenette.',
+                prix: 60000,
+                statut: 'occupee', // !!! CETTE CHAMBRE EST DÉJÀ PRISE !!!
+                photos: ['Photo Salon', 'Photo Cuisine', 'Photo Chambre', 'Photo Bain']
+            },
+            {
+                id: 'app_02',
+                nom: 'Appartement VIP : 2 Chambres + Salon',
+                description: 'Idéal pour les familles. Deux chambres, grand salon et accès piscine.',
+                prix: 100000,
+                statut: 'libre', // Chambre disponible
+                photos: ['Salon VIP', 'Chambre Maitre', 'Chambre 2', 'Piscine', 'Cuisine']
+            }
+        ];
+
+        // 2. LA MÉMOIRE DE LA RÉSERVATION EN COURS
         let reservation = {
-            arrivee: '',
-            depart: '',
-            adultes: 1,
-            enfants: 0,
-            chambre: '',
-            prix: 0
+            arrivee: '', depart: '', adultes: 1, enfants: 0, 
+            chambre: null, prixTotal: 0, codeTransaction: ''
         };
 
-        // Fonction pour cacher toutes les étapes et n'afficher que celle demandée
+        // 3. FONCTION POUR CHANGER DE PAGE
         function allerAEtape(idEtape) {
-            document.querySelectorAll('.etape').forEach(function(el) {
-                el.classList.remove('active');
-            });
+            document.querySelectorAll('.etape').forEach(el => el.classList.remove('active'));
             document.getElementById(idEtape).classList.add('active');
+
+            if (idEtape === 'etape-3') afficherChambres();
         }
 
-        // Fonction exécutée quand on valide l'étape 2
+        // 4. VALIDATION DE L'ÉTAPE 2
         function validerDatesEtPersonnes() {
             reservation.arrivee = document.getElementById('date-arrivee').value;
             reservation.depart = document.getElementById('date-depart').value;
@@ -133,39 +187,105 @@
             reservation.enfants = document.getElementById('nb-enfants').value;
 
             if(!reservation.arrivee || !reservation.depart) {
-                alert("Veuillez choisir vos dates.");
+                alert("Veuillez choisir vos dates d'arrivée et de départ.");
                 return;
             }
 
-            // Met à jour le texte en haut de l'étape 3
             document.getElementById('resume-recherche').innerHTML = 
-                `Recherche du ${reservation.arrivee} au ${reservation.depart} <br> Pour ${reservation.adultes} adulte(s) et ${reservation.enfants} enfant(s).`;
+                `<strong>Du :</strong> ${reservation.arrivee} <strong>Au :</strong> ${reservation.depart} <br> 
+                 <strong>Personnes :</strong> ${reservation.adultes} Adulte(s), ${reservation.enfants} Enfant(s)`;
             
             allerAEtape('etape-3');
         }
 
-        // Fonction exécutée quand on clique sur une chambre à l'étape 3
-        function choisirChambre(nomChambre, prixNuit) {
-            reservation.chambre = nomChambre;
-            reservation.prix = prixNuit;
-            
-            // Construit le résumé pour l'étape 4
-            let recapHTML = `
-                <strong>Logement :</strong> ${reservation.chambre} <br>
-                <strong>Arrivée :</strong> ${reservation.arrivee} <br>
-                <strong>Départ :</strong> ${reservation.depart} <br>
-                <strong>Personnes :</strong> ${reservation.adultes} Adulte(s), ${reservation.enfants} Enfant(s) <br>
-                <strong>Tarif de base :</strong> ${reservation.prix} FCFA / nuit
+        // 5. AFFICHAGE DES CHAMBRES ET BLOCAGE
+        function afficherChambres() {
+            const conteneur = document.getElementById('liste-chambres');
+            conteneur.innerHTML = ''; 
+
+            baseDeDonneesChambres.forEach(chambre => {
+                let div = document.createElement('div');
+                div.className = 'choix-box';
+                
+                // Génération des fausses photos (prêtes pour le futur design)
+                let htmlPhotos = '<div class="zone-photos">';
+                chambre.photos.forEach(photo => {
+                    htmlPhotos += `<div class="photo-placeholder">📷 <br>${photo}</div>`;
+                });
+                htmlPhotos += '</div>';
+
+                // Gestion du blocage (Statut Libre ou Occupée)
+                if (chambre.statut === 'occupee') {
+                    div.classList.add('occupee');
+                    div.innerHTML = `
+                        ${htmlPhotos}
+                        <h3>${chambre.nom}</h3>
+                        <p><strong>${chambre.prix} FCFA / nuit</strong></p>
+                        <button disabled>❌ Chambre Déjà Occupée</button>
+                    `;
+                } else {
+                    div.innerHTML = `
+                        ${htmlPhotos}
+                        <h3>${chambre.nom}</h3>
+                        <p>${chambre.description}</p>
+                        <p><strong>${chambre.prix} FCFA / nuit</strong></p>
+                        <button onclick="preparerPaiement('${chambre.id}')">Sélectionner cette chambre</button>
+                    `;
+                }
+
+                conteneur.appendChild(div);
+            });
+        }
+
+        // 6. PRÉPARATION DU PAIEMENT (Étape 4)
+        function preparerPaiement(idChambre) {
+            let chambreChoisie = baseDeDonneesChambres.find(ch => ch.id === idChambre);
+            reservation.chambre = chambreChoisie;
+            reservation.prixTotal = chambreChoisie.prix; // Note : on pourrait multiplier par le nb de nuits plus tard
+
+            document.getElementById('recap-paiement').innerHTML = `
+                <strong>Logement :</strong> ${reservation.chambre.nom} <br>
+                <strong>Dates :</strong> Du ${reservation.arrivee} au ${reservation.depart} <br>
+                <strong>Montant à débiter :</strong> ${reservation.prixTotal} FCFA
             `;
-            document.getElementById('recap-final').innerHTML = recapHTML;
 
             allerAEtape('etape-4');
         }
 
-        // Fonction finale
-        function finaliser() {
-            alert("Parfait ! Les données sont prêtes à être envoyées (par WhatsApp ou par mail au gérant).");
-            console.log(reservation); // Tu peux voir l'objet rempli dans la console de ton navigateur
+        // 7. SIMULATION DU PAIEMENT ET GÉNÉRATION DU REÇU (Étape 5)
+        function simulerPaiementMomo() {
+            let numero = document.getElementById('numero-client').value;
+            if(!numero) { alert("Veuillez entrer votre numéro Mobile Money."); return; }
+
+            // Simulation d'un petit temps de chargement
+            alert("Connexion à l'opérateur en cours... Veuillez valider sur votre téléphone.");
+            
+            // Génération d'un code de transaction unique
+            reservation.codeTransaction = "TXN-" + Math.floor(Math.random() * 1000000);
+            
+            // On bloque virtuellement la chambre dans notre base de données locale
+            reservation.chambre.statut = 'occupee';
+
+            // Création du reçu visuel
+            document.getElementById('recu-final').innerHTML = `
+                <h3 style="margin-top:0;">REÇU DE RÉSERVATION</h3>
+                <p><strong>Transaction :</strong> ${reservation.codeTransaction}</p>
+                <p><strong>Chambre :</strong> ${reservation.chambre.nom}</p>
+                <p><strong>Dates :</strong> ${reservation.arrivee} ➔ ${reservation.depart}</p>
+                <p><strong>Montant payé :</strong> ${reservation.prixTotal} FCFA</p>
+                <p><strong>Payé par :</strong> ${numero}</p>
+                <p><strong>Statut :</strong> Payé et Validé ✅</p>
+            `;
+
+            // Préparation du lien WhatsApp avec TON numéro
+            const numeroGerant = "242068970968";
+            const messageTchat = `Bonjour, je viens de payer une réservation sur le site.%0A%0A*REÇU N° ${reservation.codeTransaction}*%0A- Chambre : ${reservation.chambre.nom}%0A- Dates : du ${reservation.arrivee} au ${reservation.depart}%0A- Montant payé : ${reservation.prixTotal} FCFA.%0A%0AMerci de confirmer ma réservation.`;
+            
+            document.getElementById('btn-envoyer-whatsapp').onclick = function() {
+                window.open(`https://wa.me/${numeroGerant}?text=${messageTchat}`, '_blank');
+            };
+
+            allerAEtape('etape-5');
         }
     </script>
 </body>
