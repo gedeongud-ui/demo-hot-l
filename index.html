@@ -3,225 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Résidence & Suites de Standing - Brazzaville</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Parcours de Réservation</title>
     <style>
-        :root {
-            --bg-dark: #0f141c;
-            --gold: #d4af37;
-            --gold-light: #f3e5ab;
-            --text-light: #f4f4f4;
-            --whatsapp: #25d366;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Playfair Display', 'Segoe UI', serif; }
-        body { background-color: var(--bg-dark); color: var(--text-light); padding-bottom: 90px; }
-
-        /* Header Prestige */
-        header { background-color: rgba(15, 20, 28, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        header h1 { font-size: 1.2rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
-        .btn-reservation { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 8px 18px; border-radius: 0; text-decoration: none; font-weight: 600; font-size: 0.85rem; letter-spacing: 1px; transition: all 0.3s; }
-        .btn-reservation:hover { background: var(--gold); color: var(--bg-dark); }
-
-        /* Hero Immersif */
-        .hero { background: linear-gradient(rgba(15,20,28,0.4), rgba(15,20,28,0.85)), url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1400&q=80') center/cover; text-align: center; padding: 100px 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
-        .hero h2 { font-size: 2.2rem; margin-bottom: 15px; color: #fff; font-weight: 400; letter-spacing: 1px; }
-        .hero p { font-size: 1.05rem; max-width: 650px; margin: 0 auto 25px auto; line-height: 1.6; color: #ccc; font-family: 'Segoe UI', sans-serif; }
-        .cta-gold { background: var(--gold); color: var(--bg-dark); padding: 12px 30px; border-radius: 0; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; font-size: 0.95rem; font-family: 'Segoe UI', sans-serif; text-transform: uppercase; letter-spacing: 1px; transition: opacity 0.3s; }
-        .cta-gold:hover { opacity: 0.9; }
-
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-
-        .section-title { font-size: 1.6rem; margin-bottom: 10px; color: var(--gold); text-align: center; letter-spacing: 2px; text-transform: uppercase; }
-        .section-subtitle { text-align: center; color: #888; font-family: 'Segoe UI', sans-serif; font-size: 0.95rem; margin-bottom: 40px; }
-
-        /* Grille des Chambres / Suites Style Luxe */
-        .suites-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .suite-card { background: #151c28; border: 1px solid rgba(212, 175, 55, 0.15); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s; }
-        .suite-card:hover { transform: translateY(-5px); border-color: rgba(212, 175, 55, 0.5); }
-        .suite-img { height: 220px; width: 100%; object-fit: cover; filter: brightness(0.9); }
-        .suite-info { padding: 25px; }
-        .suite-category { font-size: 0.75rem; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; font-family: 'Segoe UI', sans-serif; font-weight: bold; }
-        .suite-title { font-size: 1.3rem; margin-bottom: 12px; color: #fff; font-weight: 500; }
-        .suite-desc { font-size: 0.9rem; color: #aaa; margin-bottom: 15px; font-family: 'Segoe UI', sans-serif; line-height: 1.5; }
-        .suite-features { display: flex; gap: 15px; font-size: 0.8rem; color: var(--gold-light); margin-bottom: 20px; font-family: 'Segoe UI', sans-serif; }
-        .suite-features i { color: var(--gold); }
-        .suite-price { font-size: 1.1rem; color: #fff; font-weight: bold; font-family: 'Segoe UI', sans-serif; }
-        .suite-price span { font-size: 0.8rem; color: #888; font-weight: normal; }
-
-        .suite-action { padding: 15px 25px; background: #111722; border-top: 1px solid rgba(212, 175, 55, 0.1); }
-        .checkbox-container { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 500; cursor: pointer; color: #ddd; font-family: 'Segoe UI', sans-serif; }
-        .checkbox-container input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--gold); }
-
-        /* Panier Flottant Luxe */
-        #floating-cart { position: fixed; bottom: 0; left: 0; width: 100%; background: #0b0f15; border-top: 1px solid var(--gold); color: white; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); z-index: 1000; transform: translateY(100%); transition: transform 0.3s ease; }
-        #floating-cart.visible { transform: translateY(0); }
-        .cart-info { font-family: 'Segoe UI', sans-serif; font-size: 0.95rem; }
-        .cart-info span { color: var(--gold); font-weight: bold; }
-        .btn-order-wa { background: var(--whatsapp); color: white; border: none; padding: 12px 24px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; font-family: 'Segoe UI', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
-
-        footer { background-color: #080b10; color: #777; text-align: center; padding: 40px 20px; margin-top: 60px; font-family: 'Segoe UI', sans-serif; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        /* CSS ultra basique juste pour structurer l'affichage */
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .etape { display: none; background: white; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .etape.active { display: block; }
+        
+        .choix-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px; cursor: pointer; }
+        .choix-box:hover { border-color: #000; background: #fafafa; }
+        
+        .form-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .form-row input[type="date"], .form-row input[type="number"] { padding: 8px; width: 150px; }
+        
+        button { background: #000; color: #fff; border: none; padding: 12px 20px; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 10px;}
+        button.btn-retour { background: #ccc; color: #000; width: auto; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <h1><i class="fa-solid fa-gem"></i> Résidence Le Grand Standing</h1>
-        <a href="https://wa.me/242050447163?text=Bonjour,%20je%20souhaite%20discuter%20de%20la%20plateforme%20pour%20notre%20hôtel." target="_blank" class="btn-reservation">
-            <i class="fa-brands fa-whatsapp"></i> Espace Gérant
-        </a>
-    </header>
-
-    <!-- Hero Section -->
-    <div class="hero">
-        <h2>L'Art de l'Hôtellerie de Luxe à Brazzaville</h2>
-        <p>Découvrez un standard d'hébergement exclusif combinant design épuré, confort absolu et services sur-mesure au cœur de la capitale.</p>
-        <a href="https://wa.me/242050447163?text=Bonjour,%20je%20suis%20intéressé%20par%20cette%20solution%20web%20haut%20de%20gamme%20pour%20hôtel." target="_blank" class="cta-gold">
-            <i class="fa-brands fa-whatsapp"></i> Programmer une Démo Privée
-        </a>
-    </div>
-
-    <!-- Catalogue des Suites et Prestations -->
-    <div class="container">
-        <div class="section-title">Nos Suites & Prestations Exclusives</div>
-        <div class="section-subtitle">Sélectionnez les options à intégrer dans la vitrine digitale de l'hôtel :</div>
-
-        <div class="suites-grid" id="suitesGrid"></div>
-    </div>
-
-    <!-- Barre Flottante de Réservation / Devis -->
-    <div id="floating-cart">
-        <div class="cart-info">
-            Éléments sélectionnés pour le projet : <span id="cartCount">0</span>
+    <!-- ÉTAPE 1 : Choix du type de service -->
+    <div id="etape-1" class="etape active">
+        <h2>Étape 1 : Que souhaitez-vous faire ?</h2>
+        
+        <div class="choix-box" onclick="allerAEtape('etape-2')">
+            <h3>🛏️ Hébergement</h3>
+            <p>Réserver une chambre ou un appartement.</p>
         </div>
-        <button class="btn-order-wa" onclick="sendOrder()">
-            <i class="fa-brands fa-whatsapp"></i> Valider & Envoyer sur WhatsApp
-        </button>
+        
+        <div class="choix-box" onclick="alert('Le module événementiel sera développé plus tard.')">
+            <h3>🎉 Événements</h3>
+            <p>Réserver une salle pour une réunion ou une fête.</p>
+        </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 Solutions Digitales Haut Standing - Brazzaville, République du Congo</p>
-    </footer>
+    <!-- ÉTAPE 2 : Dates et Personnes -->
+    <div id="etape-2" class="etape">
+        <button class="btn-retour" onclick="allerAEtape('etape-1')">← Retour</button>
+        <h2>Étape 2 : Votre séjour</h2>
+        
+        <div class="form-row">
+            <label>Date d'arrivée :</label>
+            <input type="date" id="date-arrivee">
+        </div>
+        <div class="form-row">
+            <label>Date de départ :</label>
+            <input type="date" id="date-depart">
+        </div>
+        
+        <hr style="margin: 20px 0;">
+        
+        <div class="form-row">
+            <label>Adultes :</label>
+            <input type="number" id="nb-adultes" value="1" min="1">
+        </div>
+        <div class="form-row">
+            <label>Enfants :</label>
+            <input type="number" id="nb-enfants" value="0" min="0">
+        </div>
+        
+        <button onclick="validerDatesEtPersonnes()">Voir les disponibilités</button>
+    </div>
+
+    <!-- ÉTAPE 3 : Choix de la chambre (adapté aux réalités locales) -->
+    <div id="etape-3" class="etape">
+        <button class="btn-retour" onclick="allerAEtape('etape-2')">← Retour</button>
+        <h2>Étape 3 : Choisissez votre espace</h2>
+        <p id="resume-recherche" style="color: #666; font-size: 0.9em; margin-bottom: 20px;"></p>
+        
+        <div class="choix-box">
+            <h3>Chambre Standard (Simple)</h3>
+            <p>Idéal pour un court séjour. 1 lit double, salle de bain interne.</p>
+            <p><strong>35 000 FCFA / nuit</strong></p>
+            <button onclick="choisirChambre('Chambre Standard', 35000)">Sélectionner</button>
+        </div>
+
+        <div class="choix-box">
+            <h3>Appartement : 1 Chambre + Salon</h3>
+            <p>Espace plus grand avec un petit salon équipé et une kitchenette.</p>
+            <p><strong>60 000 FCFA / nuit</strong></p>
+            <button onclick="choisirChambre('1 Chambre + Salon', 60000)">Sélectionner</button>
+        </div>
+
+        <div class="choix-box">
+            <h3>Appartement : 2 Chambres + Salon</h3>
+            <p>Idéal pour les familles ou groupes. Deux chambres indépendantes, grand salon.</p>
+            <p><strong>100 000 FCFA / nuit</strong></p>
+            <button onclick="choisirChambre('2 Chambres + Salon', 100000)">Sélectionner</button>
+        </div>
+    </div>
+
+    <!-- ÉTAPE 4 : Confirmation finale -->
+    <div id="etape-4" class="etape">
+        <button class="btn-retour" onclick="allerAEtape('etape-3')">← Retour</button>
+        <h2>Étape 4 : Validation</h2>
+        
+        <div style="background: #eee; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <h3>Récapitulatif de votre commande :</h3>
+            <p id="recap-final"></p>
+        </div>
+
+        <button onclick="finaliser()">Envoyer la demande</button>
+    </div>
 
     <script>
-        // Données adaptées au standing type "Pourtalès" mais adaptées aux réalités locales de Brazzaville
-        let hotelSuites = [
-            {
-                id: 1,
-                category: "Suite Exécutive",
-                title: "La Suite Affaires & Standing",
-                desc: "Espace de travail ergonomique, lit King-size, insonorisation renforcée, climatisation inverter silencieuse et vue sur la ville.",
-                features: '<span title="Wi-Fi Fibre"><i class="fa-solid fa-wifi"></i> Fibre HD</span> <span title="Électricité garantie"><i class="fa-solid fa-bolt"></i> Groupe 24/7</span>',
-                price: "65.000 FCFA <span>/ nuit</span>",
-                img: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 2,
-                category: "Appartement Privatif",
-                title: "Résidence Duplex Grand Standing",
-                desc: "Salon privé spacieux, kitchenette entièrement équipée, service de ménage quotidien inclus et prestations haut de gamme.",
-                features: '<span title="Cuisine équipée"><i class="fa-solid fa-utensils"></i> Kitchenette</span> <span title="Service VIP"><i class="fa-solid fa-concierge-bell"></i> Concierge</span>',
-                price: "110.000 FCFA <span>/ nuit</span>",
-                img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 3,
-                category: "Penthouse / VIP",
-                title: "La Suite Présidentielle",
-                desc: "Somptueux espace panoramique au dernier étage, terrasse privée, salon de réception et service de sécurité dédié.",
-                features: '<span title="Terrasse"><i class="fa-solid fa-mountain-sun"></i> Terrasse Privée</span> <span title="Sécurité"><i class="fa-solid fa-shield-halved"></i> VIP Sécurisé</span>',
-                price: "180.000 FCFA <span>/ nuit</span>",
-                img: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 4,
-                category: "Services Annexes",
-                title: "Conciergerie & Navette Maya-Maya",
-                desc: "Prise en charge personnalisée des clients dès leur arrivée à l'aéroport de Brazzaville avec véhicule climatisé avec chauffeur.",
-                features: '<span title="Aéroport"><i class="fa-solid fa-plane-arrival"></i> Transfert</span> <span title="Dispo"><i class="fa-solid fa-clock"></i> 24h/24</span>',
-                price: "Sur devis <span>/ service</span>",
-                img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 5,
-                category: "Bien-être & Détente",
-                title: "Lounge, Bar & Espace Rooftop",
-                desc: "Accès privatif au bar lounge pour les résidents, cocktails exclusifs et espace de détente calme au cœur de Brazzaville.",
-                features: '<span title="Bar"><i class="fa-solid fa-martini-glass-citrus"></i> Rooftop</span> <span title="Ambiance"><i class="fa-solid fa-music"></i> Lounge</span>',
-                price: "Accès Résident",
-                img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 6,
-                category: "Affaires B2B",
-                title: "Salle de Conférence & Séminaires",
-                desc: "Salle climatisée insonorisée pour réunions d'entreprise, projecteur HD, paperboard et service café/pause inclus.",
-                features: '<span title="Capacité"><i class="fa-solid fa-users"></i> 30 Places</span> <span title="Projo"><i class="fa-solid fa-projector"></i> Multimédia</span>',
-                price: "150.000 FCFA <span>/ jour</span>",
-                img: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=600&q=80"
-            }
-        ];
+        // Objet JavaScript pour stocker les données du client tout au long de sa navigation
+        let reservation = {
+            arrivee: '',
+            depart: '',
+            adultes: 1,
+            enfants: 0,
+            chambre: '',
+            prix: 0
+        };
 
-        let selectedSuites = new Set();
-
-        function renderSuites() {
-            const grid = document.getElementById('suitesGrid');
-            grid.innerHTML = '';
-
-            hotelSuites.forEach(s => {
-                let isChecked = selectedSuites.has(s.title) ? 'checked' : '';
-                let card = document.createElement('div');
-                card.className = 'suite-card';
-                card.innerHTML = `
-                    <div>
-                        <img src="${s.img}" alt="${s.title}" class="suite-img">
-                        <div class="suite-info">
-                            <div class="suite-category">${s.category}</div>
-                            <div class="suite-title">${s.title}</div>
-                            <div class="suite-desc">${s.desc}</div>
-                            <div class="suite-features">${s.features}</div>
-                            <div class="suite-price">${s.price}</div>
-                        </div>
-                    </div>
-                    <div class="suite-action">
-                        <label class="checkbox-container">
-                            <input type="checkbox" value="${s.title}" ${isChecked} onchange="toggleSelection(this)"> Sélectionner pour le projet
-                        </label>
-                    </div>
-                `;
-                grid.appendChild(card);
+        // Fonction pour cacher toutes les étapes et n'afficher que celle demandée
+        function allerAEtape(idEtape) {
+            document.querySelectorAll('.etape').forEach(function(el) {
+                el.classList.remove('active');
             });
+            document.getElementById(idEtape).classList.add('active');
         }
 
-        function toggleSelection(checkbox) {
-            if(checkbox.checked) {
-                selectedSuites.add(checkbox.value);
-            } else {
-                selectedSuites.delete(checkbox.value);
+        // Fonction exécutée quand on valide l'étape 2
+        function validerDatesEtPersonnes() {
+            reservation.arrivee = document.getElementById('date-arrivee').value;
+            reservation.depart = document.getElementById('date-depart').value;
+            reservation.adultes = document.getElementById('nb-adultes').value;
+            reservation.enfants = document.getElementById('nb-enfants').value;
+
+            if(!reservation.arrivee || !reservation.depart) {
+                alert("Veuillez choisir vos dates.");
+                return;
             }
-            updateCart();
+
+            // Met à jour le texte en haut de l'étape 3
+            document.getElementById('resume-recherche').innerHTML = 
+                `Recherche du ${reservation.arrivee} au ${reservation.depart} <br> Pour ${reservation.adultes} adulte(s) et ${reservation.enfants} enfant(s).`;
+            
+            allerAEtape('etape-3');
         }
 
-        function updateCart() {
-            let count = selectedSuites.size;
-            document.getElementById('cartCount').innerText = count;
-            let cartBar = document.getElementById('floating-cart');
-            if(count > 0) {
-                cartBar.classList.add('visible');
-            } else {
-                cartBar.classList.remove('visible');
-            }
+        // Fonction exécutée quand on clique sur une chambre à l'étape 3
+        function choisirChambre(nomChambre, prixNuit) {
+            reservation.chambre = nomChambre;
+            reservation.prix = prixNuit;
+            
+            // Construit le résumé pour l'étape 4
+            let recapHTML = `
+                <strong>Logement :</strong> ${reservation.chambre} <br>
+                <strong>Arrivée :</strong> ${reservation.arrivee} <br>
+                <strong>Départ :</strong> ${reservation.depart} <br>
+                <strong>Personnes :</strong> ${reservation.adultes} Adulte(s), ${reservation.enfants} Enfant(s) <br>
+                <strong>Tarif de base :</strong> ${reservation.prix} FCFA / nuit
+            `;
+            document.getElementById('recap-final').innerHTML = recapHTML;
+
+            allerAEtape('etape-4');
         }
 
-        function sendOrder() {
-            if(selectedSuites.size === 0) return;
-            let list = "";
-            selectedSuites.forEach(item => { list += `%0A- ${item}`; });
-            let message = `Bonjour, je suis gérant d'hôtel à Brazzaville et je souhaite mettre en place une plateforme de standing intégrant :${list}%0AMerci de me contacter pour en discuter.`;
-            window.open(`https://wa.me/242050447163?text=${message}`, '_blank');
+        // Fonction finale
+        function finaliser() {
+            alert("Parfait ! Les données sont prêtes à être envoyées (par WhatsApp ou par mail au gérant).");
+            console.log(reservation); // Tu peux voir l'objet rempli dans la console de ton navigateur
         }
-
-        renderSuites();
     </script>
 </body>
 </html>
