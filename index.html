@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions Digitales Hôtelières - Brazzaville</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1b365d;
+            --accent: #c5a059;
+            --whatsapp: #25d366;
+            --bg-light: #f8f9fa;
+            --text-dark: #333;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); padding-bottom: 90px; }
+
+        header { background-color: var(--primary); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        header h1 { font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+        .btn-mini { background: var(--whatsapp); color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
+
+        .hero { background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80') center/cover; color: white; text-align: center; padding: 60px 20px; }
+        .hero h2 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
+        .hero p { font-size: 1rem; max-width: 700px; margin: 0 auto 20px auto; line-height: 1.5; color: #e0e0e0; }
+        .cta-pro { background: var(--whatsapp); color: white; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; font-size: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 15px; }
+
+        .section-title { font-size: 1.4rem; margin: 30px 0 15px 0; color: var(--primary); border-left: 5px solid var(--accent); padding-left: 10px; }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .product-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #eee; }
+        .product-img { height: 180px; width: 100%; object-fit: cover; }
+        .product-info { padding: 15px; }
+        .product-badge { display: inline-block; background-color: #fdf8e2; color: #8c6f2d; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; margin-bottom: 8px; font-weight: bold; }
+        .product-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; color: var(--primary); }
+        .product-desc { font-size: 0.85rem; color: #666; margin-bottom: 10px; }
+        .product-price { font-size: 1rem; color: var(--accent); font-weight: bold; }
+        
+        .product-action { padding: 12px 15px; background: #fafafa; border-top: 1px solid #eee; }
+        .checkbox-container { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; color: #444; }
+        .checkbox-container input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary); }
+
+        #floating-cart { position: fixed; bottom: 0; left: 0; width: 100%; background: #1a2530; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.3); z-index: 1000; transform: translateY(100%); transition: transform 0.3s ease; }
+        #floating-cart.visible { transform: translateY(0); }
+        .btn-order-wa { background: var(--whatsapp); color: white; border: none; padding: 10px 18px; border-radius: 5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.95rem; }
+
+        footer { background-color: #111; color: white; text-align: center; padding: 30px 20px; margin-top: 40px; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><i class="fa-solid fa-hotel"></i> Digitalisation Hôtelière Congo</h1>
+        <a href="https://wa.me/242050447163?text=Bonjour,%20je%20suis%20gérant%20d'hôtel%20et%20je%20souhaite%20moderniser%20mon%20établissement." target="_blank" class="btn-mini">
+            <i class="fa-brands fa-whatsapp"></i> Contact Direct
+        </a>
+    </header>
+
+    <div class="hero">
+        <h2>Modernisez la réservation de votre Hôtel à Brazzaville</h2>
+        <p>Offrez à vos clients la possibilité de découvrir vos chambres, suites et services annexes en ligne, et de réserver instantanément via WhatsApp sans commission lourde.</p>
+        <a href="https://wa.me/242050447163?text=Bonjour,%20je%20souhaite%20en%20savoir%20plus%20sur%20votre%20solution%20pour%20hôtel." target="_blank" class="cta-pro">
+            <i class="fa-brands fa-whatsapp"></i> Demander une présentation sur site
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="section-title">Modules de démonstration (À montrer au gérant)</div>
+        <p style="margin-bottom: 20px; font-size: 0.9rem; color: #666;">Cochez les types de chambres ou services que vous aimeriez intégrer sur la future plateforme de l'hôtel :</p>
+        
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+
+    <div id="floating-cart">
+        <div>
+            <strong>Éléments sélectionnés pour le projet : <span id="cartCount">0</span></strong>
+        </div>
+        <button class="btn-order-wa" onclick="sendOrder()">
+            <i class="fa-brands fa-whatsapp"></i> Envoyer la configuration sur WhatsApp
+        </button>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Solutions Web Hôtellerie Brazzaville</p>
+    </footer>
+
+    <script>
+        let hotelModules = [
+            { id: 1, title: "Chambre Standard Confort", desc: "Idéale pour voyageurs d'affaires, lit double, Wi-Fi haut débit, climatisation.", price: "45.000 FCFA / nuit", img: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=500&q=80", badge: "Chambre Standard" },
+            { id: 2, title: "Chambre Deluxe Vue Panoramique", desc: "Grand standing, espace bureau, salle de bain moderne, vue sur la ville.", price: "75.000 FCFA / nuit", img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=500&q=80", badge: "Standing Luxe" },
+            { id: 3, title: "Suite Royale / VIP", desc: "Salon privé, grand lit king-size, services personnalisés et plateau de courtoisie.", price: "120.000 FCFA / nuit", img: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=500&q=80", badge: "Prestation VIP" },
+            { id: 4, title: "Module Restauration & Bar de l'Hôtel", desc: "Présentation de la carte du restaurant, des petits-déjeuners et commande en chambre (Room Service).", price: "Option intégrée", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=500&q=80", badge: "Service Annexe" },
+            { id: 5, title: "Module Navette Aéroport & Transferts", desc: "Formulaire pour planifier l'accueil des clients directement à l'aéroport Maya-Maya.", price: "Option intégrée", img: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=500&q=80", badge: "Service Pratique" },
+            { id: 6, title: "Espace Événements / Salles de Conférence", desc: "Réservation de salles climatisées pour séminaires, réunions d'entreprise ou réceptions.", price: "Sur devis", img: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=500&q=80", badge: "Business B2B" }
+        ];
+
+        let selectedModules = new Set();
+
+        function renderModules() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            hotelModules.forEach(m => {
+                let isChecked = selectedModules.has(m.title) ? 'checked' : '';
+                let card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div>
+                        <img src="${m.img}" alt="${m.title}" class="product-img">
+                        <div class="product-info">
+                            <span class="product-badge">${m.badge}</span>
+                            <div class="product-title">${m.title}</div>
+                            <div class="product-desc">${m.desc}</div>
+                            <div class="product-price">${m.price}</div>
+                        </div>
+                    </div>
+                    <div class="product-action">
+                        <label class="checkbox-container">
+                            <input type="checkbox" value="${m.title}" ${isChecked} onchange="toggleSelection(this)"> Inclure dans la plateforme
+                        </label>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleSelection(checkbox) {
+            if(checkbox.checked) {
+                selectedModules.add(checkbox.value);
+            } else {
+                selectedModules.delete(checkbox.value);
+            }
+            updateCart();
+        }
+
+        function updateCart() {
+            let count = selectedModules.size;
+            document.getElementById('cartCount').innerText = count;
+            let cartBar = document.getElementById('floating-cart');
+            if(count > 0) {
+                cartBar.classList.add('visible');
+            } else {
+                cartBar.classList.remove('visible');
+            }
+        }
+
+        function sendOrder() {
+            if(selectedModules.size === 0) return;
+            let list = "";
+            selectedModules.forEach(item => { list += `%0A- ${item}`; });
+            let message = `Bonjour, je souhaite créer une plateforme web pour mon hôtel avec les modules suivants :${list}%0AMerci de me contacter pour discuter du projet.`;
+            window.open(`https://wa.me/242050447163?text=${message}`, '_blank');
+        }
+
+        renderModules();
+    </script>
+</body>
+</html>
