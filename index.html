@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réservation - Hôtel de Luxe</title>
+    <title>Plateforme de Réservation Hôtelière - Brazzaville</title>
     <style>
         :root {
             --primary-color: #8c7355;
+            --primary-dark: #6e583e;
             --dark-color: #1a1a1a;
             --light-bg: #f9f8f6;
             --border-color: #e0e0e0;
             --text-muted: #666;
+            --alert-red: #c0392b;
+            --smart-green: #27ae60;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
         }
 
         body {
@@ -29,16 +32,16 @@
 
         .mobile-container {
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
             background: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            box-shadow: 0 0 25px rgba(0,0,0,0.1);
         }
 
-        /* HEADER FIXE ET MENU (IMAGE 4) */
+        /* HEADER FIXE ET MENU PERSISTANT */
         header {
             display: flex;
             align-items: center;
@@ -60,14 +63,14 @@
         }
 
         .logo-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
             text-align: center;
         }
 
-        /* DRAWER LATÉRAL (IMAGE 4) */
+        /* DRAWER LATÉRAL MENU */
         .drawer-overlay {
             position: fixed;
             top: 0;
@@ -123,7 +126,7 @@
         .drawer-menu li a {
             text-decoration: none;
             color: var(--dark-color);
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -131,7 +134,7 @@
             justify-content: space-between;
         }
 
-        /* BARRE DE NAVIGATION FLÈCHES (MANUELLE) */
+        /* BARRE DE NAVIGATION FLÈCHES */
         .step-nav-bar {
             display: flex;
             justify-content: space-between;
@@ -179,7 +182,7 @@
             display: block;
         }
 
-        /* FORMULAIRES ET STYLES GÉNÉRAUX */
+        /* FORMULAIRES */
         h2 {
             font-size: 20px;
             margin-bottom: 15px;
@@ -189,6 +192,12 @@
 
         .form-group {
             margin-bottom: 15px;
+        }
+
+        .form-row-three {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
         }
 
         label {
@@ -222,39 +231,177 @@
             cursor: pointer;
             margin-top: 10px;
             border-radius: 4px;
+            transition: background 0.2s;
         }
 
-        /* CARTES DE CHAMBRES (IMAGE 3) */
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* STYLES ÉTAPE 3 : FILTRES ET CARTES CHAMBRES EN COMPARTIMENTS */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter-btn {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+
         .room-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #fff;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .smart-tag {
+            background: #e8f8f0;
+            color: var(--smart-green);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-bottom: 1px solid #d1f2e1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* GALERIE DES COMPARTIMENTS (PIÈCES / PHOTOS) */
+        .compartments-strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 12px;
+            background: #fafafa;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .compartment-box {
+            flex: 0 0 110px;
+            background: #fff;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             overflow: hidden;
-            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .room-img {
+        .compartment-img {
             width: 100%;
-            height: 180px;
-            background: #ddd url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=600&q=80') center/cover;
+            height: 70px;
+            background-size: cover;
+            background-position: center;
         }
 
-        .room-info {
+        .compartment-name {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 4px;
+            color: var(--dark-color);
+            text-transform: capitalize;
+            background: #fff;
+        }
+
+        .room-details {
             padding: 15px;
         }
 
+        .room-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
         .room-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--dark-color);
         }
 
-        .room-alert {
-            color: #b30000;
+        .room-badge-type {
+            font-size: 10px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            background: #f0ebe1;
+            color: var(--primary-color);
+        }
+
+        .room-specs {
             font-size: 12px;
-            margin-top: 5px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            line-height: 1.5;
         }
 
-        /* PAYMENT SWITCHER (IMAGE 7 + MOMOPAY) */
+        .room-alert-stock {
+            color: var(--alert-red);
+            background: #fdf2f2;
+            border: 1px solid #f8d7da;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .room-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .room-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .room-price span {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .load-more-btn {
+            background: #fff;
+            color: var(--dark-color);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            width: 100%;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        /* MODES DE PAIEMENT */
         .payment-methods {
             display: flex;
             gap: 10px;
@@ -279,7 +426,7 @@
             color: var(--primary-color);
         }
 
-        /* BLOCS DU BAS REPRODUITS (IMAGES 8, 9, 10) */
+        /* FOOTER REPRODUIT */
         .footer-reproduction {
             background: #faf9f6;
             border-top: 2px solid var(--border-color);
@@ -351,14 +498,14 @@
 <body>
 
 <div class="mobile-container">
-    <!-- EN-TÊTE ET MENU PERSISTANT SUR TOUS LES ÉCRANS -->
+    <!-- EN-TÊTE FIXE ET MENU PERSISTANT -->
     <header>
         <button class="menu-btn" id="openDrawerBtn" aria-label="Menu">☰</button>
-        <div class="logo-title">THE PENINSULA<br><span style="font-size: 10px; font-weight: 300;">PARIS</span></div>
+        <div class="logo-title">HÔTEL & RÉSIDENCES<br><span style="font-size: 10px; font-weight: 300;">BRAZZAVILLE</span></div>
         <div style="width: 24px;"></div>
     </header>
 
-    <!-- MENU LATÉRAL REPRODUIT (IMAGE 4) -->
+    <!-- DRAWER LATÉRAL MENU -->
     <div class="drawer-overlay" id="drawerOverlay"></div>
     <div class="drawer" id="drawer">
         <div class="drawer-header">
@@ -368,34 +515,34 @@
             <li><a href="#">Boutique <span>›</span></a></li>
             <li><a href="#">Choisissez un hôtel <span>›</span></a></li>
             <li><a href="#">Mes réservations <span>›</span></a></li>
-            <li><a href="#">Devise (EUR) <span>›</span></a></li>
+            <li><a href="#">Devise (FCFA) <span>›</span></a></li>
             <li><a href="#">Langue (FR) <span>›</span></a></li>
         </ul>
     </div>
 
-    <!-- BARRE DE NAVIGATION MANUELLE (FLÈCHES NATION) -->
+    <!-- BARRE DE NAVIGATION FLÈCHES MANUELLES -->
     <div class="step-nav-bar">
         <button class="nav-arrow" id="prevStepBtn" title="Étape précédente">←</button>
         <div class="step-indicator" id="stepIndicatorTitle">1. Accueil</div>
         <button class="nav-arrow" id="nextStepBtn" title="Étape suivante">→</button>
     </div>
 
-    <!-- ÉTAPE 1 : PAGE D'ACCUEIL (IMAGE 1) -->
+    <!-- ÉTAPE 1 : PAGE D'ACCUEIL -->
     <div class="step-content active" id="step1">
         <div style="text-align: center; margin-bottom: 20px;">
-            <p style="font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted);">Chambres et Suites</p>
-            <h2 style="margin-top: 5px;">Plus de temps offert par nos soins</h2>
+            <p style="font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted);">Hébergements de Prestige</p>
+            <h2 style="margin-top: 5px;">Un séjour d'exception à Brazzaville</h2>
         </div>
         <div style="width: 100%; height: 200px; background: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80') center/cover; margin-bottom: 15px; border-radius: 4px;"></div>
         <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; text-align: center; margin-bottom: 20px;">
-            L'hôtel Peninsula est situé en plein cœur de Paris, à quelques pas de certains des monuments, musées et quartiers commerçants de luxe les plus célèbres au monde.
+            Découvrez nos chambres luxueuses, appartements meublés avec salon et résidences privées équipées de piscine en plein cœur de la ville.
         </p>
-        <button class="btn-primary" onclick="goToStep(2)">Réserver maintenant</button>
+        <button class="btn-primary" onclick="goToStep(2)">Réserver mon séjour</button>
     </div>
 
-    <!-- ÉTAPE 2 : DATES, HEURES & INVITÉS (IMAGE 2) -->
+    <!-- ÉTAPE 2 : DATES, HEURES & INVITÉS -->
     <div class="step-content" id="step2">
-        <h2>Dates & Invités</h2>
+        <h2>Dates & Occupants</h2>
         <form id="step2Form">
             <div class="form-group">
                 <label for="checkin">Date d'arrivée (Dès Aujourd'hui)</label>
@@ -406,64 +553,69 @@
                 <input type="date" id="checkout" required>
             </div>
             <div class="form-group">
-                <label for="checktime">Heure d'occupation / d'arrivée</label>
-                <input type="time" id="checktime" value="15:00" required>
+                <label for="checktime">Heure d'arrivée souhaitée</label>
+                <input type="time" id="checktime" value="14:00" required>
             </div>
+            
             <div class="form-group">
                 <label>Nombre de Chambres & Personnes</label>
-                <div style="display: flex; gap: 10px;">
-                    <select id="roomsCount">
-                        <option value="1">1 Chambre</option>
-                        <option value="2">2 Chambres</option>
-                    </select>
-                    <select id="adultsCount">
-                        <option value="1">1 Adulte</option>
-                        <option value="2" selected>2 Adultes</option>
-                        <option value="3">3 Adultes</option>
-                    </select>
-                    <select id="childrenCount">
-                        <option value="0">0 Enfant</option>
-                        <option value="1">1 Enfant</option>
-                    </select>
+                <div class="form-row-three">
+                    <div>
+                        <label for="roomsCount" style="font-size: 10px;">Chambre(s)</label>
+                        <input type="number" id="roomsCount" min="1" value="1" required placeholder="Ex: 1">
+                    </div>
+                    <div>
+                        <label for="adultsCount" style="font-size: 10px;">Adulte(s)</label>
+                        <input type="number" id="adultsCount" min="1" value="2" required placeholder="Ex: 2">
+                    </div>
+                    <div>
+                        <label for="childrenCount" style="font-size: 10px;">Enfant(s)</label>
+                        <input type="number" id="childrenCount" min="0" value="0" required placeholder="Ex: 0">
+                    </div>
                 </div>
             </div>
+
             <div class="form-group">
-                <label for="promoCode">Code Spécial / Promo (Facultatif)</label>
-                <input type="text" id="promoCode" placeholder="Code">
+                <label for="promoCode">Code Promo (Optionnel)</label>
+                <input type="text" id="promoCode" placeholder="Entrez votre code">
             </div>
-            <button type="button" class="btn-primary" onclick="goToStep(3)">Voir les chambres</button>
+            <button type="button" class="btn-primary" onclick="goToStep(3)">Voir les disponibilités</button>
         </form>
     </div>
 
-    <!-- ÉTAPE 3 : CHOIX DE LA CHAMBRE (IMAGE 3) -->
+    <!-- ÉTAPE 3 : CHOIX DE LA CHAMBRE ET COMPARTIMENTS (AVEC INTELLIGENCE & INVENTAIRE DE 20 LOGEMENTS) -->
     <div class="step-content" id="step3">
         <!-- Récapitulatif sélection -->
-        <div style="background: var(--light-bg); padding: 10px; border: 1px solid var(--border-color); margin-bottom: 15px; font-size: 12px; display: flex; justify-content: space-between; align-items: center;">
-            <div id="summaryBarText">15 sept. - 16 sept. 2026<br>2 adultes, 0 enfant</div>
-            <button onclick="goToStep(2)" style="background: none; border: none; text-decoration: underline; cursor: pointer; font-size: 11px;">Modifier</button>
+        <div style="background: var(--light-bg); padding: 10px 12px; border: 1px solid var(--border-color); margin-bottom: 12px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px;">
+            <div id="summaryBarText">Du 15/09 au 16/09<br>1 chambre, 2 adultes</div>
+            <button onclick="goToStep(2)" style="background: none; border: none; text-decoration: underline; cursor: pointer; font-size: 11px; color: var(--primary-color);">Modifier</button>
         </div>
 
-        <h2>Choisir une chambre</h2>
-        <button style="width: 100%; padding: 10px; background: #fff; border: 1px solid var(--border-color); margin-bottom: 15px; font-size: 12px; text-transform: uppercase; cursor: pointer;">⚙ Filtres</button>
+        <h2>Choisir votre espace</h2>
 
-        <div class="room-card">
-            <div class="room-img"></div>
-            <div class="room-info">
-                <div class="room-title">Chambre Premier</div>
-                <div style="font-size: 13px; color: var(--text-muted);">1 lit King</div>
-                <div class="room-alert">Il ne reste que 3 chambres</div>
-                <div style="margin-top: 10px; font-weight: bold; font-size: 16px;">1 250 € / nuit</div>
-                <button class="btn-primary" onclick="selectRoom('Chambre Premier')">Sélectionner cette chambre</button>
-            </div>
+        <!-- FILTRES PAR CATÉGORIE -->
+        <div class="filter-tabs">
+            <button class="filter-btn active" onclick="setCategoryFilter('all', this)">Toutes (20)</button>
+            <button class="filter-btn" onclick="setCategoryFilter('standard', this)">Standards</button>
+            <button class="filter-btn" onclick="setCategoryFilter('vip', this)">VIP & Luxe</button>
+            <button class="filter-btn" onclick="setCategoryFilter('multi', this)">2+ Chambres</button>
         </div>
+
+        <!-- CONTENEUR DES 20 CHAMBRES -->
+        <div id="roomsContainer"></div>
+
+        <!-- BOUTON CHARGER PLUS DE CHAMBRES -->
+        <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreRooms()" style="display: none;">
+            Afficher plus de chambres (+)
+        </button>
     </div>
 
-    <!-- ÉTAPE 4 : RENSEIGNEMENTS CLIENT (IMAGES 5 & 6) -->
+    <!-- ÉTAPE 4 : RENSEIGNEMENTS CLIENT -->
     <div class="step-content" id="step4">
         <h2>Informations Client</h2>
         <form id="step4Form">
             <div class="form-group">
-                <label>Préfixe *</label>
+                <label>Civilité *</label>
                 <select id="prefix" required>
                     <option value="M.">M.</option>
                     <option value="Mme">Mme</option>
@@ -471,207 +623,462 @@
             </div>
             <div class="form-group">
                 <label>Prénom *</label>
-                <input type="text" id="firstname" required placeholder="Votre prénom">
+                <input type="text" id="firstname" required placeholder="Ex: Jean">
             </div>
             <div class="form-group">
                 <label>Nom de famille *</label>
-                <input type="text" id="lastname" required placeholder="Votre nom">
+                <input type="text" id="lastname" required placeholder="Ex: Mpasi">
             </div>
             <div class="form-group">
-                <label>Téléphone Mobile *</label>
-                <input type="tel" id="phone" required placeholder="+33 / +242 ...">
+                <label>Téléphone Mobile Money *</label>
+                <input type="tel" id="phone" required placeholder="Ex: 06 897 09 68">
             </div>
             <div class="form-group">
                 <label>Adresse courriel *</label>
-                <input type="email" id="email" required placeholder="exemple@mail.com">
+                <input type="email" id="email" required placeholder="exemple@gmail.com">
             </div>
             <div class="form-group">
                 <label>Pays / Région *</label>
                 <select id="country" required>
+                    <option value="CG" selected>Congo-Brazzaville</option>
                     <option value="FR">France</option>
-                    <option value="CG">Congo-Brazzaville</option>
                     <option value="CI">Côte d'Ivoire</option>
                     <option value="BE">Belgique</option>
                 </select>
-            </div>
-            <div class="form-group" style="display: flex; gap: 10px; align-items: center;">
-                <input type="checkbox" id="createAccount" style="width: auto;">
-                <label for="createAccount" style="margin: 0;">Je souhaite créer un compte</label>
             </div>
             <button type="button" class="btn-primary" onclick="goToStep(5)">Continuer vers le paiement</button>
         </form>
     </div>
 
-    <!-- ÉTAPE 5 : MODE DE PAIEMENT (IMAGE 7) -->
+    <!-- ÉTAPE 5 : PAIEMENT MOBILE MONEY / USSD & CARTE -->
     <div class="step-content" id="step5">
-        <h2>Paiement Sécurisé</h2>
+        <h2>Mode de Paiement</h2>
         <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">
-            🔒 Cryptage 256 bits pour protéger vos informations.
+            Sélectionnez votre moyen de règlement pour bloquer définitivement votre logement.
         </p>
 
-        <!-- SÉLECTEUR DU MODE DE PAIEMENT -->
         <div class="payment-methods">
-            <div class="payment-tab active" id="tabVisa" onclick="switchPayment('visa')">Carte Bancaire</div>
-            <div class="payment-tab" id="tabMomo" onclick="switchPayment('momo')">MomoPay / Mobile</div>
+            <div class="payment-tab active" id="tabMomo" onclick="switchPayment('momo')">Mobile Money</div>
+            <div class="payment-tab" id="tabVisa" onclick="switchPayment('visa')">Carte Visa / CB</div>
         </div>
 
-        <!-- FORMULAIRE CARTE VISA/MASTERCARD -->
-        <div id="paymentVisaForm">
+        <!-- FORMULAIRE MOBILE MONEY (OPTION RETENUE) -->
+        <div id="paymentMomoForm">
+            <div class="form-group">
+                <label>Réseau Mobile Money *</label>
+                <select id="momoProvider" onchange="updateMomoPrefixHint()">
+                    <option value="MTN">MTN Mobile Money (Préfixe 06)</option>
+                    <option value="Airtel">Airtel Money (Préfixe 05)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Numéro de Compte Payeur *</label>
+                <input type="tel" id="momoPhone" placeholder="Ex: 06 897 09 68" required>
+                <small id="prefixHint" style="color: var(--text-muted); font-size: 11px;">Entrez votre numéro MTN (06...)</small>
+            </div>
+        </div>
+
+        <!-- FORMULAIRE CARTE VISA -->
+        <div id="paymentVisaForm" style="display: none;">
             <div class="form-group">
                 <label>Numéro de carte *</label>
                 <input type="text" placeholder="4500 0000 0000 0000" maxlength="19">
             </div>
             <div class="form-group" style="display: flex; gap: 10px;">
                 <div style="flex: 1;">
-                    <label>Expiration (MM/AA) *</label>
-                    <input type="text" placeholder="12/28" maxlength="5">
+                    <label>Expiration *</label>
+                    <input type="text" placeholder="MM/AA" maxlength="5">
                 </div>
                 <div style="flex: 1;">
-                    <label>CVC / CVV *</label>
+                    <label>CVV *</label>
                     <input type="password" placeholder="123" maxlength="4">
                 </div>
             </div>
-            <div class="form-group">
-                <label>Nom sur la carte *</label>
-                <input type="text" placeholder="Nom complet">
-            </div>
         </div>
 
-        <!-- FORMULAIRE MOMOPAY / MOBILE MONEY -->
-        <div id="paymentMomoForm" style="display: none;">
-            <div class="form-group">
-                <label>Opérateur Mobile Money *</label>
-                <select>
-                    <option value="mtn">MTN Mobile Money (MoMo)</option>
-                    <option value="airtel">Airtel Money</option>
-                    <option value="orange">Orange Money</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Numéro de Téléphone *</label>
-                <input type="tel" placeholder="Ex: 06 000 0000">
-            </div>
-            <p style="font-size: 11px; color: var(--text-muted);">
-                Une notification de validation de débit vous sera envoyée sur votre téléphone.
-            </p>
-        </div>
-
-        <button class="btn-primary" style="margin-top: 20px;" onclick="confirmBooking()">Confirmer et Payer</button>
+        <button class="btn-primary" style="margin-top: 20px;" onclick="executePaymentUSSD()">Payer et Obtenir mon reçu</button>
     </div>
 
-    <!-- REPRODUCTION FIDÈLE DES 3 DERNIÈRES IMAGES (IMAGES 8, 9, 10) -->
+    <!-- REPRODUCTION DES PIEDS DE PAGE -->
     <div class="footer-reproduction">
-        <!-- BLOC IMAGE 8 : AVANTAGES DIRECTS -->
-        <h3 style="font-size: 15px; text-transform: uppercase; margin-bottom: 20px; text-align: center;">
-            Réservez directement pour bénéficier d'avantages exclusifs
+        <h3 style="font-size: 14px; text-transform: uppercase; margin-bottom: 20px; text-align: center;">
+            Vos avantages de réservation directe
         </h3>
 
         <div class="advantage-item">
             <div class="advantage-icon">🕒</div>
             <div class="advantage-text">
-                <h4>Temps de la péninsule</h4>
-                <p>Horaires d'arrivée et de départ souples et flexibles.</p>
+                <h4>Flexibilité d'Arrivée</h4>
+                <p>Arrivée et départ adaptés sur demande auprès de la réception.</p>
             </div>
         </div>
 
         <div class="advantage-item">
-            <div class="advantage-icon">📅</div>
+            <div class="advantage-icon">🔒</div>
             <div class="advantage-text">
-                <h4>Réservations flexibles</h4>
-                <p>Modifiez ou annulez facilement vos réservations auprès de notre équipe.</p>
-            </div>
-        </div>
-
-        <div class="advantage-item">
-            <div class="advantage-icon">🏷️</div>
-            <div class="advantage-text">
-                <h4>Offres et tarifs exclusifs</h4>
-                <p>Les meilleurs prix et forfaits garantis.</p>
+                <h4>Réservation Garantie</h4>
+                <p>Blocage instantané du logement dès confirmation du règlement.</p>
             </div>
         </div>
 
         <div class="advantage-item">
             <div class="advantage-icon">💬</div>
             <div class="advantage-text">
-                <h4>PenChat</h4>
-                <p>Contactez directement notre équipe à tout moment via votre canal préféré.</p>
+                <h4>Support WhatsApp Direct</h4>
+                <p>Envoi de votre reçu de paiement directement sur notre ligne WhatsApp.</p>
             </div>
         </div>
 
-        <!-- BLOC IMAGE 9 : CONTACT & ÉQUIPE DÉDIÉE -->
         <div class="contact-box" style="text-align: center;">
-            <h4 style="margin-bottom: 8px;">Équipe de réservation dédiée</h4>
-            <p style="font-size: 14px; font-weight: bold; color: var(--primary-color);">+33 1 5812 2777</p>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">reservationppr@peninsula.com</p>
+            <h4 style="margin-bottom: 8px;">Service Réservation</h4>
+            <p style="font-size: 14px; font-weight: bold; color: var(--primary-color);">+242 06 897 09 68</p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">contact@residence-brazzaville.com</p>
         </div>
 
         <div style="font-size: 12px; line-height: 1.8; text-align: center; color: var(--text-muted); margin-bottom: 20px;">
-            <strong>PÉNINSULE PARIS</strong><br>
-            19 Avenue Kléber, 75116 Paris, France
+            <strong>HÔTELS & RÉSIDENCES CONGO</strong><br>
+            Brazzaville, République du Congo
         </div>
 
-        <!-- BLOC IMAGE 10 : PIED DE PAGE & LIENS -->
         <div class="social-icons">
             <div class="social-btn">📷</div>
             <div class="social-btn">f</div>
             <div class="social-btn">💬</div>
-            <div class="social-btn">𝕏</div>
             <div class="social-btn">▶</div>
         </div>
 
         <div class="legal-links">
-            <p><a href="#" style="color: inherit;">Politique de confidentialité et de sécurité</a></p>
-            <p><a href="#" style="color: inherit;">Déclaration d'accessibilité</a></p>
-            <p><a href="#" style="color: inherit;">Gérer les préférences de cookies</a></p>
+            <p><a href="#" style="color: inherit;">Politique de confidentialité</a></p>
+            <p><a href="#" style="color: inherit;">Conditions Générales de vente</a></p>
             <br>
-            <p>© 2026 HSH Management Services Limited. Tous droits réservés.</p>
+            <p>© 2026 Tous droits réservés.</p>
         </div>
     </div>
 </div>
 
 <script>
-    // ÉTAT GLOBAL DE L'APPLICATION
+    // -------------------------------------------------------------
+    // 1. BASE DE DONNÉES INVENTAIRE : 20 LOGEMENTS COMPLETS
+    // -------------------------------------------------------------
+    const roomsDatabase = [
+        {
+            id: 'room_01',
+            name: 'Chambre Standard Simple',
+            type: 'standard',
+            chambres_count: 1,
+            price: 35000,
+            total_stock: 5,
+            occupied_count: 3, // Occupées -> Le message "Il ne reste plus que 2..." S'AFFICHERA
+            description: '1 Lit Double • Climatisé • Wifi Gratuit',
+            compartments: [
+                { name: 'Chambre', img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+            ]
+        },
+        {
+            id: 'room_02',
+            name: 'Chambre Executive Confort',
+            type: 'standard',
+            chambres_count: 1,
+            price: 45000,
+            total_stock: 4,
+            occupied_count: 0, // Libres -> Le message NE S'AFFICHERA PAS
+            description: '1 Lit King Size • Bureau • Smart TV',
+            compartments: [
+                { name: 'Chambre Principal', img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Salle de bain', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+            ]
+        },
+        {
+            id: 'room_03',
+            name: 'Appartement 2 Chambres + Salon',
+            type: 'multi',
+            chambres_count: 2,
+            price: 85000,
+            total_stock: 3,
+            occupied_count: 2, // Occupée -> S'AFFICHERA (Il ne reste que 1)
+            description: '2 Chambres Séparées • Grand Salon • Cuisine Équipée',
+            compartments: [
+                { name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Chambre 2', img: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Salon VIP', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Douche Moderne', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+            ]
+        },
+        {
+            id: 'room_04',
+            name: 'Suite VIP Luxe + Salon + Balcon',
+            type: 'vip',
+            chambres_count: 1,
+            price: 120000,
+            total_stock: 2,
+            occupied_count: 0, // Ne s'affichera pas
+            description: 'King Bed • Vue Panoramique • Coin Salon et Minibar',
+            compartments: [
+                { name: 'Chambre VIP', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Salon Privé', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Baignoire & Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+            ]
+        },
+        {
+            id: 'room_05',
+            name: 'Résidence Prestige 3 Chambres + Piscine',
+            type: 'multi',
+            chambres_count: 3,
+            price: 250000,
+            total_stock: 2,
+            occupied_count: 1, // S'AFFICHERA (Il ne reste que 1)
+            description: '3 Chambres Master • Grand Salon • Cuisine • Piscine Privée',
+            compartments: [
+                { name: 'Chambre Master', img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Chambre 2', img: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Chambre 3', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Grand Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Piscine Privée', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Salle de Bain', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+            ]
+        },
+        {
+            id: 'room_06',
+            name: 'Chambre Supérieure Vue Jardin',
+            type: 'standard',
+            chambres_count: 1,
+            price: 50000,
+            total_stock: 6,
+            occupied_count: 0,
+            description: 'Lit Queen Size • Balcon Privé • Douche Italienne',
+            compartments: [
+                { name: 'Chambre', img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Douche Italienne', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+            ]
+        },
+        {
+            id: 'room_07',
+            name: 'Appartement Business 2 Chambres',
+            type: 'multi',
+            chambres_count: 2,
+            price: 95000,
+            total_stock: 4,
+            occupied_count: 3, // S'AFFICHERA (Il ne reste que 1)
+            description: '2 Lits King • Salon Équipé • Espace de travail',
+            compartments: [
+                { name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Chambre 2', img: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Salon Pro', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Douche & WC', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+            ]
+        },
+        {
+            id: 'room_08',
+            name: 'Suite Présidentielle VIP',
+            type: 'vip',
+            chambres_count: 2,
+            price: 200000,
+            total_stock: 1,
+            occupied_count: 0,
+            description: '2 Chambres VIP • Grand Salon de Réception • Jacuzzi',
+            compartments: [
+                { name: 'Chambre Master', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Chambre 2', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Salon de Luxe', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Jacuzzi & Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+            ]
+        },
+        {
+            id: 'room_09',
+            name: 'Chambre Deluxe Lit Double',
+            type: 'standard',
+            chambres_count: 1,
+            price: 40000,
+            total_stock: 8,
+            occupied_count: 2, // S'AFFICHERA
+            description: 'Décoration moderne • Wifi haut débit • Douche',
+            compartments: [
+                { name: 'Chambre', img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+            ]
+        },
+        {
+            id: 'room_10',
+            name: 'Penthouse Panorama 4 Chambres + Piscine',
+            type: 'vip',
+            chambres_count: 4,
+            price: 350000,
+            total_stock: 1,
+            occupied_count: 0,
+            description: 'Vue sur le Fleuve Congo • 4 Chambres • Piscine au Toit',
+            compartments: [
+                { name: 'Master Suite', img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Salon RoofTop', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Piscine Privée', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80' },
+                { name: 'Douche Italienne', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+            ]
+        },
+        {
+            id: 'room_11', name: 'Studio Meublé Confort', type: 'standard', chambres_count: 1, price: 38000, total_stock: 5, occupied_count: 0,
+            description: 'Lit Double • Coin Kitchenette • Douche',
+            compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }]
+        },
+        {
+            id: 'room_12', name: 'Chambre VIP Executive', type: 'vip', chambres_count: 1, price: 110000, total_stock: 3, occupied_count: 2,
+            description: 'King Bed • Service d etage VIP • Douche Luxueuse',
+            compartments: [{ name: 'Chambre VIP', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }]
+        },
+        {
+            id: 'room_13', name: 'Appartement Familial 3 Chambres', type: 'multi', chambres_count: 3, price: 160000, total_stock: 2, occupied_count: 0,
+            description: '3 Chambres • Grand Salon • Cuisine • 2 Douches',
+            compartments: [{ name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }]
+        },
+        { id: 'room_14', name: 'Chambre Standard Twin (2 lits)', type: 'standard', chambres_count: 1, price: 42000, total_stock: 4, occupied_count: 1, description: '2 Lits Simples • Douche • Wifi', compartments: [{ name: 'Chambre Twin', img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_15', name: 'Suite Junior + Salon', type: 'vip', chambres_count: 1, price: 90000, total_stock: 3, occupied_count: 0, description: 'Lit King • Petit Salon • Douche Italienne', compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_16', name: 'Appartement Duplex 2 Chambres', type: 'multi', chambres_count: 2, price: 130000, total_stock: 2, occupied_count: 1, description: '2 Niveaux • 2 Chambres • Salon • Terrasse', compartments: [{ name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_17', name: 'Chambre Classique Solo', type: 'standard', chambres_count: 1, price: 30000, total_stock: 6, occupied_count: 0, description: '1 Lit Simple • Douche • Bureau', compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_18', name: 'Villa VIP 3 Chambres + Piscine Privée', type: 'vip', chambres_count: 3, price: 280000, total_stock: 1, occupied_count: 0, description: '3 Chambres VIP • Jardin • Piscine • Garage', compartments: [{ name: 'Chambre Principal', img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=300&q=80' }, { name: 'Piscine', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_19', name: 'Appartement Standard 2 Chambres', type: 'multi', chambres_count: 2, price: 75000, total_stock: 4, occupied_count: 2, description: '2 Chambres • Salon Simple • Douche', compartments: [{ name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_20', name: 'Suite Impériale VIP avec Terrasse', type: 'vip', chambres_count: 2, price: 220000, total_stock: 2, occupied_count: 1, description: '2 Chambres Master • Salon de Réception • Vue Fleuve', compartments: [{ name: 'Master Room', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] }
+    ];
+
+    // GESTION DE L'AFFICHAGE INTELLIGENT ET DES BATCHES
+    let currentCategory = 'all';
+    let roomsDisplayedCount = 6; // Affichage initial de 6 logements puis "Afficher plus"
+    let selectedRoom = null;
+
+    // -------------------------------------------------------------
+    // 2. MOTEUR RENDU ÉTAPE 3 (FILTRAGE & TRI INTELLIGENT)
+    // -------------------------------------------------------------
+    function renderStep3Rooms() {
+        const container = document.getElementById('roomsContainer');
+        container.innerHTML = '';
+
+        const requestedRooms = parseInt(document.getElementById('roomsCount').value) || 1;
+
+        // Filtrage par catégorie sélectionnée
+        let filtered = roomsDatabase.filter(room => {
+            if (currentCategory === 'standard') return room.type === 'standard';
+            if (currentCategory === 'vip') return room.type === 'vip';
+            if (currentCategory === 'multi') return room.chambres_count >= 2;
+            return true;
+        });
+
+        // TRI INTELLIGENT : Les logements qui ont exactement le nombre de chambres demandé à l'Étape 2 remontent en PREMIER !
+        filtered.sort((a, b) => {
+            const aExactMatch = (a.chambres_count === requestedRooms) ? 1 : 0;
+            const bExactMatch = (b.chambres_count === requestedRooms) ? 1 : 0;
+            if (aExactMatch !== bExactMatch) return bExactMatch - aExactMatch;
+            return a.price - b.price; // Puis tri par prix croissant
+        });
+
+        const listToRender = filtered.slice(0, roomsDisplayedCount);
+
+        listToRender.forEach(room => {
+            const availableRooms = room.total_stock - room.occupied_count;
+            const isSmartMatch = (room.chambres_count === requestedRooms && requestedRooms > 1);
+
+            // LOGIQUE DU MESSAGE D'ALERTE : S'AFFICHE UNIQUEMENT SI occupied_count > 0 !
+            let stockAlertHTML = '';
+            if (room.occupied_count > 0 && availableRooms > 0) {
+                stockAlertHTML = `<div class="room-alert-stock">⚠️ Il ne reste plus que ${availableRooms} chambre(s) disponible(s) !</div>`;
+            }
+
+            // Génération de la bande horizontale des compartiments (Chambre, Douche, Salon...)
+            let compartmentsHTML = '<div class="compartments-strip">';
+            room.compartments.forEach(comp => {
+                compartmentsHTML += `
+                    <div class="compartment-box">
+                        <div class="compartment-img" style="background-image: url('${comp.img}');"></div>
+                        <div class="compartment-name">📍 ${comp.name}</div>
+                    </div>
+                `;
+            });
+            compartmentsHTML += '</div>';
+
+            // Tag "Recommandé" intelligent
+            let smartTagHTML = '';
+            if (isSmartMatch) {
+                smartTagHTML = `<div class="smart-tag">🎯 Recommandé pour votre choix (${requestedRooms} Chambres)</div>`;
+            }
+
+            const cardHTML = `
+                <div class="room-card">
+                    ${smartTagHTML}
+                    ${compartmentsHTML}
+                    <div class="room-details">
+                        <div class="room-header-flex">
+                            <div class="room-title">${room.name}</div>
+                            <span class="room-badge-type">${room.chambres_count} Chambre(s)</span>
+                        </div>
+                        <div class="room-specs">${room.description}</div>
+                        ${stockAlertHTML}
+                        <div class="room-price-row">
+                            <div class="room-price">${room.price.toLocaleString('fr-FR')} FCFA <span>/ nuit</span></div>
+                            <button class="btn-primary" style="width: auto; padding: 10px 16px; margin: 0;" onclick="selectRoomChoice('${room.id}')">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
+
+        // Gestion du bouton "Afficher plus"
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        if (roomsDisplayedCount < filtered.length) {
+            loadMoreBtn.style.display = 'block';
+        } else {
+            loadMoreBtn.style.display = 'none';
+        }
+    }
+
+    function setCategoryFilter(category, btnElement) {
+        currentCategory = category;
+        roomsDisplayedCount = 6; // Reset du batch
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+        renderStep3Rooms();
+    }
+
+    function loadMoreRooms() {
+        roomsDisplayedCount += 6;
+        renderStep3Rooms();
+    }
+
+    function selectRoomChoice(roomId) {
+        selectedRoom = roomsDatabase.find(r => r.id === roomId);
+        goToStep(4);
+    }
+
+    // -------------------------------------------------------------
+    // 3. LOGIQUE DE NAVIGATION INTER-ÉTAPES ET USSD
+    // -------------------------------------------------------------
     let currentStep = 1;
     const totalSteps = 5;
 
-    // INITIALISATION : BLOCAGE DES DATES PASSÉES (EXIGENCE STRICTE)
     window.addEventListener('DOMContentLoaded', () => {
         const today = new Date().toISOString().split('T')[0];
-        const checkinInput = document.getElementById('checkin');
-        const checkoutInput = document.getElementById('checkout');
+        document.getElementById('checkin').setAttribute('min', today);
+        document.getElementById('checkout').setAttribute('min', today);
+        document.getElementById('checkin').value = today;
 
-        checkinInput.setAttribute('min', today);
-        checkoutInput.setAttribute('min', today);
-        checkinInput.value = today;
-
-        // Date de départ par défaut = demain
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
-        checkoutInput.value = tomorrow.toISOString().split('T')[0];
+        document.getElementById('checkout').value = tomorrow.toISOString().split('T')[0];
 
         updateStepUI();
     });
 
-    // NAVIGATION MANUELLE PAR FLÈCHES
     document.getElementById('prevStepBtn').addEventListener('click', () => {
-        if (currentStep > 1) {
-            goToStep(currentStep - 1);
-        }
+        if (currentStep > 1) goToStep(currentStep - 1);
     });
 
     document.getElementById('nextStepBtn').addEventListener('click', () => {
-        if (currentStep < totalSteps) {
-            goToStep(currentStep + 1);
-        }
+        if (currentStep < totalSteps) goToStep(currentStep + 1);
     });
 
     function goToStep(stepNumber) {
         if (stepNumber < 1 || stepNumber > totalSteps) return;
 
-        // Masquer l'étape courante
         document.getElementById(`step${currentStep}`).classList.remove('active');
-
-        // Mettre à jour l'étape
         currentStep = stepNumber;
         document.getElementById(`step${currentStep}`).classList.add('active');
 
@@ -680,31 +1087,23 @@
     }
 
     function updateStepUI() {
-        // Mise à jour des flèches
         document.getElementById('prevStepBtn').disabled = (currentStep === 1);
         document.getElementById('nextStepBtn').disabled = (currentStep === totalSteps);
 
-        // Titre de l'indicateur d'étape
-        const titles = [
-            "1. Accueil",
-            "2. Dates & Invités",
-            "3. Choix Chambre",
-            "4. Renseignements",
-            "5. Paiement"
-        ];
+        const titles = ["1. Accueil", "2. Dates & Invités", "3. Choix Espace", "4. Renseignements", "5. Paiement"];
         document.getElementById('stepIndicatorTitle').innerText = titles[currentStep - 1];
 
-        // Mise à jour de la barre de récapitulatif
         if (currentStep === 3) {
             const inDate = document.getElementById('checkin').value;
             const outDate = document.getElementById('checkout').value;
+            const rooms = document.getElementById('roomsCount').value;
             const adults = document.getElementById('adultsCount').value;
-            const children = document.getElementById('childrenCount').value;
-            document.getElementById('summaryBarText').innerHTML = `${inDate} au ${outDate}<br>${adults} adulte(s), ${children} enfant(s)`;
+            document.getElementById('summaryBarText').innerHTML = `Du ${inDate} au ${outDate}<br><strong>${rooms} chambre(s)</strong>, ${adults} adulte(s)`;
+            renderStep3Rooms();
         }
     }
 
-    // GESTION DU DRAWER LATÉRAL (IMAGE 4)
+    // DRAWER LATÉRAL
     const drawer = document.getElementById('drawer');
     const overlay = document.getElementById('drawerOverlay');
 
@@ -721,7 +1120,7 @@
         overlay.style.display = 'none';
     }
 
-    // SÉLECTION DU MODE DE PAIEMENT (IMAGE 7 / MOMOPAY)
+    // PAIEMENT MOBILE MONEY / USSD
     function switchPayment(type) {
         document.getElementById('tabVisa').classList.remove('active');
         document.getElementById('tabMomo').classList.remove('active');
@@ -737,13 +1136,57 @@
         }
     }
 
-    function selectRoom(roomName) {
-        alert(`Vous avez sélectionné : ${roomName}`);
-        goToStep(4);
+    function updateMomoPrefixHint() {
+        const provider = document.getElementById('momoProvider').value;
+        const hint = document.getElementById('prefixHint');
+        const input = document.getElementById('momoPhone');
+        if (provider === 'MTN') {
+            hint.innerText = "Entrez votre numéro MTN (06...)";
+            input.placeholder = "Ex: 06 897 09 68";
+        } else {
+            hint.innerText = "Entrez votre numéro Airtel (05...)";
+            input.placeholder = "Ex: 05 500 00 00";
+        }
     }
 
-    function confirmBooking() {
-        alert("Réservation confirmée avec succès ! Merci de votre confiance.");
+    function executePaymentUSSD() {
+        const phone = document.getElementById('momoPhone').value.trim().replace(/\s/g, '');
+        const provider = document.getElementById('momoProvider').value;
+
+        if (!phone) {
+            alert("Veuillez entrer votre numéro de paiement Mobile Money.");
+            return;
+        }
+
+        if (provider === 'MTN' && !phone.startsWith('06')) {
+            alert("Erreur : Un numéro MTN au Congo doit commencer par 06.");
+            return;
+        }
+        if (provider === 'Airtel' && !phone.startsWith('05')) {
+            alert("Erreur : Un numéro Airtel au Congo doit commencer par 05.");
+            return;
+        }
+
+        const hotelPhone = "068970968";
+        const amount = selectedRoom ? selectedRoom.price : 35000;
+        let ussdCode = (provider === 'MTN') ? `*105*2*${hotelPhone}*${amount}#` : `*150*1*${hotelPhone}*${amount}#`;
+
+        const telUrl = `tel:${ussdCode.replace('#', '%23')}`;
+
+        if (confirm(`Vous allez ouvrir votre clavier téléphonique pour régler ${amount.toLocaleString('fr-FR')} FCFA via ${provider}.\n\nAprès validation, votre reçu sera généré.`)) {
+            
+            // Marquer comme réservée localement
+            if (selectedRoom) selectedRoom.occupied_count++;
+
+            window.open(telUrl, '_self');
+
+            const ref = "TXN-" + Math.floor(Math.random() * 1000000);
+            const msg = encodeURIComponent(`Bonjour, je viens de procéder au paiement de ma réservation sur le site.\n\nRéférence: ${ref}\nLogement: ${selectedRoom ? selectedRoom.name : 'Chambre'}\nMontant: ${amount} FCFA\nNuméro Payeur: ${phone}`);
+            
+            setTimeout(() => {
+                window.open(`https://wa.me/242068970968?text=${msg}`, '_blank');
+            }, 1000);
+        }
     }
 </script>
 </body>
