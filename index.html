@@ -14,6 +14,8 @@
             --text-muted: #666;
             --alert-red: #c0392b;
             --smart-green: #27ae60;
+            --whatsapp-color: #25D366;
+            --email-color: #0066cc;
         }
 
         * {
@@ -232,10 +234,32 @@
             margin-top: 10px;
             border-radius: 4px;
             transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-primary:hover {
             background: var(--primary-dark);
+        }
+
+        .btn-whatsapp {
+            background: var(--whatsapp-color);
+            color: #fff;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1eb854;
+        }
+
+        .btn-email {
+            background: var(--email-color);
+            color: #fff;
+        }
+
+        .btn-email:hover {
+            background: #004fb3;
         }
 
         /* STYLES ÉTAPE 3 : FILTRES ET CARTES CHAMBRES EN COMPARTIMENTS */
@@ -401,29 +425,55 @@
             margin-bottom: 20px;
         }
 
-        /* MODES DE PAIEMENT */
-        .payment-methods {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+        /* STYLE DU TICKET RECAPITULATIF */
+        .ticket-card {
+            background: #ffffff;
+            border: 2px dashed var(--primary-color);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            position: relative;
         }
 
-        .payment-tab {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            background: #fff;
+        .ticket-header {
             text-align: center;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 4px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 12px;
         }
 
-        .payment-tab.active {
-            border-color: var(--primary-color);
-            background: var(--light-bg);
+        .ticket-header h3 {
+            font-size: 16px;
             color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ticket-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .ticket-label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .ticket-value {
+            font-weight: 600;
+            color: var(--dark-color);
+            text-align: right;
+        }
+
+        .ticket-total-row {
+            border-top: 2px solid var(--dark-color);
+            padding-top: 10px;
+            margin-top: 12px;
+            font-size: 16px;
+            font-weight: 700;
         }
 
         /* FOOTER REPRODUIT */
@@ -583,9 +633,8 @@
         </form>
     </div>
 
-    <!-- ÉTAPE 3 : CHOIX DE LA CHAMBRE ET COMPARTIMENTS (AVEC INTELLIGENCE & INVENTAIRE DE 20 LOGEMENTS) -->
+    <!-- ÉTAPE 3 : CHOIX DE LA CHAMBRE ET COMPARTIMENTS -->
     <div class="step-content" id="step3">
-        <!-- Récapitulatif sélection -->
         <div style="background: var(--light-bg); padding: 10px 12px; border: 1px solid var(--border-color); margin-bottom: 12px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px;">
             <div id="summaryBarText">Du 15/09 au 16/09<br>1 chambre, 2 adultes</div>
             <button onclick="goToStep(2)" style="background: none; border: none; text-decoration: underline; cursor: pointer; font-size: 11px; color: var(--primary-color);">Modifier</button>
@@ -601,102 +650,150 @@
             <button class="filter-btn" onclick="setCategoryFilter('multi', this)">2+ Chambres</button>
         </div>
 
-        <!-- CONTENEUR DES 20 CHAMBRES -->
         <div id="roomsContainer"></div>
 
-        <!-- BOUTON CHARGER PLUS DE CHAMBRES -->
         <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreRooms()" style="display: none;">
             Afficher plus de chambres (+)
         </button>
     </div>
 
-    <!-- ÉTAPE 4 : RENSEIGNEMENTS CLIENT -->
+    <!-- ÉTAPE 4 : RENSEIGNEMENTS CLIENT & SERVICES ADDITIONNELS -->
     <div class="step-content" id="step4">
-        <h2>Informations Client</h2>
+        <h2>Renseignements Client</h2>
         <form id="step4Form">
             <div class="form-group">
-                <label>Civilité *</label>
+                <label for="prefix">Civilité *</label>
                 <select id="prefix" required>
                     <option value="M.">M.</option>
                     <option value="Mme">Mme</option>
+                    <option value="Mlle">Mlle</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Prénom *</label>
-                <input type="text" id="firstname" required placeholder="Ex: Jean">
+                <label for="firstname">Prénom *</label>
+                <input type="text" id="firstname" required placeholder="Ex: Blessing">
             </div>
             <div class="form-group">
-                <label>Nom de famille *</label>
-                <input type="text" id="lastname" required placeholder="Ex: Mpasi">
+                <label for="lastname">Nom de famille *</label>
+                <input type="text" id="lastname" required placeholder="Ex: Tsiobinda">
             </div>
             <div class="form-group">
-                <label>Téléphone Mobile Money *</label>
-                <input type="tel" id="phone" required placeholder="Ex: 06 897 09 68">
+                <label for="phone">Téléphone / WhatsApp *</label>
+                <input type="tel" id="phone" required placeholder="Ex: +242 06 897 09 68">
             </div>
             <div class="form-group">
-                <label>Adresse courriel *</label>
+                <label for="email">Adresse courriel *</label>
                 <input type="email" id="email" required placeholder="exemple@gmail.com">
             </div>
+
+            <!-- TOUS LES PAYS DU MONDE -->
             <div class="form-group">
-                <label>Pays / Région *</label>
+                <label for="country">Pays d'origine / Résidence *</label>
                 <select id="country" required>
-                    <option value="CG" selected>Congo-Brazzaville</option>
-                    <option value="FR">France</option>
-                    <option value="CI">Côte d'Ivoire</option>
-                    <option value="BE">Belgique</option>
+                    <option value="Congo (Brazzaville)" selected>Congo (Brazzaville)</option>
+                    <option value="Congo (RDC)">Congo (RDC)</option>
+                    <option value="France">France</option>
+                    <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                    <option value="Gabon">Gabon</option>
+                    <option value="Cameroun">Cameroun</option>
+                    <option value="Sénégal">Sénégal</option>
+                    <option value="Angola">Angola</option>
+                    <option value="Belgique">Belgique</option>
+                    <option value="Canada">Canada</option>
+                    <option value="États-Unis">États-Unis</option>
+                    <option value="Suisse">Suisse</option>
+                    <option value="Afghanistan">Afghanistan</option>
+                    <option value="Afrique du Sud">Afrique du Sud</option>
+                    <option value="Algérie">Algérie</option>
+                    <option value="Allemagne">Allemagne</option>
+                    <option value="Arabie Saoudite">Arabie Saoudite</option>
+                    <option value="Argentine">Argentine</option>
+                    <option value="Bénin">Bénin</option>
+                    <option value="Brésil">Brésil</option>
+                    <option value="Burkina Faso">Burkina Faso</option>
+                    <option value="Chine">Chine</option>
+                    <option value="Égypte">Égypte</option>
+                    <option value="Émirats Arabes Unis">Émirats Arabes Unis</option>
+                    <option value="Espagne">Espagne</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Guinée">Guinée</option>
+                    <option value="Italie">Italie</option>
+                    <option value="Japon">Japon</option>
+                    <option value="Mali">Mali</option>
+                    <option value="Maroc">Maroc</option>
+                    <option value="Mauritanie">Mauritanie</option>
+                    <option value="Niger">Niger</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Royaume-Uni">Royaume-Uni</option>
+                    <option value="Rwanda">Rwanda</option>
+                    <option value="Tchad">Tchad</option>
+                    <option value="Togo">Togo</option>
+                    <option value="Tunisie">Tunisie</option>
+                    <option value="Turquie">Turquie</option>
+                    <!-- Liste dynamique chargée par script si besoin -->
                 </select>
             </div>
-            <button type="button" class="btn-primary" onclick="goToStep(5)">Continuer vers le paiement</button>
+
+            <!-- OPTION DÉPLACEMENT AÉROPORT (AUGMENTE LE PRIX) -->
+            <div class="form-group" style="background: #fdfaf5; padding: 12px; border: 1px solid #ebd9c3; border-radius: 6px; margin-top: 15px;">
+                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                    <input type="checkbox" id="airportShuttle" style="width: 20px; height: 20px; margin-top: 2px;" onchange="updateTotalPriceCalculation()">
+                    <div>
+                        <label for="airportShuttle" style="margin: 0; color: var(--dark-color); font-size: 13px; text-transform: none; cursor: pointer;">
+                            <strong>🚙 Service de Navette / Transfert Aéroport Maya-Maya</strong>
+                        </label>
+                        <p style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">
+                            Prise en charge personnalisée à l'aéroport à votre arrivée (+ 15 000 FCFA).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn-primary" onclick="goToStep(5)">Générer mon ticket de réservation</button>
         </form>
     </div>
 
-    <!-- ÉTAPE 5 : PAIEMENT MOBILE MONEY / USSD & CARTE -->
+    <!-- ÉTAPE 5 : APERÇU DU TICKET & ENVOI VIA WHATSAPP / EMAIL -->
     <div class="step-content" id="step5">
-        <h2>Mode de Paiement</h2>
+        <h2>Validation du Ticket</h2>
         <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">
-            Sélectionnez votre moyen de règlement pour bloquer définitivement votre logement.
+            Voici votre ticket de réservation. Transmettez-le directement pour valider les modalités de paiement avec notre service de réception.
         </p>
 
-        <div class="payment-methods">
-            <div class="payment-tab active" id="tabMomo" onclick="switchPayment('momo')">Mobile Money</div>
-            <div class="payment-tab" id="tabVisa" onclick="switchPayment('visa')">Carte Visa / CB</div>
-        </div>
+        <!-- APERÇU DYNAMIQUE DU TICKET -->
+        <div class="ticket-card" id="ticketPreview">
+            <div class="ticket-header">
+                <h3>🎟️ TICKET DE RÉSERVATION</h3>
+                <p style="font-size: 10px; color: var(--text-muted);" id="ticketRefNumber">RÉF : BRZ-2026-XXXX</p>
+            </div>
 
-        <!-- FORMULAIRE MOBILE MONEY (OPTION RETENUE) -->
-        <div id="paymentMomoForm">
-            <div class="form-group">
-                <label>Réseau Mobile Money *</label>
-                <select id="momoProvider" onchange="updateMomoPrefixHint()">
-                    <option value="MTN">MTN Mobile Money (Préfixe 06)</option>
-                    <option value="Airtel">Airtel Money (Préfixe 05)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Numéro de Compte Payeur *</label>
-                <input type="tel" id="momoPhone" placeholder="Ex: 06 897 09 68" required>
-                <small id="prefixHint" style="color: var(--text-muted); font-size: 11px;">Entrez votre numéro MTN (06...)</small>
-            </div>
-        </div>
+            <div class="ticket-row"><span class="ticket-label">Client :</span><span class="ticket-value" id="tClient">---</span></div>
+            <div class="ticket-row"><span class="ticket-label">Téléphone :</span><span class="ticket-value" id="tPhone">---</span></div>
+            <div class="ticket-row"><span class="ticket-label">Email :</span><span class="ticket-value" id="tEmail">---</span></div>
+            <div class="ticket-row"><span class="ticket-label">Pays :</span><span class="ticket-value" id="tCountry">---</span></div>
 
-        <!-- FORMULAIRE CARTE VISA -->
-        <div id="paymentVisaForm" style="display: none;">
-            <div class="form-group">
-                <label>Numéro de carte *</label>
-                <input type="text" placeholder="4500 0000 0000 0000" maxlength="19">
-            </div>
-            <div class="form-group" style="display: flex; gap: 10px;">
-                <div style="flex: 1;">
-                    <label>Expiration *</label>
-                    <input type="text" placeholder="MM/AA" maxlength="5">
-                </div>
-                <div style="flex: 1;">
-                    <label>CVV *</label>
-                    <input type="password" placeholder="123" maxlength="4">
-                </div>
+            <div style="border-top: 1px dashed #ccc; margin: 10px 0;"></div>
+
+            <div class="ticket-row"><span class="ticket-label">Logement :</span><span class="ticket-value" id="tRoomName">---</span></div>
+            <div class="ticket-row"><span class="ticket-label">Nb. Chambres :</span><span class="ticket-value" id="tRoomsCount">---</span></div>
+            <div class="ticket-row"><span class="ticket-label">Période :</span><span class="ticket-value" id="tDates">---</span></div>
+            <div class="ticket-row"><span class="ticket-label">Heure d'arrivée :</span><span class="ticket-value" id="tTime">---</span></div>
+            <div class="ticket-row"><span class="ticket-label">Transfert Aéroport :</span><span class="ticket-value" id="tAirport">Non</span></div>
+
+            <div class="ticket-row ticket-total-row">
+                <span>PRIX TOTAL :</span>
+                <span style="color: var(--primary-color);" id="tTotalPrice">0 FCFA</span>
             </div>
         </div>
 
-        <button class="btn-primary" style="margin-top: 20px;" onclick="executePaymentUSSD()">Payer et Obtenir mon reçu</button>
+        <!-- BOUTONS D'ACTION DIRECTE (WHATSAPP ET EMAIL) -->
+        <button class="btn-primary btn-whatsapp" onclick="sendTicketViaWhatsApp()">
+            <span>📱</span> Envoyer mon ticket par WhatsApp
+        </button>
+
+        <button class="btn-primary btn-email" style="margin-top: 10px;" onclick="sendTicketViaEmail()">
+            <span>✉️</span> Envoyer mon ticket par Email
+        </button>
     </div>
 
     <!-- REPRODUCTION DES PIEDS DE PAGE -->
@@ -714,25 +811,17 @@
         </div>
 
         <div class="advantage-item">
-            <div class="advantage-icon">🔒</div>
-            <div class="advantage-text">
-                <h4>Réservation Garantie</h4>
-                <p>Blocage instantané du logement dès confirmation du règlement.</p>
-            </div>
-        </div>
-
-        <div class="advantage-item">
             <div class="advantage-icon">💬</div>
             <div class="advantage-text">
-                <h4>Support WhatsApp Direct</h4>
-                <p>Envoi de votre reçu de paiement directement sur notre ligne WhatsApp.</p>
+                <h4>Validation Instantanée WhatsApp</h4>
+                <p>Recevez votre confirmation directement sur WhatsApp en quelques minutes.</p>
             </div>
         </div>
 
         <div class="contact-box" style="text-align: center;">
-            <h4 style="margin-bottom: 8px;">Service Réservation</h4>
+            <h4 style="margin-bottom: 8px;">Service Réception & Réservation</h4>
             <p style="font-size: 14px; font-weight: bold; color: var(--primary-color);">+242 06 897 09 68</p>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">contact@residence-brazzaville.com</p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">reservation@residence-brazzaville.com</p>
         </div>
 
         <div style="font-size: 12px; line-height: 1.8; text-align: center; color: var(--text-muted); margin-bottom: 20px;">
@@ -758,17 +847,11 @@
 
 <script>
     // -------------------------------------------------------------
-    // 1. BASE DE DONNÉES INVENTAIRE : 20 LOGEMENTS COMPLETS
+    // 1. BASE DE DONNÉES INVENTAIRE (20 LOGEMENTS)
     // -------------------------------------------------------------
     const roomsDatabase = [
         {
-            id: 'room_01',
-            name: 'Chambre Standard Simple',
-            type: 'standard',
-            chambres_count: 1,
-            price: 35000,
-            total_stock: 5,
-            occupied_count: 3, // Occupées -> Le message "Il ne reste plus que 2..." S'AFFICHERA
+            id: 'room_01', name: 'Chambre Standard Simple', type: 'standard', chambres_count: 1, price: 35000, total_stock: 5, occupied_count: 3,
             description: '1 Lit Double • Climatisé • Wifi Gratuit',
             compartments: [
                 { name: 'Chambre', img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80' },
@@ -776,13 +859,7 @@
             ]
         },
         {
-            id: 'room_02',
-            name: 'Chambre Executive Confort',
-            type: 'standard',
-            chambres_count: 1,
-            price: 45000,
-            total_stock: 4,
-            occupied_count: 0, // Libres -> Le message NE S'AFFICHERA PAS
+            id: 'room_02', name: 'Chambre Executive Confort', type: 'standard', chambres_count: 1, price: 45000, total_stock: 4, occupied_count: 0,
             description: '1 Lit King Size • Bureau • Smart TV',
             compartments: [
                 { name: 'Chambre Principal', img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=300&q=80' },
@@ -790,13 +867,7 @@
             ]
         },
         {
-            id: 'room_03',
-            name: 'Appartement 2 Chambres + Salon',
-            type: 'multi',
-            chambres_count: 2,
-            price: 85000,
-            total_stock: 3,
-            occupied_count: 2, // Occupée -> S'AFFICHERA (Il ne reste que 1)
+            id: 'room_03', name: 'Appartement 2 Chambres + Salon', type: 'multi', chambres_count: 2, price: 85000, total_stock: 3, occupied_count: 2,
             description: '2 Chambres Séparées • Grand Salon • Cuisine Équipée',
             compartments: [
                 { name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' },
@@ -806,13 +877,7 @@
             ]
         },
         {
-            id: 'room_04',
-            name: 'Suite VIP Luxe + Salon + Balcon',
-            type: 'vip',
-            chambres_count: 1,
-            price: 120000,
-            total_stock: 2,
-            occupied_count: 0, // Ne s'affichera pas
+            id: 'room_04', name: 'Suite VIP Luxe + Salon + Balcon', type: 'vip', chambres_count: 1, price: 120000, total_stock: 2, occupied_count: 0,
             description: 'King Bed • Vue Panoramique • Coin Salon et Minibar',
             compartments: [
                 { name: 'Chambre VIP', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' },
@@ -821,138 +886,44 @@
             ]
         },
         {
-            id: 'room_05',
-            name: 'Résidence Prestige 3 Chambres + Piscine',
-            type: 'multi',
-            chambres_count: 3,
-            price: 250000,
-            total_stock: 2,
-            occupied_count: 1, // S'AFFICHERA (Il ne reste que 1)
+            id: 'room_05', name: 'Résidence Prestige 3 Chambres + Piscine', type: 'multi', chambres_count: 3, price: 250000, total_stock: 2, occupied_count: 1,
             description: '3 Chambres Master • Grand Salon • Cuisine • Piscine Privée',
             compartments: [
                 { name: 'Chambre Master', img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=300&q=80' },
                 { name: 'Chambre 2', img: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Chambre 3', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' },
                 { name: 'Grand Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Piscine Privée', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Salle de Bain', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
+                { name: 'Piscine Privée', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80' }
             ]
         },
-        {
-            id: 'room_06',
-            name: 'Chambre Supérieure Vue Jardin',
-            type: 'standard',
-            chambres_count: 1,
-            price: 50000,
-            total_stock: 6,
-            occupied_count: 0,
-            description: 'Lit Queen Size • Balcon Privé • Douche Italienne',
-            compartments: [
-                { name: 'Chambre', img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Douche Italienne', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
-            ]
-        },
-        {
-            id: 'room_07',
-            name: 'Appartement Business 2 Chambres',
-            type: 'multi',
-            chambres_count: 2,
-            price: 95000,
-            total_stock: 4,
-            occupied_count: 3, // S'AFFICHERA (Il ne reste que 1)
-            description: '2 Lits King • Salon Équipé • Espace de travail',
-            compartments: [
-                { name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Chambre 2', img: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Salon Pro', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Douche & WC', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
-            ]
-        },
-        {
-            id: 'room_08',
-            name: 'Suite Présidentielle VIP',
-            type: 'vip',
-            chambres_count: 2,
-            price: 200000,
-            total_stock: 1,
-            occupied_count: 0,
-            description: '2 Chambres VIP • Grand Salon de Réception • Jacuzzi',
-            compartments: [
-                { name: 'Chambre Master', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Chambre 2', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Salon de Luxe', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Jacuzzi & Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
-            ]
-        },
-        {
-            id: 'room_09',
-            name: 'Chambre Deluxe Lit Double',
-            type: 'standard',
-            chambres_count: 1,
-            price: 40000,
-            total_stock: 8,
-            occupied_count: 2, // S'AFFICHERA
-            description: 'Décoration moderne • Wifi haut débit • Douche',
-            compartments: [
-                { name: 'Chambre', img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
-            ]
-        },
-        {
-            id: 'room_10',
-            name: 'Penthouse Panorama 4 Chambres + Piscine',
-            type: 'vip',
-            chambres_count: 4,
-            price: 350000,
-            total_stock: 1,
-            occupied_count: 0,
-            description: 'Vue sur le Fleuve Congo • 4 Chambres • Piscine au Toit',
-            compartments: [
-                { name: 'Master Suite', img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Salon RoofTop', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Piscine Privée', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80' },
-                { name: 'Douche Italienne', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }
-            ]
-        },
-        {
-            id: 'room_11', name: 'Studio Meublé Confort', type: 'standard', chambres_count: 1, price: 38000, total_stock: 5, occupied_count: 0,
-            description: 'Lit Double • Coin Kitchenette • Douche',
-            compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }]
-        },
-        {
-            id: 'room_12', name: 'Chambre VIP Executive', type: 'vip', chambres_count: 1, price: 110000, total_stock: 3, occupied_count: 2,
-            description: 'King Bed • Service d etage VIP • Douche Luxueuse',
-            compartments: [{ name: 'Chambre VIP', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }]
-        },
-        {
-            id: 'room_13', name: 'Appartement Familial 3 Chambres', type: 'multi', chambres_count: 3, price: 160000, total_stock: 2, occupied_count: 0,
-            description: '3 Chambres • Grand Salon • Cuisine • 2 Douches',
-            compartments: [{ name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }]
-        },
-        { id: 'room_14', name: 'Chambre Standard Twin (2 lits)', type: 'standard', chambres_count: 1, price: 42000, total_stock: 4, occupied_count: 1, description: '2 Lits Simples • Douche • Wifi', compartments: [{ name: 'Chambre Twin', img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }] },
-        { id: 'room_15', name: 'Suite Junior + Salon', type: 'vip', chambres_count: 1, price: 90000, total_stock: 3, occupied_count: 0, description: 'Lit King • Petit Salon • Douche Italienne', compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
-        { id: 'room_16', name: 'Appartement Duplex 2 Chambres', type: 'multi', chambres_count: 2, price: 130000, total_stock: 2, occupied_count: 1, description: '2 Niveaux • 2 Chambres • Salon • Terrasse', compartments: [{ name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_06', name: 'Chambre Supérieure Vue Jardin', type: 'standard', chambres_count: 1, price: 50000, total_stock: 6, occupied_count: 0, description: 'Lit Queen Size • Balcon Privé • Douche Italienne', compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_07', name: 'Appartement Business 2 Chambres', type: 'multi', chambres_count: 2, price: 95000, total_stock: 4, occupied_count: 3, description: '2 Lits King • Salon Équipé • Espace de travail', compartments: [{ name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_08', name: 'Suite Présidentielle VIP', type: 'vip', chambres_count: 2, price: 200000, total_stock: 1, occupied_count: 0, description: '2 Chambres VIP • Grand Salon • Jacuzzi', compartments: [{ name: 'Chambre Master', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_09', name: 'Chambre Deluxe Lit Double', type: 'standard', chambres_count: 1, price: 40000, total_stock: 8, occupied_count: 2, description: 'Décoration moderne • Wifi haut débit • Douche', compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_10', name: 'Penthouse Panorama 4 Chambres', type: 'vip', chambres_count: 4, price: 350000, total_stock: 1, occupied_count: 0, description: 'Vue Fleuve Congo • 4 Chambres • Piscine au Toit', compartments: [{ name: 'Master Suite', img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=300&q=80' }, { name: 'Piscine', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_11', name: 'Studio Meublé Confort', type: 'standard', chambres_count: 1, price: 38000, total_stock: 5, occupied_count: 0, description: 'Lit Double • Coin Kitchenette • Douche', compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_12', name: 'Chambre VIP Executive', type: 'vip', chambres_count: 1, price: 110000, total_stock: 3, occupied_count: 2, description: 'King Bed • Service VIP • Douche Luxueuse', compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_13', name: 'Appartement Familial 3 Chambres', type: 'multi', chambres_count: 3, price: 160000, total_stock: 2, occupied_count: 0, description: '3 Chambres • Grand Salon • Cuisine', compartments: [{ name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_14', name: 'Chambre Standard Twin', type: 'standard', chambres_count: 1, price: 42000, total_stock: 4, occupied_count: 1, description: '2 Lits Simples • Douche • Wifi', compartments: [{ name: 'Chambre Twin', img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_15', name: 'Suite Junior + Salon', type: 'vip', chambres_count: 1, price: 90000, total_stock: 3, occupied_count: 0, description: 'Lit King • Petit Salon • Douche', compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_16', name: 'Appartement Duplex 2 Chambres', type: 'multi', chambres_count: 2, price: 130000, total_stock: 2, occupied_count: 1, description: '2 Niveaux • 2 Chambres • Salon', compartments: [{ name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
         { id: 'room_17', name: 'Chambre Classique Solo', type: 'standard', chambres_count: 1, price: 30000, total_stock: 6, occupied_count: 0, description: '1 Lit Simple • Douche • Bureau', compartments: [{ name: 'Chambre', img: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80' }, { name: 'Douche', img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80' }] },
-        { id: 'room_18', name: 'Villa VIP 3 Chambres + Piscine Privée', type: 'vip', chambres_count: 3, price: 280000, total_stock: 1, occupied_count: 0, description: '3 Chambres VIP • Jardin • Piscine • Garage', compartments: [{ name: 'Chambre Principal', img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=300&q=80' }, { name: 'Piscine', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80' }] },
+        { id: 'room_18', name: 'Villa VIP 3 Chambres + Piscine', type: 'vip', chambres_count: 3, price: 280000, total_stock: 1, occupied_count: 0, description: '3 Chambres VIP • Jardin • Piscine', compartments: [{ name: 'Master Room', img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=300&q=80' }, { name: 'Piscine', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=300&q=80' }] },
         { id: 'room_19', name: 'Appartement Standard 2 Chambres', type: 'multi', chambres_count: 2, price: 75000, total_stock: 4, occupied_count: 2, description: '2 Chambres • Salon Simple • Douche', compartments: [{ name: 'Chambre 1', img: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] },
-        { id: 'room_20', name: 'Suite Impériale VIP avec Terrasse', type: 'vip', chambres_count: 2, price: 220000, total_stock: 2, occupied_count: 1, description: '2 Chambres Master • Salon de Réception • Vue Fleuve', compartments: [{ name: 'Master Room', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] }
+        { id: 'room_20', name: 'Suite Impériale VIP Terrasse', type: 'vip', chambres_count: 2, price: 220000, total_stock: 2, occupied_count: 1, description: '2 Chambres Master • Salon • Vue Fleuve', compartments: [{ name: 'Master Room', img: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80' }, { name: 'Salon', img: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80' }] }
     ];
 
-    // GESTION DE L'AFFICHAGE INTELLIGENT ET DES BATCHES
     let currentCategory = 'all';
-    let roomsDisplayedCount = 6; // Affichage initial de 6 logements puis "Afficher plus"
-    let selectedRoom = null;
+    let roomsDisplayedCount = 6;
+    let selectedRoom = roomsDatabase[0]; // Par défaut chambre 1
 
     // -------------------------------------------------------------
-    // 2. MOTEUR RENDU ÉTAPE 3 (FILTRAGE & TRI INTELLIGENT)
+    // 2. RENDU ÉTAPE 3
     // -------------------------------------------------------------
     function renderStep3Rooms() {
         const container = document.getElementById('roomsContainer');
         container.innerHTML = '';
-
         const requestedRooms = parseInt(document.getElementById('roomsCount').value) || 1;
 
-        // Filtrage par catégorie sélectionnée
         let filtered = roomsDatabase.filter(room => {
             if (currentCategory === 'standard') return room.type === 'standard';
             if (currentCategory === 'vip') return room.type === 'vip';
@@ -960,12 +931,11 @@
             return true;
         });
 
-        // TRI INTELLIGENT : Les logements qui ont exactement le nombre de chambres demandé à l'Étape 2 remontent en PREMIER !
         filtered.sort((a, b) => {
             const aExactMatch = (a.chambres_count === requestedRooms) ? 1 : 0;
             const bExactMatch = (b.chambres_count === requestedRooms) ? 1 : 0;
             if (aExactMatch !== bExactMatch) return bExactMatch - aExactMatch;
-            return a.price - b.price; // Puis tri par prix croissant
+            return a.price - b.price;
         });
 
         const listToRender = filtered.slice(0, roomsDisplayedCount);
@@ -974,13 +944,11 @@
             const availableRooms = room.total_stock - room.occupied_count;
             const isSmartMatch = (room.chambres_count === requestedRooms && requestedRooms > 1);
 
-            // LOGIQUE DU MESSAGE D'ALERTE : S'AFFICHE UNIQUEMENT SI occupied_count > 0 !
             let stockAlertHTML = '';
             if (room.occupied_count > 0 && availableRooms > 0) {
                 stockAlertHTML = `<div class="room-alert-stock">⚠️ Il ne reste plus que ${availableRooms} chambre(s) disponible(s) !</div>`;
             }
 
-            // Génération de la bande horizontale des compartiments (Chambre, Douche, Salon...)
             let compartmentsHTML = '<div class="compartments-strip">';
             room.compartments.forEach(comp => {
                 compartmentsHTML += `
@@ -992,13 +960,9 @@
             });
             compartmentsHTML += '</div>';
 
-            // Tag "Recommandé" intelligent
-            let smartTagHTML = '';
-            if (isSmartMatch) {
-                smartTagHTML = `<div class="smart-tag">🎯 Recommandé pour votre choix (${requestedRooms} Chambres)</div>`;
-            }
+            let smartTagHTML = isSmartMatch ? `<div class="smart-tag">🎯 Recommandé pour votre choix (${requestedRooms} Chambres)</div>` : '';
 
-            const cardHTML = `
+            container.innerHTML += `
                 <div class="room-card">
                     ${smartTagHTML}
                     ${compartmentsHTML}
@@ -1012,29 +976,22 @@
                         <div class="room-price-row">
                             <div class="room-price">${room.price.toLocaleString('fr-FR')} FCFA <span>/ nuit</span></div>
                             <button class="btn-primary" style="width: auto; padding: 10px 16px; margin: 0;" onclick="selectRoomChoice('${room.id}')">
-                                Réserver
+                                Choisir
                             </button>
                         </div>
                     </div>
                 </div>
             `;
-            container.innerHTML += cardHTML;
         });
 
-        // Gestion du bouton "Afficher plus"
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        if (roomsDisplayedCount < filtered.length) {
-            loadMoreBtn.style.display = 'block';
-        } else {
-            loadMoreBtn.style.display = 'none';
-        }
+        document.getElementById('loadMoreBtn').style.display = (roomsDisplayedCount < filtered.length) ? 'block' : 'none';
     }
 
-    function setCategoryFilter(category, btnElement) {
-        currentCategory = category;
-        roomsDisplayedCount = 6; // Reset du batch
+    function setCategoryFilter(cat, btn) {
+        currentCategory = cat;
+        roomsDisplayedCount = 6;
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btnElement.classList.add('active');
+        btn.classList.add('active');
         renderStep3Rooms();
     }
 
@@ -1049,7 +1006,120 @@
     }
 
     // -------------------------------------------------------------
-    // 3. LOGIQUE DE NAVIGATION INTER-ÉTAPES ET USSD
+    // 3. LOGIQUE TICKET & CALCUL PRIX TOTAL
+    // -------------------------------------------------------------
+    function calculateNights() {
+        const inDate = new Date(document.getElementById('checkin').value);
+        const outDate = new Date(document.getElementById('checkout').value);
+        const diffTime = outDate - inDate;
+        let nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return nights > 0 ? nights : 1;
+    }
+
+    function calculateTotalPrice() {
+        if (!selectedRoom) return 0;
+        const nights = calculateNights();
+        let total = selectedRoom.price * nights;
+
+        // Si option transfert aéroport cochée (+ 15 000 FCFA)
+        if (document.getElementById('airportShuttle').checked) {
+            total += 15000;
+        }
+        return total;
+    }
+
+    function updateTotalPriceCalculation() {
+        const total = calculateTotalPrice();
+        document.getElementById('tTotalPrice').innerText = total.toLocaleString('fr-FR') + " FCFA";
+        const airportChoice = document.getElementById('airportShuttle').checked ? "Oui (+15 000 FCFA)" : "Non";
+        document.getElementById('tAirport').innerText = airportChoice;
+    }
+
+    function generateTicketPreview() {
+        const prefix = document.getElementById('prefix').value;
+        const fname = document.getElementById('firstname').value || 'Inconnu';
+        const lname = document.getElementById('lastname').value || '';
+        const phone = document.getElementById('phone').value || 'Non renseigné';
+        const email = document.getElementById('email').value || 'Non renseigné';
+        const country = document.getElementById('country').value;
+
+        const checkin = document.getElementById('checkin').value;
+        const checkout = document.getElementById('checkout').value;
+        const time = document.getElementById('checktime').value;
+        const roomsCount = document.getElementById('roomsCount').value;
+        const nights = calculateNights();
+
+        // Références aléatoires
+        const randomRef = "BRZ-2026-" + Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('ticketRefNumber').innerText = "RÉF : " + randomRef;
+
+        document.getElementById('tClient').innerText = `${prefix} ${fname} ${lname}`;
+        document.getElementById('tPhone').innerText = phone;
+        document.getElementById('tEmail').innerText = email;
+        document.getElementById('tCountry').innerText = country;
+
+        document.getElementById('tRoomName').innerText = selectedRoom ? selectedRoom.name : 'Chambre';
+        document.getElementById('tRoomsCount').innerText = `${roomsCount} chambre(s)`;
+        document.getElementById('tDates').innerText = `${checkin} au ${checkout} (${nights} nuit(s))`;
+        document.getElementById('tTime').innerText = time;
+
+        updateTotalPriceCalculation();
+    }
+
+    // -------------------------------------------------------------
+    // 4. ENVOI TICKET WHATSAPP & EMAIL
+    // -------------------------------------------------------------
+    function buildTicketFormattedText() {
+        const ref = document.getElementById('ticketRefNumber').innerText;
+        const client = document.getElementById('tClient').innerText;
+        const phone = document.getElementById('tPhone').innerText;
+        const email = document.getElementById('tEmail').innerText;
+        const country = document.getElementById('tCountry').innerText;
+
+        const room = document.getElementById('tRoomName').innerText;
+        const roomsCount = document.getElementById('tRoomsCount').innerText;
+        const dates = document.getElementById('tDates').innerText;
+        const time = document.getElementById('tTime').innerText;
+        const airport = document.getElementById('tAirport').innerText;
+        const total = document.getElementById('tTotalPrice').innerText;
+
+        return `🎟️ *TICKET DE RÉSERVATION HÔTEL*
+----------------------------------------
+📌 *${ref}*
+
+👤 *CLIENT :* ${client}
+📞 *TÉLÉPHONE :* ${phone}
+📧 *EMAIL :* ${email}
+🌍 *PAYS :* ${country}
+
+🏨 *LOGEMENT :* ${room}
+🔑 *SÉLECTION :* ${roomsCount}
+📅 *SÉJOUR :* ${dates}
+⏰ *ARRIVÉE PREVUE :* ${time}
+🚙 *TRANSFERT AÉROPORT :* ${airport}
+----------------------------------------
+💰 *PRIX TOTAL :* ${total}
+----------------------------------------
+Bonjour, je souhaite valider la réservation de ce ticket et recevoir les modalités de paiement. Merci !`;
+    }
+
+    function sendTicketViaWhatsApp() {
+        const hotelWhatsAppPhone = "242068970968"; // Numéro de la réception
+        const messageText = buildTicketFormattedText();
+        const whatsappUrl = `https://wa.me/${hotelWhatsAppPhone}?text=${encodeURIComponent(messageText)}`;
+        window.open(whatsappUrl, '_blank');
+    }
+
+    function sendTicketViaEmail() {
+        const hotelEmail = "reservation@residence-brazzaville.com";
+        const subject = "Demande de Réservation - Ticket " + document.getElementById('tClient').innerText;
+        const bodyText = buildTicketFormattedText();
+        const mailtoUrl = `mailto:${hotelEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+        window.open(mailtoUrl, '_self');
+    }
+
+    // -------------------------------------------------------------
+    // 5. NAVIGATION DE BASE ET DRAWER
     // -------------------------------------------------------------
     let currentStep = 1;
     const totalSteps = 5;
@@ -1090,16 +1160,19 @@
         document.getElementById('prevStepBtn').disabled = (currentStep === 1);
         document.getElementById('nextStepBtn').disabled = (currentStep === totalSteps);
 
-        const titles = ["1. Accueil", "2. Dates & Invités", "3. Choix Espace", "4. Renseignements", "5. Paiement"];
+        const titles = ["1. Accueil", "2. Dates & Invités", "3. Choix Espace", "4. Renseignements", "5. Ticket & Validation"];
         document.getElementById('stepIndicatorTitle').innerText = titles[currentStep - 1];
 
         if (currentStep === 3) {
             const inDate = document.getElementById('checkin').value;
             const outDate = document.getElementById('checkout').value;
             const rooms = document.getElementById('roomsCount').value;
-            const adults = document.getElementById('adultsCount').value;
-            document.getElementById('summaryBarText').innerHTML = `Du ${inDate} au ${outDate}<br><strong>${rooms} chambre(s)</strong>, ${adults} adulte(s)`;
+            document.getElementById('summaryBarText').innerHTML = `Du ${inDate} au ${outDate}<br><strong>${rooms} chambre(s)</strong>`;
             renderStep3Rooms();
+        }
+
+        if (currentStep === 5) {
+            generateTicketPreview();
         }
     }
 
@@ -1118,75 +1191,6 @@
     function closeDrawer() {
         drawer.classList.remove('active');
         overlay.style.display = 'none';
-    }
-
-    // PAIEMENT MOBILE MONEY / USSD
-    function switchPayment(type) {
-        document.getElementById('tabVisa').classList.remove('active');
-        document.getElementById('tabMomo').classList.remove('active');
-
-        if (type === 'visa') {
-            document.getElementById('tabVisa').classList.add('active');
-            document.getElementById('paymentVisaForm').style.display = 'block';
-            document.getElementById('paymentMomoForm').style.display = 'none';
-        } else {
-            document.getElementById('tabMomo').classList.add('active');
-            document.getElementById('paymentVisaForm').style.display = 'none';
-            document.getElementById('paymentMomoForm').style.display = 'block';
-        }
-    }
-
-    function updateMomoPrefixHint() {
-        const provider = document.getElementById('momoProvider').value;
-        const hint = document.getElementById('prefixHint');
-        const input = document.getElementById('momoPhone');
-        if (provider === 'MTN') {
-            hint.innerText = "Entrez votre numéro MTN (06...)";
-            input.placeholder = "Ex: 06 897 09 68";
-        } else {
-            hint.innerText = "Entrez votre numéro Airtel (05...)";
-            input.placeholder = "Ex: 05 500 00 00";
-        }
-    }
-
-    function executePaymentUSSD() {
-        const phone = document.getElementById('momoPhone').value.trim().replace(/\s/g, '');
-        const provider = document.getElementById('momoProvider').value;
-
-        if (!phone) {
-            alert("Veuillez entrer votre numéro de paiement Mobile Money.");
-            return;
-        }
-
-        if (provider === 'MTN' && !phone.startsWith('06')) {
-            alert("Erreur : Un numéro MTN au Congo doit commencer par 06.");
-            return;
-        }
-        if (provider === 'Airtel' && !phone.startsWith('05')) {
-            alert("Erreur : Un numéro Airtel au Congo doit commencer par 05.");
-            return;
-        }
-
-        const hotelPhone = "068970968";
-        const amount = selectedRoom ? selectedRoom.price : 35000;
-        let ussdCode = (provider === 'MTN') ? `*105*2*${hotelPhone}*${amount}#` : `*150*1*${hotelPhone}*${amount}#`;
-
-        const telUrl = `tel:${ussdCode.replace('#', '%23')}`;
-
-        if (confirm(`Vous allez ouvrir votre clavier téléphonique pour régler ${amount.toLocaleString('fr-FR')} FCFA via ${provider}.\n\nAprès validation, votre reçu sera généré.`)) {
-            
-            // Marquer comme réservée localement
-            if (selectedRoom) selectedRoom.occupied_count++;
-
-            window.open(telUrl, '_self');
-
-            const ref = "TXN-" + Math.floor(Math.random() * 1000000);
-            const msg = encodeURIComponent(`Bonjour, je viens de procéder au paiement de ma réservation sur le site.\n\nRéférence: ${ref}\nLogement: ${selectedRoom ? selectedRoom.name : 'Chambre'}\nMontant: ${amount} FCFA\nNuméro Payeur: ${phone}`);
-            
-            setTimeout(() => {
-                window.open(`https://wa.me/242068970968?text=${msg}`, '_blank');
-            }, 1000);
-        }
     }
 </script>
 </body>
