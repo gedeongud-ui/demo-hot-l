@@ -1,1317 +1,398 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edmond Hôtel Brazzaville - Réservation & Restaurant Rooftop</title>
-    <style>
-        :root {
-            --primary-bordeaux: #7A0C1E;
-            --primary-dark: #500713;
-            --gold-accent: #D4AF37;
-            --gold-light: #f7efd2;
-            --dark-color: #1a1a1a;
-            --light-bg: #FAF8f5;
-            --border-color: #e2d9cc;
-            --text-muted: #666;
-            --whatsapp-color: #25D366;
-            --email-color: #0066cc;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hôtel Edmond - Site Officiel</title>
+  <style>
+    :root {
+      --primary: #c5a059;
+      --primary-dark: #a37f3e;
+      --dark: #121212;
+      --light: #f8f9fa;
+      --gray: #6c757d;
+      --card-bg: #ffffff;
+      --transition: all 0.3s ease;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        body {
-            background-color: #3b312b;
-            color: var(--dark-color);
-            display: flex;
-            justify-content: center;
-        }
+    body {
+      background-color: #f4f6f8;
+      color: #333;
+      line-height: 1.6;
+    }
 
-        .mobile-container {
-            width: 100%;
-            max-width: 500px;
-            background: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: 0 0 30px rgba(0,0,0,0.3);
-        }
+    /* Navbar */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(18, 18, 18, 0.9);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+    }
 
-        /* HEADER FIXE */
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 18px;
-            border-bottom: 2px solid var(--gold-accent);
-            background: var(--primary-bordeaux);
-            color: #ffffff;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    .logo {
+      color: var(--primary);
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
 
-        .menu-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #fff;
-            cursor: pointer;
-            padding: 4px;
-        }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
 
-        .logo-title {
-            font-size: 16px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-align: center;
-            color: var(--gold-accent);
-        }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
 
-        .lang-switch-head {
-            background: rgba(255,255,255,0.15);
-            border: 1px solid var(--gold-accent);
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+    nav a:hover {
+      color: var(--primary);
+    }
 
-        /* DRAWER LATÉRAL MENU */
-        .drawer-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            display: none;
-            z-index: 200;
-        }
+    /* Hero Section - Image de tout l'établissement */
+    .hero {
+      position: relative;
+      height: 85vh;
+      background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.65)), url('image_219f4c.jpg') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      padding: 0 1rem;
+      margin-top: 60px;
+    }
 
-        .drawer {
-            position: fixed;
-            top: 0;
-            left: -85%;
-            width: 85%;
-            max-width: 320px;
-            height: 100%;
-            background: #fff;
-            z-index: 201;
-            transition: left 0.3s ease;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+      color: #ffffff;
+    }
 
-        .drawer.active {
-            left: 0;
-        }
+    .hero p {
+      font-size: 1.3rem;
+      max-width: 650px;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+    }
 
-        .drawer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.8rem 2rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+    }
 
-        .drawer-brand {
-            font-weight: 800;
-            color: var(--primary-bordeaux);
-            font-size: 16px;
-        }
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
 
-        .close-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            padding: 6px 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    /* Section Styles */
+    .container {
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 1.5rem;
+    }
 
-        .drawer-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 10px;
-        }
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
 
-        .drawer-menu li a {
-            text-decoration: none;
-            color: var(--dark-color);
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px dashed var(--border-color);
-        }
+    .section-subtitle {
+      text-align: center;
+      color: var(--gray);
+      margin-bottom: 3rem;
+    }
 
-        /* BARRE DE NAVIGATION FLÈCHES */
-        .step-nav-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 18px;
-            background: var(--light-bg);
-            border-bottom: 1px solid var(--border-color);
-        }
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
 
-        .nav-arrow {
-            background: #fff;
-            border: 1px solid var(--gold-accent);
-            color: var(--primary-bordeaux);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+    .card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: var(--transition);
+    }
 
-        .nav-arrow:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            border-color: var(--border-color);
-        }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
 
-        .step-indicator {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--primary-bordeaux);
-        }
+    .card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
 
-        /* ÉTAPES CONTENT */
-        .step-content {
-            display: none;
-            padding: 20px;
-            flex: 1;
-        }
+    .card-body {
+      padding: 1.5rem;
+    }
 
-        .step-content.active {
-            display: block;
-        }
+    .card-title {
+      font-size: 1.3rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
 
-        h2 {
-            font-size: 19px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--primary-bordeaux);
-            border-left: 4px solid var(--gold-accent);
-            padding-left: 10px;
-        }
+    .card-text {
+      color: var(--gray);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+    .price {
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
 
-        .form-row-three {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-        }
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: #fff;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 4rem;
+    }
 
-        label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
+    /* Banner Cookies */
+    .cookie-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #1e1e1e;
+      color: #fff;
+      padding: 1.2rem 2rem;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      z-index: 2000;
+      border-top: 2px solid var(--primary);
+      transform: translateY(0);
+      transition: transform 0.4s ease-in-out;
+    }
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            font-size: 14px;
-            background: #fff;
-            border-radius: 4px;
-        }
+    .cookie-banner.hidden {
+      transform: translateY(100%);
+    }
 
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
-            background: var(--primary-bordeaux);
-            color: #fff;
-            border: 1px solid var(--gold-accent);
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            margin-top: 10px;
-            border-radius: 4px;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+    .cookie-text {
+      max-width: 800px;
+      font-size: 0.9rem;
+      color: #ddd;
+    }
 
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
+    .cookie-text a {
+      color: var(--primary);
+      text-decoration: underline;
+    }
 
-        .btn-whatsapp { background: var(--whatsapp-color); color: #fff; border: none; }
-        .btn-email { background: var(--email-color); color: #fff; border: none; }
+    .cookie-btns {
+      display: flex;
+      gap: 0.8rem;
+    }
 
-        /* CARTES ROOFTOP ET RESTAURANT */
-        .feature-banner {
-            background: linear-gradient(rgba(122, 12, 30, 0.85), rgba(80, 7, 19, 0.9)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80') center/cover;
-            color: #fff;
-            border: 1px solid var(--gold-accent);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    .btn-accept {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
 
-        .feature-banner h3 {
-            color: var(--gold-accent);
-            font-size: 16px;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
+    .btn-decline {
+      background: transparent;
+      color: #ccc;
+      border: 1px solid #555;
+      padding: 0.6rem 1.4rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-        .feature-banner p {
-            font-size: 12px;
-            line-height: 1.5;
-            opacity: 0.95;
-        }
+    .btn-accept:hover {
+      background: var(--primary-dark);
+    }
 
-        /* FILTRES ET CARTES CHAMBRES */
-        .filter-tabs {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        .filter-btn {
-            background: #fff;
-            border: 1px solid var(--border-color);
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-
-        .filter-btn.active {
-            background: var(--primary-bordeaux);
-            color: #fff;
-            border-color: var(--gold-accent);
-        }
-
-        .room-card {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: #fff;
-            overflow: hidden;
-            margin-bottom: 22px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-            position: relative;
-        }
-
-        .smart-tag {
-            background: var(--gold-light);
-            color: var(--primary-bordeaux);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 6px 12px;
-            border-bottom: 1px solid var(--gold-accent);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .compartments-strip {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding: 10px;
-            background: #faf8f5;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .compartment-box {
-            flex: 0 0 115px;
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        .compartment-img {
-            width: 100%;
-            height: 75px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .compartment-name {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 4px;
-            color: var(--dark-color);
-            background: #fff;
-        }
-
-        .room-details { padding: 14px; }
-        .room-header-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-        .room-title { font-size: 16px; font-weight: 700; color: var(--primary-bordeaux); }
-        .room-badge-type { font-size: 10px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; font-weight: 700; background: var(--gold-light); color: var(--primary-bordeaux); border: 1px solid var(--gold-accent); }
-        .room-specs { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.4; }
-        .room-price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-color); }
-        .room-price { font-size: 17px; font-weight: 800; color: var(--primary-bordeaux); }
-        .room-price span { font-size: 11px; color: var(--text-muted); font-weight: 400; }
-        
-        .load-more-btn { background: #fff; color: var(--primary-bordeaux); border: 1px solid var(--gold-accent); padding: 12px; width: 100%; font-weight: 700; font-size: 13px; cursor: pointer; border-radius: 4px; margin-bottom: 20px; }
-
-        /* TICKET RECAPITULATIF */
-        .ticket-card { background: #ffffff; border: 2px dashed var(--gold-accent); border-radius: 8px; padding: 18px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-        .ticket-header { text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 12px; }
-        .ticket-header h3 { font-size: 16px; color: var(--primary-bordeaux); text-transform: uppercase; letter-spacing: 1px; }
-        .ticket-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
-        .ticket-label { color: var(--text-muted); font-weight: 500; }
-        .ticket-value { font-weight: 700; color: var(--dark-color); text-align: right; }
-        .ticket-total-row { border-top: 2px solid var(--dark-color); padding-top: 10px; margin-top: 12px; font-size: 16px; font-weight: 800; }
-
-        /* MODALES */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 300; justify-content: center; align-items: center; padding: 20px; }
-        .modal-card { background: #fff; width: 100%; max-width: 440px; max-height: 85vh; border-radius: 8px; overflow-y: auto; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-
-        /* FOOTER REPRODUIT */
-        .footer-reproduction { background: #faf8f5; border-top: 2px solid var(--gold-accent); margin-top: 30px; padding: 25px 20px; }
-        .advantage-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 18px; }
-        .advantage-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--gold-light); border: 1px solid var(--gold-accent); color: var(--primary-bordeaux); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-        .advantage-text h4 { font-size: 14px; margin-bottom: 3px; }
-        .advantage-text p { font-size: 12px; color: var(--text-muted); }
-        .contact-box { background: #fff; padding: 15px; border: 1px solid var(--border-color); margin-bottom: 20px; border-radius: 6px; }
-        .social-icons { display: flex; justify-content: center; gap: 12px; margin: 20px 0; }
-        .social-btn { width: 40px; height: 40px; border: 1px solid var(--gold-accent); background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; text-decoration: none; color: var(--primary-bordeaux); transition: transform 0.2s; }
-        .social-btn:hover { transform: scale(1.1); background: var(--gold-light); }
-        .legal-links { text-align: center; font-size: 11px; color: var(--text-muted); line-height: 1.8; }
-    </style>
+    .btn-decline:hover {
+      background: #333;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
 
-<div class="mobile-container">
-    <!-- EN-TÊTE FIXE EDMOND HOTEL -->
-    <header>
-        <button class="menu-btn" id="openDrawerBtn" aria-label="Menu">☰</button>
-        <div class="logo-title">EDMOND HÔTEL<br><span style="font-size: 9px; font-weight: 300; letter-spacing: 1px; color: #fff;">BRAZZAVILLE</span></div>
-        <button class="lang-switch-head" onclick="toggleLanguage()" id="langToggleBtn">EN 🇺🇸</button>
-    </header>
+  <!-- En-tête -->
+  <header>
+    <a href="#" class="logo">Hôtel Edmond</a>
+    <nav>
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#chambres">Chambres</a></li>
+        <li><a href="#rooftop">Rooftop & Terrasse</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <!-- DRAWER LATÉRAL MENU -->
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-    <div class="drawer" id="drawer">
-        <div class="drawer-header">
-            <div class="drawer-brand">GROUPE EDMOND</div>
-            <button class="close-btn" id="closeDrawerBtn">✕</button>
+  <!-- Section Accueil avec la photo de tout l'établissement -->
+  <section id="accueil" class="hero">
+    <h1>Bienvenue à l'Hôtel Edmond</h1>
+    <p>Découvrez un cadre d'exception alliant prestige, confort moderne et vue panoramique inégalée.</p>
+    <a href="#chambres" class="btn">Réserver Votre Séjour</a>
+  </section>
+
+  <!-- Section Chambres -->
+  <section id="chambres" class="container">
+    <h2 class="section-title">Nos Chambres & Suites</h2>
+    <p class="section-subtitle">Un havre de paix aménagé pour votre confort absolu</p>
+
+    <div class="grid">
+      <!-- Chambre 1 -->
+      <div class="card">
+        <img src="image_219f8b.jpg" alt="Chambre Romantique / VIP Edmond Hotel">
+        <div class="card-body">
+          <h3 class="card-title">Chambre Romantique VIP</h3>
+          <p class="card-text">Décoration personnalisée, écran plat HD, ambiance chaleureuse et service attentionné pour vos moments spéciaux.</p>
+          <span class="price">Sur Demande</span>
         </div>
-        <ul class="drawer-menu">
-            <li><a href="#" onclick="closeDrawer(); goToStep(1);"><span data-i18n="menuHome">Page d'accueil</span> <span>›</span></a></li>
-            <li><a href="#" onclick="openMyBookingsModal();"><span data-i18n="menuMyBookings">Mes réservations</span> <span>›</span></a></li>
-            <li><a href="#" onclick="closeDrawer(); goToStep(3);"><span data-i18n="menuRooms">Toutes les chambres (100)</span> <span>›</span></a></li>
-            <li><a href="#" onclick="openRooftopModal();"><span data-i18n="menuRooftop">Restaurant Rooftop (6e ét.)</span> <span>›</span></a></li>
-            <li><a href="#" onclick="toggleLanguage();"><span data-i18n="menuLang">Langue (FR / EN)</span> <span id="currentLangLabel">FR</span></a></li>
-        </ul>
-        <div style="margin-top: auto; font-size: 11px; color: var(--text-muted); text-align: center;">
-            📍 24 Avenue des 3 Martyrs, Plateaux des 15 ans<br>Brazzaville, Congo
+      </div>
+
+      <!-- Chambre 2 -->
+      <div class="card">
+        <img src="image_21a293.jpg" alt="Chambre Deluxe Edmond Hotel">
+        <div class="card-body">
+          <h3 class="card-title">Chambre Deluxe</h3>
+          <p class="card-text">Espace spacieux avec salon privé, tapis de luxe et grand lit king-size pour une détente totale.</p>
+          <span class="price">À partir de 60 000 FCFA / nuit</span>
         </div>
+      </div>
+
+      <!-- Chambre 3 -->
+      <div class="card">
+        <img src="image_21a2d1.png" alt="Chambre Executive Edmond Hotel">
+        <div class="card-body">
+          <h3 class="card-title">Chambre Executive</h3>
+          <p class="card-text">Finitions en bois noble, espace de travail ergonomique et connexion Wi-Fi haut débit.</p>
+          <span class="price">À partir de 50 000 FCFA / nuit</span>
+        </div>
+      </div>
+
+      <!-- Chambre 4 -->
+      <div class="card">
+        <img src="image_21a2f2.png" alt="Chambre Standard Supérieure Edmond Hotel">
+        <div class="card-body">
+          <h3 class="card-title">Chambre Standard Supérieure</h3>
+          <p class="card-text">Cadre élégant avec éclairage tamisé et salle de bain moderne attenante.</p>
+          <span class="price">À partir de 40 000 FCFA / nuit</span>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- BARRE DE NAVIGATION FLÈCHES MANUELLES -->
-    <div class="step-nav-bar">
-        <button class="nav-arrow" id="prevStepBtn" title="Étape précédente">←</button>
-        <div class="step-indicator" id="stepIndicatorTitle">1. ACCUEIL</div>
-        <button class="nav-arrow" id="nextStepBtn" title="Étape suivante">→</button>
+  <!-- Section Rooftop & Ebauches -->
+  <section id="rooftop" class="container">
+    <h2 class="section-title">Espaces Rooftop & Detente</h2>
+    <p class="section-subtitle">Profitez de moments uniques sur les hauteurs de l'établissement</p>
+
+    <div class="grid">
+      <!-- Rooftop 1 -->
+      <div class="card">
+        <img src="image_219ef5.jpg" alt="Terrasse Gazebo Rooftop Edmond Hotel">
+        <div class="card-body">
+          <h3 class="card-title">Terrasse Panoramique & Gazebo</h3>
+          <p class="card-text">Espace lounge en plein air doté de gazebos privatifs, fauteuils confortables et gazon synthétique.</p>
+        </div>
+      </div>
+
+      <!-- Rooftop 2 -->
+      <div class="card">
+        <img src="image_219fcb.jpg" alt="Lounge Plein Air Rooftop Edmond Hotel">
+        <div class="card-body">
+          <h3 class="card-title">Rooftop Lounge & Projection</h3>
+          <p class="card-text">Vue plongeante sur la ville, idéal pour vos événements privatifs, soirées et moments de relaxation.</p>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- ÉTAPE 1 : PAGE D'ACCUEIL -->
-    <div class="step-content active" id="step1">
-        <div style="text-align: center; margin-bottom: 15px;">
-            <p style="font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-accent); font-weight: 700;" data-i18n="welcomeSub">Bienvenue à l'Edmond Hôtel</p>
-            <h2 style="margin-top: 5px;" data-i18n="welcomeTitle">Un séjour luxueux au cœur de Brazzaville</h2>
-        </div>
+  <!-- Pied de page -->
+  <footer id="contact">
+    <p>&copy; 2026 Hôtel Edmond. Tous droits réservés.</p>
+  </footer>
 
-        <div style="width: 100%; height: 200px; background: url('https://cg.ezalocal.com/wp-content/uploads/2021/04/edmond-hotel-brazzaville.jpg') center/cover; margin-bottom: 15px; border-radius: 6px; border: 1px solid var(--gold-accent);"></div>
-        
-        <!-- BANNIÈRE RESTAURANT & ROOFTOP (6ÉME ÉTAGE) -->
-        <div class="feature-banner">
-            <h3 data-i18n="rooftopBannerTitle">🍽️ Restaurant & Rooftop au 6ᵉ étage</h3>
-            <p data-i18n="rooftopBannerDesc">
-                Savourez les créations gastronomiques et nouveaux desserts de notre Chef en terrasse, tout en admirant une vue imprenable sur tout Brazzaville.
-            </p>
-        </div>
-
-        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; text-align: center; margin-bottom: 20px;" data-i18n="welcomeDesc">
-            Situé idéalement au 24 Avenue des 3 Martyrs aux Plateaux des 15 ans, le Groupe Edmond vous accueille avec 100 chambres raffinées, parking privé, wifi haut débit et service sur-mesure.
-        </p>
-
-        <button class="btn-primary" onclick="goToStep(2)" data-i18n="btnStart">Réserver mon séjour maintenant</button>
+  <!-- Bannière de Protection & Consentement des Cookies -->
+  <div id="cookieBanner" class="cookie-banner">
+    <div class="cookie-text">
+      <strong>Protection de vos données & Cookies :</strong> Nous utilisons des cookies pour améliorer votre expérience de navigation, sécuriser la page et analyser notre trafic. En poursuivant votre navigation, vous acceptez notre utilisation des cookies. <a href="#">En savoir plus</a>.
     </div>
-
-    <!-- ÉTAPE 2 : DATES, HEURES & INVITÉS -->
-    <div class="step-content" id="step2">
-        <h2 data-i18n="step2Title">Dates & Occupants</h2>
-        <form id="step2Form">
-            <div class="form-group">
-                <label for="checkin" data-i18n="lblCheckin">Date d'arrivée</label>
-                <input type="date" id="checkin" required>
-            </div>
-            <div class="form-group">
-                <label for="checkout" data-i18n="lblCheckout">Date de départ</label>
-                <input type="date" id="checkout" required>
-            </div>
-            <div class="form-group">
-                <label for="checktime" data-i18n="lblTime">Heure d'arrivée souhaitée</label>
-                <input type="time" id="checktime" value="14:00" required>
-            </div>
-            
-            <div class="form-group">
-                <label data-i18n="lblOccupants">Nombre de Chambres & Personnes</label>
-                <div class="form-row-three">
-                    <div>
-                        <label for="roomsCount" style="font-size: 10px;" data-i18n="lblRooms">Chambre(s)</label>
-                        <input type="number" id="roomsCount" min="1" value="1" required>
-                    </div>
-                    <div>
-                        <label for="adultsCount" style="font-size: 10px;" data-i18n="lblAdults">Adulte(s)</label>
-                        <input type="number" id="adultsCount" min="1" value="2" required>
-                    </div>
-                    <div>
-                        <label for="childrenCount" style="font-size: 10px;" data-i18n="lblChildren">Enfant(s)</label>
-                        <input type="number" id="childrenCount" min="0" value="0" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="promoCode" data-i18n="lblPromo">Code Promo (Optionnel)</label>
-                <input type="text" id="promoCode" placeholder="Code">
-            </div>
-            <button type="button" class="btn-primary" onclick="goToStep(3)" data-i18n="btnStep2">Voir nos 100 chambres</button>
-        </form>
+    <div class="cookie-btns">
+      <button class="btn-decline" onclick="declineCookies()">Refuser</button>
+      <button class="btn-accept" onclick="acceptCookies()">Accepter tout</button>
     </div>
+  </div>
 
-    <!-- ÉTAPE 3 : CHOIX CHAMBRE -->
-    <div class="step-content" id="step3">
-        <div style="background: var(--light-bg); padding: 10px 12px; border: 1px solid var(--border-color); margin-bottom: 12px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; border-radius: 4px;">
-            <div id="summaryBarText">Du 15/09 au 16/09<br>1 chambre, 2 adultes</div>
-            <button onclick="goToStep(2)" style="background: none; border: none; text-decoration: underline; cursor: pointer; font-size: 11px; color: var(--primary-bordeaux);" data-i18n="btnModify">Modifier</button>
-        </div>
-
-        <h2 data-i18n="step3Title">Choisir votre chambre</h2>
-
-        <div class="filter-tabs">
-            <button class="filter-btn active" onclick="setCategoryFilter('all', this)" data-i18n="filterAll">Toutes (100)</button>
-            <button class="filter-btn" onclick="setCategoryFilter('standard', this)" data-i18n="filterStandard">Standards</button>
-            <button class="filter-btn" onclick="setCategoryFilter('vip', this)" data-i18n="filterVip">VIP & Luxe</button>
-            <button class="filter-btn" onclick="setCategoryFilter('multi', this)" data-i18n="filterMulti">2+ Chambres</button>
-        </div>
-
-        <div id="roomsContainer"></div>
-
-        <button id="loadMoreBtn" class="load-more-btn" onclick="loadMoreRooms()" style="display: none;" data-i18n="btnLoadMore">
-            Afficher plus de chambres (+)
-        </button>
-    </div>
-
-    <!-- ÉTAPE 4 : RENSEIGNEMENTS CLIENT -->
-    <div class="step-content" id="step4">
-        <h2 data-i18n="step4Title">Renseignements Client</h2>
-        <form id="step4Form">
-            <div class="form-group">
-                <label for="prefix" data-i18n="lblCivility">Civilité *</label>
-                <select id="prefix" required>
-                    <option value="M.">M.</option>
-                    <option value="Mme">Mme</option>
-                    <option value="Mlle">Mlle / Ms</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="firstname" data-i18n="lblFirstName">Prénom *</label>
-                <input type="text" id="firstname" required placeholder="Ex: Blessing">
-            </div>
-            <div class="form-group">
-                <label for="lastname" data-i18n="lblLastName">Nom de famille *</label>
-                <input type="text" id="lastname" required placeholder="Ex: Tsiobinda">
-            </div>
-            <div class="form-group">
-                <label for="phone" data-i18n="lblPhone">Téléphone / WhatsApp *</label>
-                <input type="tel" id="phone" required placeholder="Ex: +242 06 966 96 02">
-            </div>
-            <div class="form-group">
-                <label for="email" data-i18n="lblEmail">Adresse courriel *</label>
-                <input type="email" id="email" required placeholder="exemple@gmail.com">
-            </div>
-            <div class="form-group">
-                <label for="country" data-i18n="lblCountry">Pays de résidence *</label>
-                <select id="country" required></select>
-            </div>
-
-            <!-- OPTION NAVETTE -->
-            <div class="form-group" style="background: var(--gold-light); padding: 12px; border: 1px solid var(--gold-accent); border-radius: 6px; margin-top: 15px;">
-                <div style="display: flex; gap: 10px; align-items: flex-start;">
-                    <input type="checkbox" id="airportShuttle" style="width: 20px; height: 20px; margin-top: 2px;" onchange="updateTotalPriceCalculation()">
-                    <div>
-                        <label for="airportShuttle" style="margin: 0; color: var(--primary-bordeaux); font-size: 12px; text-transform: none; cursor: pointer;">
-                            <strong data-i18n="shuttleTitle">🚙 Navette / Transfert Aéroport Maya-Maya (+15 000 FCFA)</strong>
-                        </label>
-                        <p style="font-size: 11px; color: var(--text-muted); margin-top: 3px;" data-i18n="shuttleDesc">
-                            Prise en charge personnalisée à votre arrivée à l'aéroport de Brazzaville.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <button type="button" class="btn-primary" onclick="goToStep(5)" data-i18n="btnStep4">Générer mon ticket de réservation</button>
-        </form>
-    </div>
-
-    <!-- ÉTAPE 5 : TICKET -->
-    <div class="step-content" id="step5">
-        <h2 data-i18n="step5Title">Validation du Ticket</h2>
-        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;" data-i18n="step5Desc">
-            Voici votre ticket de réservation pour l'Edmond Hôtel. Transmettez-le à la réception pour finaliser les modalités de paiement.
-        </p>
-
-        <div class="ticket-card" id="ticketPreview">
-            <div class="ticket-header">
-                <h3>🎟️ EDMOND HÔTEL - TICKET</h3>
-                <p style="font-size: 10px; color: var(--text-muted);" id="ticketRefNumber">RÉF : EDM-2026-XXXX</p>
-            </div>
-
-            <div class="ticket-row"><span class="ticket-label" data-i18n="tLblClient">Client :</span><span class="ticket-value" id="tClient">---</span></div>
-            <div class="ticket-row"><span class="ticket-label" data-i18n="tLblPhone">Téléphone :</span><span class="ticket-value" id="tPhone">---</span></div>
-            <div class="ticket-row"><span class="ticket-label" data-i18n="tLblEmail">Email :</span><span class="ticket-value" id="tEmail">---</span></div>
-            <div class="ticket-row"><span class="ticket-label" data-i18n="tLblCountry">Pays :</span><span class="ticket-value" id="tCountry">---</span></div>
-
-            <div style="border-top: 1px dashed #ccc; margin: 10px 0;"></div>
-
-            <div class="ticket-row"><span class="ticket-label" data-i18n="tLblRoom">Chambre :</span><span class="ticket-value" id="tRoomName">---</span></div>
-            <div class="ticket-row"><span class="ticket-label" data-i18n="tLblRoomsCount">Sélection :</span><span class="ticket-value" id="tRoomsCount">---</span></div>
-            <div class="ticket-row"><span class="ticket-label" data-i18n="tLblPeriod">SÉJOUR :</span><span class="ticket-value" id="tDates">---</span></div>
-            <div class="ticket-row"><span class="ticket-label" data-i18n="tLblTime">Heure Arrivée :</span><span class="ticket-value" id="tTime">---</span></div>
-            <div class="ticket-row"><span class="ticket-label" data-i18n="tLblShuttle">Navette Aéroport :</span><span class="ticket-value" id="tAirport">Non</span></div>
-
-            <div class="ticket-row ticket-total-row">
-                <span data-i18n="tLblTotal">PRIX TOTAL :</span>
-                <span style="color: var(--primary-bordeaux);" id="tTotalPrice">0 FCFA</span>
-            </div>
-        </div>
-
-        <button class="btn-primary btn-whatsapp" onclick="sendTicketViaWhatsApp()">
-            <span>📱</span> <span data-i18n="btnWhatsApp">Envoyer le ticket par WhatsApp</span>
-        </button>
-
-        <button class="btn-primary btn-email" style="margin-top: 10px;" onclick="sendTicketViaEmail()">
-            <span>✉️</span> <span data-i18n="btnEmail">Envoyer le ticket par Email</span>
-        </button>
-    </div>
-
-    <!-- MODALE RESTAURANT & ROOFTOP -->
-    <div class="modal-overlay" id="rooftopModal">
-        <div class="modal-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="color: var(--primary-bordeaux);" data-i18n="rooftopModalTitle">🍷 Restaurant Rooftop (6ᵉ étage)</h3>
-                <button onclick="closeRooftopModal()" style="background: none; border: none; font-size: 18px; cursor: pointer;">✕</button>
-            </div>
-            <div style="width: 100%; height: 140px; background: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=500&q=80') center/cover; border-radius: 6px; margin-bottom: 12px;"></div>
-            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6;" data-i18n="rooftopModalDesc">
-                Situé en terrasse au 6ᵉ étage de l'Edmond Hôtel, notre restaurant panoramique vous propose une cuisine raffinée préparée par notre Chef. Venez découvrir nos nouveaux desserts artisanaux, nos cocktails signature et profiter d'une vue dégagée sur les lumières de Brazzaville.
-            </p>
-        </div>
-    </div>
-
-    <!-- MODALE MES RÉSERVATIONS -->
-    <div class="modal-overlay" id="myBookingsModal">
-        <div class="modal-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="color: var(--primary-bordeaux);" data-i18n="myBookingsTitle">Mes Réservations Enregistrées</h3>
-                <button onclick="closeMyBookingsModal()" style="background: none; border: none; font-size: 18px; cursor: pointer;">✕</button>
-            </div>
-            <div id="myBookingsList"></div>
-        </div>
-    </div>
-
-    <!-- PIED DE PAGE ET AVANTAGES -->
-    <div class="footer-reproduction">
-        <h3 style="font-size: 14px; text-transform: uppercase; margin-bottom: 18px; text-align: center; color: var(--primary-bordeaux);" data-i18n="footerAdvTitle">
-            Vos avantages au Groupe Edmond
-        </h3>
-
-        <div class="advantage-item">
-            <div class="advantage-icon">🏙️</div>
-            <div class="advantage-text">
-                <h4 data-i18n="advRooftopTitle">Restaurant Panoramique 6ᵉ Étage</h4>
-                <p data-i18n="advRooftopDesc">Terrasse rooftop avec vue sur Brazzaville & desserts d'exception du Chef.</p>
-            </div>
-        </div>
-
-        <div class="advantage-item">
-            <div class="advantage-icon">🅿️</div>
-            <div class="advantage-text">
-                <h4 data-i18n="advParkTitle">Parking Privé & Sécurisé</h4>
-                <p data-i18n="advParkDesc">Stationnement gratuit pour les résidents de l'hôtel.</p>
-            </div>
-        </div>
-
-        <div class="advantage-item">
-            <div class="advantage-icon">💬</div>
-            <div class="advantage-text">
-                <h4 data-i18n="adv2Title">Service Client & WhatsApp 24/7</h4>
-                <p data-i18n="adv2Desc">Échangez instantanément avec l'équipe de réception.</p>
-            </div>
-        </div>
-
-        <div class="contact-box" style="text-align: center;">
-            <h4 style="margin-bottom: 6px; color: var(--primary-bordeaux);" data-i18n="contactBoxTitle">Réception Groupe Edmond</h4>
-            <p style="font-size: 13px; font-weight: bold; color: var(--primary-bordeaux);">+242 06 966 96 02 / +242 05 588 88 72</p>
-            <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">officieledmondhotel@gmail.com</p>
-        </div>
-
-        <div style="font-size: 11px; line-height: 1.8; text-align: center; color: var(--text-muted); margin-bottom: 15px;">
-            <strong>GROUPE EDMOND HÔTEL BRAZZAVILLE</strong><br>
-            24 Avenue des 3 Martyrs, Plateaux des 15 ans<br>
-            Brazzaville, République du Congo
-        </div>
-
-        <div class="social-icons">
-            <a href="https://www.instagram.com/" target="_blank" class="social-btn" title="Instagram">📷</a>
-            <a href="https://www.facebook.com/" target="_blank" class="social-btn" title="Facebook">f</a>
-            <a href="https://wa.me/242069669602" target="_blank" class="social-btn" title="WhatsApp">💬</a>
-            <a href="https://x.com/" target="_blank" class="social-btn" title="X (Twitter)">𝕏</a>
-            <a href="https://www.youtube.com/" target="_blank" class="social-btn" title="YouTube">▶</a>
-        </div>
-
-        <div class="legal-links">
-            <p><a href="#" style="color: inherit;" data-i18n="linkPrivacy">Politique de confidentialité</a></p>
-            <p><a href="#" style="color: inherit;" data-i18n="linkTerms">Conditions de vente</a></p>
-            <br>
-            <p>© 2026 GROUPE EDMOND. Tous droits réservés.</p>
-        </div>
-    </div>
-</div>
-
-<script>
-    // -------------------------------------------------------------
-    // 1. BASE DE DONNÉES CHAMBRES
-    // -------------------------------------------------------------
-    const photosPool = {
-        bedroom: [
-            'https://cg.ezalocal.com/wp-content/uploads/2021/04/edmond-hotel-brazzaville.jpg',
-            'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=300&q=80',
-            'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=300&q=80',
-            'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80'
-        ],
-        bathroom: ['https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80'],
-        living: ['https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80']
-    };
-
-    const roomsDatabase = [];
-
-    for (let i = 1; i <= 100; i++) {
-        const roomNumber = 100 + i;
-        let category = 'standard';
-        let chambresCount = 1;
-        let price = 35000 + (i % 5) * 5000;
-        let nameFR = `Chambre Standard N° ${roomNumber}`;
-        let nameEN = `Standard Room #${roomNumber}`;
-        let descFR = 'Lit King Size • Climatisation • Wifi • Douche Privée • Acces Rooftop';
-        let descEN = 'King Size Bed • Air Conditioning • Free Wifi • Private Shower • Rooftop Access';
-
-        if (i % 3 === 0) {
-            category = 'vip';
-            chambresCount = 1;
-            price = 75000 + (i % 4) * 10000;
-            nameFR = `Suite Executive VIP N° ${roomNumber}`;
-            nameEN = `VIP Executive Suite #${roomNumber}`;
-            descFR = 'Lit King Size • Coin Salon • TV 55" • Service VIP & Petit Dej';
-            descEN = 'King Size Bed • Living Area • 55" TV • VIP Service & Breakfast';
-        } else if (i % 7 === 0) {
-            category = 'multi';
-            chambresCount = 2;
-            price = 120000 + (i % 3) * 15000;
-            nameFR = `Appartement 2 Chambres + Salon N° ${roomNumber}`;
-            nameEN = `2-Bedroom Apartment + Living Room #${roomNumber}`;
-            descFR = '2 Chambres Séparées • Grand Salon • Cuisine Équipée • Parking Privé';
-            descEN = '2 Separate Bedrooms • Large Living Room • Kitchen • Free Parking';
-        } else if (i % 15 === 0) {
-            category = 'multi';
-            chambresCount = 3;
-            price = 220000;
-            nameFR = `Suite Présidentielle 3 Chambres N° ${roomNumber}`;
-            nameEN = `3-Bedroom Presidential Suite #${roomNumber}`;
-            descFR = '3 Chambres Luxueuses • Grand Salon de Réception • Vue Panoramique';
-            descEN = '3 Luxury Bedrooms • Grand Reception Living Room • Panoramic View';
-        }
-
-        const compartments = [
-            { nameFR: 'Chambre', nameEN: 'Bedroom', img: photosPool.bedroom[i % photosPool.bedroom.length] },
-            { nameFR: 'Douche', nameEN: 'Bathroom', img: photosPool.bathroom[0] }
-        ];
-
-        if (chambresCount > 1 || category === 'vip') {
-            compartments.push({ nameFR: 'Salon', nameEN: 'Living Room', img: photosPool.living[0] });
-        }
-
-        roomsDatabase.push({
-            id: `room_${roomNumber}`,
-            number: roomNumber,
-            nameFR: nameFR,
-            nameEN: nameEN,
-            type: category,
-            chambres_count: chambresCount,
-            price: price,
-            descFR: descFR,
-            descEN: descEN,
-            compartments: compartments
-        });
-    }
-
-    // -------------------------------------------------------------
-    // 2. DICTIONNAIRE MULTILINGUE (FR / EN)
-    // -------------------------------------------------------------
-    let currentLang = 'FR';
-
-    const translations = {
-        FR: {
-            menuHome: "Page d'accueil",
-            menuMyBookings: "Mes réservations",
-            menuRooms: "Toutes les chambres (100)",
-            menuRooftop: "Restaurant Rooftop (6e ét.)",
-            menuLang: "Langue (FR / EN)",
-            welcomeSub: "Bienvenue à l'Edmond Hôtel",
-            welcomeTitle: "Un séjour luxueux au cœur de Brazzaville",
-            welcomeDesc: "Situé idéalement au 24 Avenue des 3 Martyrs aux Plateaux des 15 ans, le Groupe Edmond vous accueille avec 100 chambres raffinées, parking privé, wifi haut débit et service sur-mesure.",
-            rooftopBannerTitle: "🍽️ Restaurant & Rooftop au 6ᵉ étage",
-            rooftopBannerDesc: "Savourez les créations gastronomiques et nouveaux desserts de notre Chef en terrasse, tout en admirant une vue imprenable sur tout Brazzaville.",
-            btnStart: "Réserver mon séjour maintenant",
-            step2Title: "Dates & Occupants",
-            lblCheckin: "Date d'arrivée",
-            lblCheckout: "Date de départ",
-            lblTime: "Heure d'arrivée souhaitée",
-            lblOccupants: "Nombre de Chambres & Personnes",
-            lblRooms: "Chambre(s)",
-            lblAdults: "Adulte(s)",
-            lblChildren: "Enfant(s)",
-            lblPromo: "Code Promo (Optionnel)",
-            btnStep2: "Voir nos 100 chambres",
-            btnModify: "Modifier",
-            step3Title: "Choisir votre chambre",
-            filterAll: "Toutes (100)",
-            filterStandard: "Standards",
-            filterVip: "VIP & Luxe",
-            filterMulti: "2+ Chambres",
-            btnLoadMore: "Afficher plus de chambres (+)",
-            step4Title: "Renseignements Client",
-            lblCivility: "Civilité *",
-            lblFirstName: "Prénom *",
-            lblLastName: "Nom de famille *",
-            lblPhone: "Téléphone / WhatsApp *",
-            lblEmail: "Adresse courriel *",
-            lblCountry: "Pays de résidence *",
-            shuttleTitle: "🚙 Navette / Transfert Aéroport Maya-Maya (+15 000 FCFA)",
-            shuttleDesc: "Prise en charge personnalisée à votre arrivée à l'aéroport de Brazzaville.",
-            btnStep4: "Générer mon ticket de réservation",
-            step5Title: "Validation du Ticket",
-            step5Desc: "Voici votre ticket de réservation pour l'Edmond Hôtel. Transmettez-le à la réception pour finaliser les modalités de paiement.",
-            tLblClient: "Client :",
-            tLblPhone: "Téléphone :",
-            tLblEmail: "Email :",
-            tLblCountry: "Pays :",
-            tLblRoom: "Chambre :",
-            tLblRoomsCount: "Sélection :",
-            tLblPeriod: "SÉJOUR :",
-            tLblTime: "Heure Arrivée :",
-            tLblShuttle: "Navette Aéroport :",
-            tLblTotal: "PRIX TOTAL :",
-            btnWhatsApp: "Envoyer le ticket par WhatsApp",
-            btnEmail: "Envoyer le ticket par Email",
-            myBookingsTitle: "Mes Réservations Enregistrées",
-            rooftopModalTitle: "🍷 Restaurant Rooftop (6ᵉ étage)",
-            rooftopModalDesc: "Situé en terrasse au 6ᵉ étage de l'Edmond Hôtel, notre restaurant panoramique vous propose une cuisine raffinée préparée par notre Chef. Venez découvrir nos nouveaux desserts artisanaux, nos cocktails signature et profiter d'une vue dégagée sur les lumières de Brazzaville.",
-            footerAdvTitle: "Vos avantages au Groupe Edmond",
-            advRooftopTitle: "Restaurant Panoramique 6ᵉ Étage",
-            advRooftopDesc: "Terrasse rooftop avec vue sur Brazzaville & desserts d'exception du Chef.",
-            advParkTitle: "Parking Privé & Sécurisé",
-            advParkDesc: "Stationnement gratuit pour les résidents de l'hôtel.",
-            adv2Title: "Service Client & WhatsApp 24/7",
-            adv2Desc: "Échangez instantanément avec l'équipe de réception.",
-            contactBoxTitle: "Réception Groupe Edmond",
-            linkPrivacy: "Politique de confidentialité",
-            linkTerms: "Conditions de vente"
-        },
-        EN: {
-            menuHome: "Home Page",
-            menuMyBookings: "My Bookings",
-            menuRooms: "All Rooms (100)",
-            menuRooftop: "Rooftop Restaurant (6th fl.)",
-            menuLang: "Language (FR / EN)",
-            welcomeSub: "Welcome to Edmond Hotel",
-            welcomeTitle: "A Luxury Stay in the Heart of Brazzaville",
-            welcomeDesc: "Ideally located at 24 Avenue des 3 Martyrs in Plateaux des 15 ans, Groupe Edmond welcomes you with 100 refined rooms, private parking, high-speed Wi-Fi, and tailored hospitality.",
-            rooftopBannerTitle: "🍽️ 6th Floor Rooftop Restaurant",
-            rooftopBannerDesc: "Enjoy our Chef's gourmet creations and new artisanal desserts on the terrace with a breath-taking panoramic view over Brazzaville.",
-            btnStart: "Book My Stay Now",
-            step2Title: "Dates & Guests",
-            lblCheckin: "Check-in Date",
-            lblCheckout: "Check-out Date",
-            lblTime: "Expected Arrival Time",
-            lblOccupants: "Number of Rooms & Guests",
-            lblRooms: "Room(s)",
-            lblAdults: "Adult(s)",
-            lblChildren: "Child(ren)",
-            lblPromo: "Promo Code (Optional)",
-            btnStep2: "Browse Our 100 Rooms",
-            btnModify: "Edit",
-            step3Title: "Select Your Room",
-            filterAll: "All (100)",
-            filterStandard: "Standard",
-            filterVip: "VIP & Luxury",
-            filterMulti: "2+ Bedrooms",
-            btnLoadMore: "Show More Rooms (+)",
-            step4Title: "Guest Information",
-            lblCivility: "Title *",
-            lblFirstName: "First Name *",
-            lblLastName: "Last Name *",
-            lblPhone: "Phone / WhatsApp *",
-            lblEmail: "Email Address *",
-            lblCountry: "Country of Residence *",
-            shuttleTitle: "🚙 Maya-Maya Airport Shuttle (+15,000 FCFA)",
-            shuttleDesc: "Personalized pickup service upon arrival at Brazzaville Airport.",
-            btnStep4: "Generate Reservation Ticket",
-            step5Title: "Ticket Validation",
-            step5Desc: "Here is your Edmond Hotel booking ticket. Send it to reception to finalize payment terms.",
-            tLblClient: "Guest:",
-            tLblPhone: "Phone:",
-            tLblEmail: "Email:",
-            tLblCountry: "Country:",
-            tLblRoom: "Room:",
-            tLblRoomsCount: "Selection:",
-            tLblPeriod: "STAY:",
-            tLblTime: "Arrival Time:",
-            tLblShuttle: "Airport Shuttle:",
-            tLblTotal: "TOTAL PRICE:",
-            btnWhatsApp: "Send Ticket via WhatsApp",
-            btnEmail: "Send Ticket via Email",
-            myBookingsTitle: "My Saved Bookings",
-            rooftopModalTitle: "🍷 6th Floor Rooftop Restaurant",
-            rooftopModalDesc: "Located on the 6th floor rooftop terrace of Edmond Hotel, our panoramic restaurant serves exquisite dishes prepared by our Chef. Discover artisanal desserts, signature cocktails, and panoramic views of Brazzaville.",
-            footerAdvTitle: "Your Benefits at Groupe Edmond",
-            advRooftopTitle: "6th Floor Panoramic Restaurant",
-            advRooftopDesc: "Rooftop terrace overlooking Brazzaville & Chef's signature desserts.",
-            advParkTitle: "Private Secure Parking",
-            advParkDesc: "Free parking for all hotel residents.",
-            adv2Title: "24/7 WhatsApp Front Desk",
-            adv2Desc: "Instant chat support with our reception team.",
-            contactBoxTitle: "Groupe Edmond Reception",
-            linkPrivacy: "Privacy Policy",
-            linkTerms: "Terms of Service"
-        }
-    };
-
-    function toggleLanguage() {
-        currentLang = (currentLang === 'FR') ? 'EN' : 'FR';
-        document.getElementById('langToggleBtn').innerText = (currentLang === 'FR') ? 'EN 🇺🇸' : 'FR 🇫🇷';
-        document.getElementById('currentLangLabel').innerText = currentLang;
-
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (translations[currentLang][key]) {
-                el.innerText = translations[currentLang][key];
-            }
-        });
-
-        if (currentStep === 3) renderStep3Rooms();
-        if (currentStep === 5) generateTicketPreview();
-    }
-
-    // -------------------------------------------------------------
-    // 3. PAYS DU MONDE
-    // -------------------------------------------------------------
-    const allCountriesList = [
-        "Congo (Brazzaville)", "United States", "France", "Congo (DRC)", "Côte d'Ivoire", "Gabon",
-        "Cameroon", "Senegal", "Angola", "Belgium", "Canada", "Switzerland", "United Kingdom",
-        "Algeria", "Germany", "Saudi Arabia", "Argentina", "Australia", "Benin", "Brazil",
-        "Burkina Faso", "China", "Egypt", "United Arab Emirates", "Spain", "Ghana", "Guinea",
-        "Italy", "Japan", "Mali", "Morocco", "Mauritania", "Niger", "Nigeria", "Rwanda", "Chad", "Togo", "Tunisia", "Turkey"
-    ];
-
-    function populateCountriesSelect() {
-        const select = document.getElementById('country');
-        select.innerHTML = '';
-        allCountriesList.forEach(c => {
-            const opt = document.createElement('option');
-            opt.value = c;
-            opt.innerText = c;
-            if (c === "Congo (Brazzaville)") opt.selected = true;
-            select.appendChild(opt);
-        });
-    }
-
-    // -------------------------------------------------------------
-    // 4. MOTEUR CHAMBRES
-    // -------------------------------------------------------------
-    let currentCategory = 'all';
-    let roomsDisplayedCount = 6;
-    let selectedRoom = roomsDatabase[0];
-
-    function renderStep3Rooms() {
-        const container = document.getElementById('roomsContainer');
-        container.innerHTML = '';
-        const requestedRooms = parseInt(document.getElementById('roomsCount').value) || 1;
-
-        let filtered = roomsDatabase.filter(room => {
-            if (currentCategory === 'standard') return room.type === 'standard';
-            if (currentCategory === 'vip') return room.type === 'vip';
-            if (currentCategory === 'multi') return room.chambres_count >= 2;
-            return true;
-        });
-
-        filtered.sort((a, b) => {
-            const aMatch = (a.chambres_count === requestedRooms) ? 1 : 0;
-            const bMatch = (b.chambres_count === requestedRooms) ? 1 : 0;
-            if (aMatch !== bMatch) return bMatch - aMatch;
-            return a.price - b.price;
-        });
-
-        const listToRender = filtered.slice(0, roomsDisplayedCount);
-
-        listToRender.forEach(room => {
-            const roomName = (currentLang === 'FR') ? room.nameFR : room.nameEN;
-            const roomDesc = (currentLang === 'FR') ? room.descFR : room.descEN;
-            const isSmartMatch = (room.chambres_count === requestedRooms && requestedRooms > 1);
-
-            let compartmentsHTML = '<div class="compartments-strip">';
-            room.compartments.forEach(comp => {
-                const compName = (currentLang === 'FR') ? comp.nameFR : comp.nameEN;
-                compartmentsHTML += `
-                    <div class="compartment-box">
-                        <div class="compartment-img" style="background-image: url('${comp.img}');"></div>
-                        <div class="compartment-name">📍 ${compName}</div>
-                    </div>
-                `;
-            });
-            compartmentsHTML += '</div>';
-
-            let smartTagText = (currentLang === 'FR') ? `🎯 Recommandé (${requestedRooms} Chambres)` : `🎯 Recommended (${requestedRooms} Rooms)`;
-            let smartTagHTML = isSmartMatch ? `<div class="smart-tag">${smartTagText}</div>` : '';
-            let selectBtnText = (currentLang === 'FR') ? 'Choisir' : 'Select';
-
-            container.innerHTML += `
-                <div class="room-card">
-                    ${smartTagHTML}
-                    ${compartmentsHTML}
-                    <div class="room-details">
-                        <div class="room-header-flex">
-                            <div class="room-title">${roomName}</div>
-                            <span class="room-badge-type">${room.chambres_count} ${currentLang === 'FR' ? 'Chambre(s)' : 'Bed(s)'}</span>
-                        </div>
-                        <div class="room-specs">${roomDesc}</div>
-                        <div class="room-price-row">
-                            <div class="room-price">${room.price.toLocaleString('fr-FR')} FCFA <span>/ ${currentLang === 'FR' ? 'nuit' : 'night'}</span></div>
-                            <button class="btn-primary" style="width: auto; padding: 10px 16px; margin: 0;" onclick="selectRoomChoice('${room.id}')">
-                                ${selectBtnText}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-
-        document.getElementById('loadMoreBtn').style.display = (roomsDisplayedCount < filtered.length) ? 'block' : 'none';
-    }
-
-    function setCategoryFilter(cat, btn) {
-        currentCategory = cat;
-        roomsDisplayedCount = 6;
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderStep3Rooms();
-    }
-
-    function loadMoreRooms() {
-        roomsDisplayedCount += 6;
-        renderStep3Rooms();
-    }
-
-    function selectRoomChoice(roomId) {
-        selectedRoom = roomsDatabase.find(r => r.id === roomId);
-        goToStep(4);
-    }
-
-    // -------------------------------------------------------------
-    // 5. CALCULS ET GENERATION DE TICKET
-    // -------------------------------------------------------------
-    function calculateNights() {
-        const inDate = new Date(document.getElementById('checkin').value);
-        const outDate = new Date(document.getElementById('checkout').value);
-        const diffTime = outDate - inDate;
-        let nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return nights > 0 ? nights : 1;
-    }
-
-    function calculateTotalPrice() {
-        if (!selectedRoom) return 0;
-        const nights = calculateNights();
-        let total = selectedRoom.price * nights;
-        if (document.getElementById('airportShuttle').checked) total += 15000;
-        return total;
-    }
-
-    function updateTotalPriceCalculation() {
-        const total = calculateTotalPrice();
-        document.getElementById('tTotalPrice').innerText = total.toLocaleString('fr-FR') + " FCFA";
-        const airportChoice = document.getElementById('airportShuttle').checked 
-            ? (currentLang === 'FR' ? "Oui (+15 000 FCFA)" : "Yes (+15,000 FCFA)") 
-            : (currentLang === 'FR' ? "Non" : "No");
-        document.getElementById('tAirport').innerText = airportChoice;
-    }
-
-    function generateTicketPreview() {
-        const prefix = document.getElementById('prefix').value;
-        const fname = document.getElementById('firstname').value || 'Guest';
-        const lname = document.getElementById('lastname').value || '';
-        const phone = document.getElementById('phone').value || 'N/A';
-        const email = document.getElementById('email').value || 'N/A';
-        const country = document.getElementById('country').value;
-
-        const checkin = document.getElementById('checkin').value;
-        const checkout = document.getElementById('checkout').value;
-        const time = document.getElementById('checktime').value;
-        const roomsCount = document.getElementById('roomsCount').value;
-        const nights = calculateNights();
-
-        const randomRef = "EDM-2026-" + Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('ticketRefNumber').innerText = "RÉF : " + randomRef;
-
-        document.getElementById('tClient').innerText = `${prefix} ${fname} ${lname}`;
-        document.getElementById('tPhone').innerText = phone;
-        document.getElementById('tEmail').innerText = email;
-        document.getElementById('tCountry').innerText = country;
-
-        const rName = (currentLang === 'FR') ? selectedRoom.nameFR : selectedRoom.nameEN;
-        document.getElementById('tRoomName').innerText = rName;
-        document.getElementById('tRoomsCount').innerText = `${roomsCount} ${currentLang === 'FR' ? 'chambre(s)' : 'room(s)'}`;
-        document.getElementById('tDates').innerText = `${checkin} -> ${checkout} (${nights} ${currentLang === 'FR' ? 'nuit' : 'night'}(s))`;
-        document.getElementById('tTime').innerText = time;
-
-        updateTotalPriceCalculation();
-
-        saveBookingToLocalStorage({
-            ref: randomRef,
-            client: `${prefix} ${fname} ${lname}`,
-            phone: phone,
-            email: email,
-            room: rName,
-            dates: `${checkin} au ${checkout}`,
-            total: calculateTotalPrice().toLocaleString('fr-FR') + " FCFA",
-            timestamp: new Date().toLocaleString()
-        });
-    }
-
-    // -------------------------------------------------------------
-    // 6. MODALES & LOCALSTORAGE
-    // -------------------------------------------------------------
-    function saveBookingToLocalStorage(bookingObj) {
-        let saved = JSON.parse(localStorage.getItem('edmond_bookings') || '[]');
-        saved.unshift(bookingObj);
-        localStorage.setItem('edmond_bookings', JSON.stringify(saved));
-    }
-
-    function openMyBookingsModal() {
-        closeDrawer();
-        const modal = document.getElementById('myBookingsModal');
-        const listContainer = document.getElementById('myBookingsList');
-        listContainer.innerHTML = '';
-
-        let saved = JSON.parse(localStorage.getItem('edmond_bookings') || '[]');
-
-        if (saved.length === 0) {
-            listContainer.innerHTML = `<p style="text-align:center; color: var(--text-muted); padding: 20px;">
-                ${currentLang === 'FR' ? 'Aucune réservation enregistrée pour le moment.' : 'No saved bookings yet.'}
-            </p>`;
-        } else {
-            saved.forEach(item => {
-                listContainer.innerHTML += `
-                    <div style="border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; margin-bottom: 12px; background: #faf8f5;">
-                        <div style="display: flex; justify-content: space-between; font-weight: bold; color: var(--primary-bordeaux);">
-                            <span>${item.ref}</span>
-                            <span>${item.total}</span>
-                        </div>
-                        <div style="font-size: 12px; color: var(--dark-color); margin-top: 5px;">
-                            <strong>${item.room}</strong><br>
-                            📅 ${item.dates}<br>
-                            👤 ${item.client} (${item.phone})
-                        </div>
-                    </div>
-                `;
-            });
-        }
-        modal.style.display = 'flex';
-    }
-
-    function closeMyBookingsModal() { document.getElementById('myBookingsModal').style.display = 'none'; }
-
-    function openRooftopModal() {
-        closeDrawer();
-        document.getElementById('rooftopModal').style.display = 'flex';
-    }
-
-    function closeRooftopModal() { document.getElementById('rooftopModal').style.display = 'none'; }
-
-    // -------------------------------------------------------------
-    // 7. ENVOI WHATSAPP & EMAIL
-    // -------------------------------------------------------------
-    function buildTicketFormattedText() {
-        const ref = document.getElementById('ticketRefNumber').innerText;
-        const client = document.getElementById('tClient').innerText;
-        const phone = document.getElementById('tPhone').innerText;
-        const email = document.getElementById('tEmail').innerText;
-        const country = document.getElementById('tCountry').innerText;
-
-        const room = document.getElementById('tRoomName').innerText;
-        const roomsCount = document.getElementById('tRoomsCount').innerText;
-        const dates = document.getElementById('tDates').innerText;
-        const time = document.getElementById('tTime').innerText;
-        const airport = document.getElementById('tAirport').innerText;
-        const total = document.getElementById('tTotalPrice').innerText;
-
-        return `🎟️ *GROUPE EDMOND HÔTEL - TICKET DE RÉSERVATION*
-----------------------------------------
-📌 *${ref}*
-
-👤 *CLIENT :* ${client}
-📞 *TÉLÉPHONE :* ${phone}
-📧 *EMAIL :* ${email}
-🌍 *PAYS :* ${country}
-
-🏨 *CHAMBRE :* ${room}
-🔑 *SÉLECTION :* ${roomsCount}
-📅 *SÉJOUR :* ${dates}
-⏰ *HEURE ARRIVÉE :* ${time}
-🚙 *TRANSFERT AÉROPORT :* ${airport}
-----------------------------------------
-💰 *PRIX TOTAL :* ${total}
-----------------------------------------
-Bonjour, je souhaite valider ma réservation à l'Edmond Hôtel et connaître les modalités de paiement. Merci !`;
-    }
-
-    function sendTicketViaWhatsApp() {
-        const hotelWhatsApp = "242069669602"; // Contact officiel Groupe Edmond
-        const messageText = buildTicketFormattedText();
-        window.open(`https://wa.me/${hotelWhatsApp}?text=${encodeURIComponent(messageText)}`, '_blank');
-    }
-
-    function sendTicketViaEmail() {
-        const hotelEmail = "officieledmondhotel@gmail.com";
-        const subject = "Réservation Edmond Hôtel - " + document.getElementById('tClient').innerText;
-        const bodyText = buildTicketFormattedText();
-        window.open(`mailto:${hotelEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`, '_self');
-    }
-
-    // -------------------------------------------------------------
-    // 8. NAVIGATION
-    // -------------------------------------------------------------
-    let currentStep = 1;
-    const totalSteps = 5;
-
+  <script>
+    // Gestion de la bannière des cookies avec sauvegarde de l'état
     window.addEventListener('DOMContentLoaded', () => {
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('checkin').setAttribute('min', today);
-        document.getElementById('checkout').setAttribute('min', today);
-        document.getElementById('checkin').value = today;
-
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        document.getElementById('checkout').value = tomorrow.toISOString().split('T')[0];
-
-        populateCountriesSelect();
-        updateStepUI();
+      const cookieConsent = localStorage.getItem('edmond_cookie_consent');
+      if (cookieConsent) {
+        document.getElementById('cookieBanner').classList.add('hidden');
+      }
     });
 
-    document.getElementById('prevStepBtn').addEventListener('click', () => {
-        if (currentStep > 1) goToStep(currentStep - 1);
-    });
-
-    document.getElementById('nextStepBtn').addEventListener('click', () => {
-        if (currentStep < totalSteps) goToStep(currentStep + 1);
-    });
-
-    function goToStep(stepNumber) {
-        if (stepNumber < 1 || stepNumber > totalSteps) return;
-        document.getElementById(`step${currentStep}`).classList.remove('active');
-        currentStep = stepNumber;
-        document.getElementById(`step${currentStep}`).classList.add('active');
-
-        updateStepUI();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    function acceptCookies() {
+      localStorage.setItem('edmond_cookie_consent', 'accepted');
+      document.getElementById('cookieBanner').classList.add('hidden');
     }
 
-    function updateStepUI() {
-        document.getElementById('prevStepBtn').disabled = (currentStep === 1);
-        document.getElementById('nextStepBtn').disabled = (currentStep === totalSteps);
-
-        const titles = ["1. ACCUEIL", "2. DATES & GUESTS", "3. CHAMBRES (100)", "4. RENSEIGNEMENTS", "5. VALIDATION TICKET"];
-        document.getElementById('stepIndicatorTitle').innerText = titles[currentStep - 1];
-
-        if (currentStep === 3) {
-            const inDate = document.getElementById('checkin').value;
-            const outDate = document.getElementById('checkout').value;
-            const rooms = document.getElementById('roomsCount').value;
-            document.getElementById('summaryBarText').innerHTML = `Du ${inDate} au ${outDate}<br><strong>${rooms} chambre(s)</strong>`;
-            renderStep3Rooms();
-        }
-
-        if (currentStep === 5) generateTicketPreview();
+    function declineCookies() {
+      localStorage.setItem('edmond_cookie_consent', 'declined');
+      document.getElementById('cookieBanner').classList.add('hidden');
     }
-
-    const drawer = document.getElementById('drawer');
-    const overlay = document.getElementById('drawerOverlay');
-
-    document.getElementById('openDrawerBtn').addEventListener('click', () => {
-        drawer.classList.add('active');
-        overlay.style.display = 'block';
-    });
-
-    document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer);
-    overlay.addEventListener('click', closeDrawer);
-
-    function closeDrawer() {
-        drawer.classList.remove('active');
-        overlay.style.display = 'none';
-    }
-</script>
+  </script>
 </body>
 </html>
