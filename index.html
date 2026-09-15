@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Système de Réservation - Prototype USSD</title>
+    <title>Système de Réservation - Résidence Congo</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; color: #333; }
         .etape { display: none; background: white; padding: 25px; border-radius: 8px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -37,6 +37,10 @@
         <div class="choix-box" onclick="allerAEtape('etape-2')">
             <h3>🛏️ Hébergement</h3>
             <p>Réserver une chambre ou un appartement.</p>
+        </div>
+        <div class="choix-box" onclick="alert('Module Événements en construction.')">
+            <h3>🎉 Événements</h3>
+            <p>Réserver une salle pour une réunion ou un événement.</p>
         </div>
     </div>
 
@@ -102,14 +106,14 @@
     <!-- ÉTAPE 5 -->
     <div id="etape-5" class="etape">
         <h2 style="color: green;">✅ Demande de Paiement Initiée !</h2>
-        <p>Veuillez finaliser sur votre téléphone puis envoyer le reçu.</p>
+        <p>Veuillez valider le paiement sur votre téléphone puis envoyer le reçu.</p>
         <div class="recu-box" id="recu-final"></div>
         <button class="btn-whatsapp" id="btn-envoyer-whatsapp">Envoyer mon reçu au Gérant (WhatsApp)</button>
         <button onclick="allerAEtape('etape-1')" style="margin-top: 15px; background: #666;">Faire une nouvelle réservation</button>
     </div>
 
     <script>
-        // 1. Base de données par défaut
+        // 1. Initialisation de la base
         const chambresParDefaut = [
             { id: 'chambre_01', nom: 'Chambre Standard (Simple)', prix: 35000, statut: 'libre', photos: ['Lit', 'Douche'] },
             { id: 'app_01', nom: 'Appartement : 1 Chambre + Salon', prix: 60000, statut: 'libre', photos: ['Salon', 'Chambre'] },
@@ -119,6 +123,7 @@
         let baseDeDonneesChambres = JSON.parse(localStorage.getItem('mesChambresHotes')) || chambresParDefaut;
         let reservation = { arrivee: '', depart: '', adultes: 1, enfants: 0, chambre: null, prixTotal: 0, codeTransaction: '' };
 
+        // 2. Navigation entre les étapes
         function allerAEtape(idEtape) {
             document.querySelectorAll('.etape').forEach(el => el.classList.remove('active'));
             document.getElementById(idEtape).classList.add('active');
@@ -132,6 +137,7 @@
             allerAEtape('etape-3');
         }
 
+        // 3. Affichage des chambres
         function afficherChambres() {
             const conteneur = document.getElementById('liste-chambres');
             conteneur.innerHTML = ''; 
@@ -151,6 +157,7 @@
             });
         }
 
+        // 4. Préparation du paiement
         function preparerPaiement(idChambre) {
             reservation.chambre = baseDeDonneesChambres.find(ch => ch.id === idChambre);
             reservation.prixTotal = reservation.chambre.prix;
@@ -169,7 +176,7 @@
             }
         }
 
-        // --- FONCTION DE PAIEMENT AVEC PUSH USSD (Lien tel:) ---
+        // 5. La fonction de Paiement USSD
         function simulerPaiementMomo() {
             let numero = document.getElementById('numero-client').value;
             let reseau = document.getElementById('reseau-momo').value;
@@ -185,42 +192,55 @@
                 alert("Erreur : Un numéro Airtel doit commencer par 05."); return;
             }
 
-            // Préparation du code USSD
-            let numeroHotel = "068970968"; // Numéro de réception
+            let numeroHotel = "068970968"; 
             let montant = reservation.prixTotal;
             let codeUSSD = "";
 
-            // Syntaxes USSD d'exemple (à adapter selon les vrais codes en vigueur)
             if (reseau === 'MTN') {
                 codeUSSD = `*105*2*${numeroHotel}*${montant}#`; 
             } else {
                 codeUSSD = `*150*1*${numeroHotel}*${montant}#`; 
             }
 
-            // Création du lien d'appel (encodage du # en %23)
+            // Encodage du symbole #
             let lienTelephone = `tel:${codeUSSD.replace('#', '%23')}`;
 
-            // Demande de confirmation avant ouverture du clavier
-            if (confirm(`Vous allez être redirigé vers votre clavier téléphonique pour payer ${montant} FCFA.\n\nAprès avoir validé avec votre code secret, revenez ici pour obtenir votre reçu.`)) {
+            if (confirm(`Vous allez ouvrir votre clavier téléphonique pour payer ${montant} FCFA.\n\nAprès avoir validé avec votre code secret, revenez ici pour obtenir votre reçu.`)) {
                 
-                // Ouvre le clavier avec le code pré-rempli
+                // Ouvre le téléphone
                 window.open(lienTelephone, '_self');
 
-                // Blocage de la chambre
+                // Bloque la chambre
                 let index = baseDeDonneesChambres.findIndex(ch => ch.id === reservation.chambre.id);
                 baseDeDonneesChambres[index].statut = 'occupee'; 
                 localStorage.setItem('mesChambresHotes', JSON.stringify(baseDeDonneesChambres));
                 
-                // Génération du reçu
+                // Génère le reçu
                 reservation.codeTransaction = "TXN-" + Math.floor(Math.random() * 1000000);
                 
                 document.getElementById('recu-final').innerHTML = `
                     <p><strong>Chambre:</strong> ${reservation.chambre.nom}</p>
-                    <p><strong>Transaction (Provisoire):</strong> ${reservation.codeTransaction}</p>
+                    <p><strong>Transaction (Réf):</strong> ${reservation.codeTransaction}</p>
                     <p><strong>Montant:</strong> ${reservation.prixTotal} FCFA</p>
                     <p><strong>Payé via:</strong> ${reseau} (${numero})</p>
                 `;
                 
-D'accord, c'est noté ! Je te renverrai le code entier avec le changement directement intégré. 
+                document.getElementById('btn-envoyer-whatsapp').onclick = function() {
+                    let textMsg = encodeURIComponent(`Bonjour, voici mon reçu de réservation.\nRéférence: ${reservation.codeTransaction}\nChambre: ${reservation.chambre.nom}\nMontant: ${reservation.prixTotal} FCFA.\nNuméro de compte payeur: ${numero}`);
+                    window.open(`https://wa.me/242068970968?text=${textMsg}`, '_blank');
+                };
 
-Cependant, je n'ai pas le code ni la modification sous les yeux dans ce message. Pourrais-tu me coller **le code complet** ainsi que **la modification exacte** que tu souhaites y apporter ?
+                allerAEtape('etape-5');
+            }
+        }
+
+        // 6. Remise à zéro pour tester encore
+        function reinitialiserSysteme() {
+            localStorage.removeItem('mesChambresHotes');
+            baseDeDonneesChambres = chambresParDefaut;
+            alert("Toutes les chambres sont de nouveau libres !");
+            afficherChambres();
+        }
+    </script>
+</body>
+</html>
