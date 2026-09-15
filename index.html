@@ -3,243 +3,1282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Système de Réservation - Résidence Congo</title>
+    <title>Vérifier la Réservation - The Peninsula Paris</title>
+    <!-- Google Fonts pour la typographie de luxe -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; color: #333; }
-        .etape { display: none; background: white; padding: 25px; border-radius: 8px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .etape.active { display: block; }
-        
-        .choix-box { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px; cursor: pointer; background: #fff; }
-        .choix-box:hover { border-color: #000; }
-        .choix-box.occupee { border: 1px solid red; background: #ffeeee; opacity: 0.7; cursor: not-allowed; }
-        
-        .form-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .form-row input, .form-row select { padding: 10px; width: 180px; border: 1px solid #ccc; border-radius: 4px; }
-        
-        button { background: #000; color: #fff; border: none; padding: 12px 20px; cursor: pointer; width: 100%; border-radius: 4px; margin-top: 10px; font-weight: bold; }
-        button:hover { background: #333; }
-        button:disabled { background: #999; cursor: not-allowed; }
-        button.btn-retour { background: #ccc; color: #000; width: auto; margin-bottom: 20px; padding: 8px 15px; }
-        
-        .zone-photos { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .photo-placeholder { background: #ddd; padding: 20px; font-size: 12px; min-width: 80px; text-align: center; border-radius: 4px; border: 1px dashed #999; }
-        
-        .recu-box { border: 2px dashed #000; padding: 20px; text-align: left; background: #fffcf0; margin-bottom: 20px; }
-        .btn-whatsapp { background: #25D366; color: white; }
-        .btn-whatsapp:hover { background: #1ebd5a; }
+        :root {
+            --bg-page: #FAF9F6;
+            --bg-card: #FFFFFF;
+            --text-main: #2C2A29;
+            --text-muted: #66605C;
+            --primary-gold: #8C7355;
+            --primary-gold-hover: #755E43;
+            --border-color: #E2DDD5;
+            --border-light: #EFECE6;
+            --error-color: #A93226;
+            --success-color: #27AE60;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container global style Mobile / Desktop responsive */
+        .page-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+            min-height: 100vh;
+        }
+
+        /* En-tête */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border-light);
+            background-color: #FFFFFF;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--primary-gold);
+            cursor: pointer;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-title {
+            font-family: var(--font-serif);
+            font-size: 22px;
+            letter-spacing: 2px;
+            font-weight: 500;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+
+        .content {
+            padding: 24px 20px;
+        }
+
+        /* Titres de section */
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            letter-spacing: 1.5px;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-serif);
+            font-size: 16px;
+            letter-spacing: 1.2px;
+            color: var(--text-main);
+            margin: 28px 0 16px 0;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Champs de formulaire */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .required-star {
+            color: var(--primary-gold);
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            background: #FFFFFF;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s ease;
+            border-radius: 0;
+        }
+
+        .input-box:focus {
+            border-color: var(--primary-gold);
+        }
+
+        .input-box.error-field {
+            border-color: var(--error-color);
+            background-color: #FDF2E9;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: "\f107";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-main);
+            pointer-events: none;
+            font-size: 14px;
+        }
+
+        select.input-box {
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        /* Accordéons / Modules pliables */
+        .accordion-item {
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            background: #FFFFFF;
+        }
+
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 18px;
+            cursor: pointer;
+            user-select: none;
+            background: #FFFFFF;
+            transition: background 0.2s;
+        }
+
+        .accordion-header:hover {
+            background-color: #FAF9F7;
+        }
+
+        .accordion-title {
+            font-size: 14px;
+            color: var(--text-main);
+            font-weight: 400;
+        }
+
+        .accordion-icon {
+            font-size: 12px;
+            color: var(--text-main);
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            padding: 0 18px;
+            background-color: #FFFFFF;
+            border-top: 0px solid var(--border-light);
+        }
+
+        .accordion-item.active .accordion-body {
+            padding: 16px 18px 20px 18px;
+            border-top: 1px solid var(--border-light);
+            max-height: 500px;
+        }
+
+        /* Checkboxes personnalisées */
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--border-color);
+            margin-top: 2px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            background: #FFF;
+        }
+
+        .checkbox-container input[type="checkbox"]:checked {
+            border-color: var(--primary-gold);
+            background-color: #FFFFFF;
+        }
+
+        .checkbox-container input[type="checkbox"]:checked::after {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 11px;
+            color: var(--primary-gold);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .checkbox-label {
+            font-size: 13px;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .checkbox-label a {
+            color: var(--primary-gold);
+            text-decoration: underline;
+        }
+
+        /* Section Paiement */
+        .payment-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+
+        .payment-header i {
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        .payment-info-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .card-logos {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card-badge {
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #555;
+            background: #FFF;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            height: 32px;
+        }
+
+        .card-badge.active {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 5px rgba(140, 115, 85, 0.4);
+            transform: scale(1.05);
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            font-size: 16px;
+        }
+
+        .input-with-icon input {
+            padding-left: 42px;
+        }
+
+        /* Bloc Politiques */
+        .policy-box {
+            background-color: #F8F7F5;
+            padding: 20px;
+            margin: 28px 0;
+        }
+
+        .policy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .policy-item-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .policy-item-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .policy-room-info {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .policy-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        /* Boutons principaux */
+        .btn-confirm {
+            width: 100%;
+            background-color: var(--primary-gold);
+            color: #FFFFFF;
+            border: none;
+            padding: 16px;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 24px 0 32px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-confirm:hover {
+            background-color: var(--primary-gold-hover);
+        }
+
+        .btn-add-room {
+            width: 100%;
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 16px;
+        }
+
+        .btn-add-room:hover {
+            border-color: var(--primary-gold);
+            color: var(--primary-gold);
+        }
+
+        /* Détails des prix */
+        .price-details-box {
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin-top: 12px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .price-room-title {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .price-amount {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .price-sub-info {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .price-stay-link {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .total-row {
+            border-top: 1px solid var(--border-light);
+            padding-top: 16px;
+            margin-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            font-family: var(--font-serif);
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .total-price {
+            font-family: var(--font-serif);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .total-tax-note {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Avantages exclusifs */
+        .benefits-section {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            align-items: flex-start;
+        }
+
+        .benefit-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #F4F1EC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-gold);
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .benefit-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .benefit-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Support & Contact */
+        .help-section {
+            background-color: #FBFBF9;
+            padding: 24px 20px;
+            margin-top: 36px;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .help-title {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .help-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .contact-link {
+            display: block;
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-bottom: 6px;
+        }
+
+        .hotel-footer-info {
+            padding: 28px 20px;
+        }
+
+        .hotel-name {
+            font-family: var(--font-serif);
+            font-size: 16px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .footer-accordion {
+            border-top: 1px solid var(--border-light);
+            margin-top: 20px;
+        }
+
+        .footer-accordion .accordion-item {
+            border: none;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 0;
+        }
+
+        .footer-accordion .accordion-header {
+            padding: 14px 0;
+        }
+
+        .footer-accordion .accordion-title {
+            font-family: var(--font-serif);
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 28px 0;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .social-icon:hover {
+            border-color: var(--primary-gold);
+            color: var(--primary-gold);
+        }
+
+        .legal-links {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .legal-links a {
+            display: block;
+            color: var(--text-main);
+            font-size: 12px;
+            text-decoration: none;
+            margin-bottom: 12px;
+        }
+
+        .legal-links a.underline {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            padding-bottom: 40px;
+        }
+
+        /* Modal de confirmation */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #FFFFFF;
+            max-width: 450px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            font-size: 48px;
+            color: var(--primary-gold);
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .modal-btn {
+            background: var(--primary-gold);
+            color: #FFF;
+            border: none;
+            padding: 12px 24px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        /* Alertes d'erreur */
+        .error-message {
+            color: var(--error-color);
+            font-size: 11px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-field + .error-message {
+            display: block;
+        }
     </style>
 </head>
 <body>
 
-    <!-- ÉTAPE 1 -->
-    <div id="etape-1" class="etape active">
-        <h2>Étape 1 : Que souhaitez-vous réserver ?</h2>
-        <div class="choix-box" onclick="allerAEtape('etape-2')">
-            <h3>🛏️ Hébergement</h3>
-            <p>Réserver une chambre ou un appartement.</p>
-        </div>
-        <div class="choix-box" onclick="alert('Module Événements en construction.')">
-            <h3>🎉 Événements</h3>
-            <p>Réserver une salle pour une réunion ou un événement.</p>
-        </div>
-    </div>
-
-    <!-- ÉTAPE 2 -->
-    <div id="etape-2" class="etape">
-        <button class="btn-retour" onclick="allerAEtape('etape-1')">← Retour</button>
-        <h2>Étape 2 : Votre séjour</h2>
+    <div class="page-container">
         
-        <div class="form-row">
-            <label>Date d'arrivée :</label>
-            <input type="date" id="date-arrivee">
-        </div>
-        <div class="form-row">
-            <label>Date de départ :</label>
-            <input type="date" id="date-depart">
-        </div>
-        <hr style="margin: 20px 0; border-top: 1px solid #eee;">
-        <div class="form-row">
-            <label>Adultes :</label>
-            <input type="number" id="nb-adultes" value="1" min="1">
-        </div>
-        <div class="form-row">
-            <label>Enfants :</label>
-            <input type="number" id="nb-enfants" value="0" min="0">
-        </div>
-        <button onclick="validerDatesEtPersonnes()">Voir les chambres disponibles</button>
+        <!-- EN-TÊTE -->
+        <header class="header">
+            <button class="back-btn" onclick="alert('Retour à la page précédente')">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <h1 class="header-title">VÉRFIER</h1>
+        </header>
+
+        <main class="content">
+
+            <!-- SECTION ADRESSE -->
+            <section>
+                <h2 class="section-title">Adresse</h2>
+                <div class="form-group">
+                    <label class="form-label" for="country">Pays/Région <span class="required-star">*</span></label>
+                    <div class="select-wrapper">
+                        <select id="country" class="input-box" required>
+                            <option value="" disabled selected>Sélectionnez votre pays / région</option>
+                            <option value="CG">Congo-Brazzaville</option>
+                            <option value="FR">France</option>
+                            <option value="US">États-Unis</option>
+                            <option value="GB">Royaume-Uni</option>
+                            <option value="CA">Canada</option>
+                            <option value="CH">Suisse</option>
+                            <option value="BE">Belgique</option>
+                            <option value="CN">Chine</option>
+                            <option value="JP">Japon</option>
+                        </select>
+                    </div>
+                    <div class="error-message">Veuillez sélectionner un pays ou une région.</div>
+                </div>
+            </section>
+
+            <!-- CRÉATION DE COMPTE (OPTIONNEL) -->
+            <div class="accordion-item" id="accountAccordion">
+                <div class="accordion-header" onclick="toggleAccordion('accountAccordion')">
+                    <span class="accordion-title">Réservez plus rapidement (facultatif)</span>
+                    <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-body">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="createAccountCheck" onchange="toggleAccountFields()">
+                        <span class="checkbox-label">Je souhaite créer un compte.</span>
+                    </label>
+                    
+                    <div id="accountFields" style="display: none; margin-top: 15px;">
+                        <div class="form-group">
+                            <label class="form-label">Mot de passe</label>
+                            <input type="password" class="input-box" placeholder="Créer un mot de passe">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Confirmer le mot de passe</label>
+                            <input type="password" class="input-box" placeholder="Confirmer le mot de passe">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DÉTAILS DE LA RÉSERVATION -->
+            <h3 class="section-subtitle">DÉTAILS DE LA RÉSERVATION</h3>
+
+            <!-- Option 1: Invité -->
+            <div class="accordion-item" id="guestAccordion">
+                <div class="accordion-header" onclick="toggleAccordion('guestAccordion')">
+                    <span class="accordion-title">Ajouter un invité pour l'inscription</span>
+                    <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-body">
+                    <div class="form-group">
+                        <label class="form-label">Prénom de l'invité</label>
+                        <input type="text" class="input-box" placeholder="Ex. Jean">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nom de l'invité</label>
+                        <input type="text" class="input-box" placeholder="Ex. Dupont">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 2: Demandes spéciales -->
+            <div class="accordion-item" id="requestsAccordion">
+                <div class="accordion-header" onclick="toggleAccordion('requestsAccordion')">
+                    <span class="accordion-title">Demandes spéciales</span>
+                    <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-body">
+                    <div class="form-group">
+                        <label class="form-label">Remarques ou préférences particulières</label>
+                        <textarea class="input-box" rows="3" placeholder="Ex: Lit bébé, étage élevé, allergies alimentaires..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Option 3: Heure de la Péninsule -->
+            <div class="accordion-item" id="timeAccordion">
+                <div class="accordion-header" onclick="toggleAccordion('timeAccordion')">
+                    <span class="accordion-title">Sélection de l'heure de la péninsule</span>
+                    <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                </div>
+                <div class="accordion-body">
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+                        Bénéficiez d'horaires d'arrivée et de départ flexibles selon vos besoins.
+                    </p>
+                    <div class="form-group">
+                        <label class="form-label">Heure d'arrivée estimée</label>
+                        <div class="select-wrapper">
+                            <select class="input-box">
+                                <option>15:00 (Heure standard)</option>
+                                <option>10:00 (Arrivée anticipée)</option>
+                                <option>12:00</option>
+                                <option>18:00</option>
+                                <option>20:00</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Heure de départ estimée</label>
+                        <div class="select-wrapper">
+                            <select class="input-box">
+                                <option>12:00 (Heure standard)</option>
+                                <option>14:00</option>
+                                <option>16:00 (Départ tardif)</option>
+                                <option>18:00</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAIEMENT -->
+            <div class="payment-header">
+                <i class="fa-solid fa-lock"></i>
+                <h2 class="section-title" style="margin-bottom: 0;">PAIEMENT</h2>
+            </div>
+            
+            <p class="payment-info-text">
+                Nous utilisons une transmission sécurisée et un stockage crypté pour protéger vos informations personnelles.
+            </p>
+
+            <!-- Badges Cartes -->
+            <div class="card-logos">
+                <div class="card-badge" id="badge-visa">VISA</div>
+                <div class="card-badge" id="badge-mastercard">MC</div>
+                <div class="card-badge" id="badge-amex">AMEX</div>
+                <div class="card-badge" id="badge-diners">DINERS</div>
+                <div class="card-badge" id="badge-eurocard">EUROCARD</div>
+            </div>
+
+            <form id="bookingForm" onsubmit="handleFormSubmit(event)">
+                
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="fa-regular fa-credit-card"></i>
+                        <input type="text" id="cardNumber" class="input-box" placeholder="Numéro de carte *" maxlength="19" oninput="formatCardNumber(this)" required>
+                    </div>
+                    <div class="error-message">Veuillez entrer un numéro de carte valide.</div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="cardExpiry" class="input-box" placeholder="Date d'expiration (MM/AA) *" maxlength="5" oninput="formatExpiry(this)" required>
+                    <div class="error-message">Date d'expiration invalide.</div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="cardName" class="input-box" placeholder="Nom sur la carte *" required>
+                    <div class="error-message">Veuillez indiquer le nom présent sur la carte.</div>
+                </div>
+
+                <!-- POLITIQUES -->
+                <div class="policy-box">
+                    <h3 class="section-title" style="font-size: 16px; margin-bottom: 12px;">Politiques :</h3>
+                    
+                    <div class="policy-grid">
+                        <div>
+                            <div class="policy-item-title">Enregistrement</div>
+                            <div class="policy-item-sub">après 15h00</div>
+                        </div>
+                        <div>
+                            <div class="policy-item-title">Vérifier</div>
+                            <div class="policy-item-sub">avant 12h00</div>
+                        </div>
+                    </div>
+
+                    <div class="policy-room-info">
+                        Chambre 1, Chambre Premier , 1 lit King Size
+                    </div>
+
+                    <p class="policy-text">
+                        Une garantie par carte de crédit est requise au moment de la réservation.
+                    </p>
+                    <p class="policy-text">
+                        Toute annulation doit être notifiée à l'hôtel avant 15h00, heure locale, la veille de l'arrivée afin d'éviter des frais d'annulation équivalents à une nuit.
+                    </p>
+                </div>
+
+                <!-- RECONNAISSANCE ET ACCEPATATON -->
+                <h3 class="section-subtitle">Reconnaissance</h3>
+
+                <label class="checkbox-container">
+                    <input type="checkbox" id="marketingCheck">
+                    <span class="checkbox-label">
+                        Je souhaite recevoir des promotions, des invitations à des événements, des offres spéciales et des communications de The Hongkong and Shanghai Hotels, Limited (« HSH ») et de ses filiales (« Groupe HSH ») par courrier, courriel, appel téléphonique, SMS ou autres outils de communication instantanée.
+                    </span>
+                </label>
+
+                <label class="checkbox-container">
+                    <input type="checkbox" id="privacyCheck" required>
+                    <span class="checkbox-label">
+                        * J'ai lu et j'accepte la <a href="#" onclick="alert('Politique de confidentialité'); return false;">Politique de confidentialité et de sécurité des données</a> et les pratiques de confidentialité du groupe HSH, y compris le transfert de mes informations personnelles aux filiales de HSH et aux prestataires de services tiers à l'étranger.
+                    </span>
+                </label>
+
+                <label class="checkbox-container">
+                    <input type="checkbox" id="termsCheck" required>
+                    <span class="checkbox-label">
+                        * Je suis âgé(e) d'au moins 18 ans et j'ai lu et accepté les <a href="#" onclick="alert('Conditions générales'); return false;">Conditions Générales</a>.
+                    </span>
+                </label>
+
+                <!-- BOUTON CONFIRMER -->
+                <button type="submit" class="btn-confirm">
+                    CONFIRMER LA RÉSERVATION <i class="fa-solid fa-lock" style="font-size: 11px;"></i>
+                </button>
+            </form>
+
+            <!-- DÉTAILS DES PRIX -->
+            <section style="margin-top: 30px;">
+                <h3 class="section-title">Détails des prix</h3>
+                
+                <div class="price-details-box">
+                    <div id="roomsContainer">
+                        <div class="room-line-item">
+                            <div class="price-row">
+                                <span class="price-room-title">Chambre Premier, 1 lit King</span>
+                                <span class="price-amount" data-single-price="2948">2 948,00 €</span>
+                            </div>
+                            <div class="price-sub-info">Chambres d'hôtes</div>
+                            <a href="#" class="price-stay-link" onclick="alert('Détails du séjour : 1 nuit'); return false;">Séjour d'une nuit &gt;</a>
+                        </div>
+                    </div>
+
+                    <div class="price-row" style="margin-top: 10px;">
+                        <span style="color: var(--text-muted); font-size: 13px;">Taxes et frais</span>
+                        <span style="font-size: 13px;">0,00 €</span>
+                    </div>
+
+                    <div class="price-sub-info" style="margin-top: 10px; color: var(--text-main); font-weight: 500;">
+                        Mardi 15 septembre 2026 - Mercredi 16 septembre 2026
+                    </div>
+                    <div class="price-sub-info">
+                        2 adultes
+                    </div>
+
+                    <div class="total-row">
+                        <div>
+                            <div class="total-label">Total</div>
+                            <div class="total-tax-note">Taxes et frais inclus</div>
+                        </div>
+                        <div class="total-price" id="totalPriceDisplay">2 948,00 €</div>
+                    </div>
+
+                    <button class="btn-add-room" onclick="addAdditionalRoom()">
+                        AJOUTER UNE CHAMBRE
+                    </button>
+                </div>
+            </section>
+
+            <!-- AVANTAGES EXCLUSIFS -->
+            <section class="benefits-section">
+                <h3 class="section-title" style="font-size: 16px; margin-bottom: 20px;">
+                    Réservez directement pour bénéficier d'avantages exclusifs
+                </h3>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-regular fa-clock"></i></div>
+                    <div>
+                        <div class="benefit-title">Temps de la péninsule</div>
+                        <div class="benefit-desc">Horaires d'arrivée et de départ flexibles</div>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-regular fa-calendar"></i></div>
+                    <div>
+                        <div class="benefit-title">Réservations flexibles</div>
+                        <div class="benefit-desc">Modifiez ou annulez facilement vos réservations directement auprès de notre équipe.</div>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-tag"></i></div>
+                    <div>
+                        <div class="benefit-title">Offres et tarifs exclusifs</div>
+                        <div class="benefit-desc">Les meilleurs prix et forfaits</div>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-solid fa-map-pin"></i></div>
+                    <div>
+                        <div class="benefit-title">Académie de la Péninsule</div>
+                        <div class="benefit-desc">Accès à des expériences de destination uniques et soigneusement sélectionnées</div>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fa-regular fa-comments"></i></div>
+                    <div>
+                        <div class="benefit-title">PenChat</div>
+                        <div class="benefit-desc">Vous pouvez contacter directement notre équipe à tout moment via votre canal de discussion préféré.</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ASSISTANCE / BESOIN D'AIDE -->
+        <section class="help-section">
+            <h3 class="help-title">Besoin d'aide ?</h3>
+            <p class="help-text">Notre équipe de réservation dédiée est à votre disposition :</p>
+            <a href="tel:+33158122777" class="contact-link">+33 1 5812 2777</a>
+            <p class="help-text" style="font-size: 12px; margin-bottom: 12px;">Numéros sans frais</p>
+            <a href="mailto:reservationppr@peninsula.com" class="contact-link" style="color: var(--primary-gold);">reservationppr@peninsula.com</a>
+        </section>
+
+        <!-- PIED DE PAGE -->
+        <footer class="hotel-footer-info">
+            <div class="hotel-name">PÉNINSULE PARIS</div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">19 Avenue Kléber</p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">+33 (0)1 58 12 28 88</p>
+            <a href="mailto:ppr@peninsula.com" style="color: var(--primary-gold); text-decoration: none; font-size: 13px;">ppr@peninsula.com</a>
+
+            <div class="footer-accordion">
+                <div class="accordion-item" id="footerAcc1">
+                    <div class="accordion-header" onclick="toggleAccordion('footerAcc1')">
+                        <span class="accordion-title">LES HÔTELS PENINSULA</span>
+                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <p style="font-size: 12px; color: var(--text-muted); padding: 5px 0;">Hong Kong, Shanghai, Beijing, Tokyo, New York, Chicago, Beverly Hills, Paris, Bangkok, Manila.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" id="footerAcc2">
+                    <div class="accordion-header" onclick="toggleAccordion('footerAcc2')">
+                        <span class="accordion-title">MÉDIAS</span>
+                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <p style="font-size: 12px; color: var(--text-muted); padding: 5px 0;">Communiqués de presse, médiathèque et contacts presse.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" id="footerAcc3">
+                    <div class="accordion-header" onclick="toggleAccordion('footerAcc3')">
+                        <span class="accordion-title">ENTREPRISE</span>
+                        <i class="fa-solid fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-body">
+                        <p style="font-size: 12px; color: var(--text-muted); padding: 5px 0;">The Hongkong and Shanghai Hotels, Limited (HSH), carrières et investisseurs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Réseaux Sociaux -->
+            <div class="social-links">
+                <a href="#" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-icon" title="WeChat"><i class="fa-brands fa-weixin"></i></a>
+                <a href="#" class="social-icon" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+
+            <!-- Liens Légaux -->
+            <div class="legal-links">
+                <a href="#" onclick="alert('Politique de confidentialité'); return false;">Politique de confidentialité et de sécurité des données</a>
+                <a href="#" onclick="alert('Accessibilité'); return false;">Déclaration de politique d'accessibilité (Propriétés américaines)</a>
+                <a href="#" class="underline" onclick="alert('Gestion des cookies'); return false;">Gérer les préférences relatives aux cookies</a>
+            </div>
+
+            <div class="copyright">
+                © 2026 HSH Management Services Limited. (Hôtels Peninsula) Tous droits réservés.
+            </div>
+        </footer>
+
     </div>
 
-    <!-- ÉTAPE 3 -->
-    <div id="etape-3" class="etape">
-        <button class="btn-retour" onclick="allerAEtape('etape-2')">← Retour au calendrier</button>
-        <h2>Étape 3 : Choisissez votre espace</h2>
-        <p id="resume-recherche" style="color: #666; font-size: 0.9em; margin-bottom: 20px;"></p>
-        <div id="liste-chambres"></div>
-        <button class="btn-retour" onclick="reinitialiserSysteme()" style="margin-top:20px; background:red; color:white; width:100%;">[ADMIN] Libérer toutes les chambres</button>
-    </div>
-
-    <!-- ÉTAPE 4 -->
-    <div id="etape-4" class="etape">
-        <button class="btn-retour" onclick="allerAEtape('etape-3')">← Changer de chambre</button>
-        <h2>Étape 4 : Paiement Mobile Money</h2>
-        <div style="background: #e9ecef; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-            <p id="recap-paiement" style="margin: 0; line-height: 1.5;"></p>
-        </div>
-        
-        <div class="form-row">
-            <label>Votre Réseau :</label>
-            <select id="reseau-momo" onchange="changerPrefixe()">
-                <option value="MTN">MTN Mobile Money</option>
-                <option value="Airtel">Airtel Money</option>
-            </select>
-        </div>
-        <div class="form-row">
-            <label>Numéro de compte :</label>
-            <input type="text" id="numero-client" placeholder="Ex: 06 000 00 00">
-        </div>
-        <div class="form-row">
-            <label>Validez la transaction :</label>
-            <button onclick="simulerPaiementMomo()" style="width: auto;">Payer maintenant</button>
+    <!-- MODAL DE CONFIRMATION DE RÉSERVATION -->
+    <div class="modal-overlay" id="confirmationModal">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <i class="fa-regular fa-circle-check"></i>
+            </div>
+            <h2 class="modal-title">RÉSERVATION CONFIRMÉE</h2>
+            <p class="modal-body" id="modalDetails">
+                Merci d'avoir choisi The Peninsula Paris. Votre réservation pour la <strong>Chambre Premier (1 lit King)</strong> a été enregistrée avec succès.
+                <br><br>
+                Un courriel de confirmation détaillé vous sera envoyé incessamment.
+            </p>
+            <button class="modal-btn" onclick="closeModal()">FERMER</button>
         </div>
     </div>
 
-    <!-- ÉTAPE 5 -->
-    <div id="etape-5" class="etape">
-        <h2 style="color: green;">✅ Demande de Paiement Initiée !</h2>
-        <p>Veuillez valider le paiement sur votre téléphone puis envoyer le reçu.</p>
-        <div class="recu-box" id="recu-final"></div>
-        <button class="btn-whatsapp" id="btn-envoyer-whatsapp">Envoyer mon reçu au Gérant (WhatsApp)</button>
-        <button onclick="allerAEtape('etape-1')" style="margin-top: 15px; background: #666;">Faire une nouvelle réservation</button>
-    </div>
-
+    <!-- LOGIQUE JAVASCRIPT -->
     <script>
-        // 1. Initialisation de la base
-        const chambresParDefaut = [
-            { id: 'chambre_01', nom: 'Chambre Standard (Simple)', prix: 35000, statut: 'libre', photos: ['Lit', 'Douche'] },
-            { id: 'app_01', nom: 'Appartement : 1 Chambre + Salon', prix: 60000, statut: 'libre', photos: ['Salon', 'Chambre'] },
-            { id: 'app_02', nom: 'Appartement VIP : 2 Chambres', prix: 100000, statut: 'libre', photos: ['VIP', 'Piscine'] }
-        ];
-
-        let baseDeDonneesChambres = JSON.parse(localStorage.getItem('mesChambresHotes')) || chambresParDefaut;
-        let reservation = { arrivee: '', depart: '', adultes: 1, enfants: 0, chambre: null, prixTotal: 0, codeTransaction: '' };
-
-        // 2. Navigation entre les étapes
-        function allerAEtape(idEtape) {
-            document.querySelectorAll('.etape').forEach(el => el.classList.remove('active'));
-            document.getElementById(idEtape).classList.add('active');
-            if (idEtape === 'etape-3') afficherChambres();
+        // 1. Gestionnaire des accordéons
+        function toggleAccordion(id) {
+            const item = document.getElementById(id);
+            if (!item) return;
+            item.classList.toggle('active');
         }
 
-        function validerDatesEtPersonnes() {
-            reservation.arrivee = document.getElementById('date-arrivee').value;
-            reservation.depart = document.getElementById('date-depart').value;
-            if(!reservation.arrivee || !reservation.depart) { alert("Veuillez choisir vos dates."); return; }
-            allerAEtape('etape-3');
+        // 2. Affichage des champs du compte
+        function toggleAccountFields() {
+            const checkbox = document.getElementById('createAccountCheck');
+            const fields = document.getElementById('accountFields');
+            fields.style.display = checkbox.checked ? 'block' : 'none';
         }
 
-        // 3. Affichage des chambres
-        function afficherChambres() {
-            const conteneur = document.getElementById('liste-chambres');
-            conteneur.innerHTML = ''; 
+        // 3. Formateur et Détecteur de carte de crédit
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\D/g, '');
+            let formatted = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) formatted += ' ';
+                formatted += value[i];
+            }
+            input.value = formatted;
 
-            baseDeDonneesChambres.forEach(chambre => {
-                let div = document.createElement('div');
-                div.className = 'choix-box';
-                let htmlPhotos = '<div class="zone-photos">' + chambre.photos.map(p => `<div class="photo-placeholder">${p}</div>`).join('') + '</div>';
+            // Détection du réseau de carte
+            document.querySelectorAll('.card-badge').forEach(badge => badge.classList.remove('active'));
 
-                if (chambre.statut === 'occupee') {
-                    div.classList.add('occupee');
-                    div.innerHTML = `${htmlPhotos}<h3>${chambre.nom}</h3><button disabled>❌ Chambre Déjà Occupée</button>`;
-                } else {
-                    div.innerHTML = `${htmlPhotos}<h3>${chambre.nom}</h3><p><strong>${chambre.prix} FCFA / nuit</strong></p><button onclick="preparerPaiement('${chambre.id}')">Sélectionner cette chambre</button>`;
-                }
-                conteneur.appendChild(div);
-            });
-        }
-
-        // 4. Préparation du paiement
-        function preparerPaiement(idChambre) {
-            reservation.chambre = baseDeDonneesChambres.find(ch => ch.id === idChambre);
-            reservation.prixTotal = reservation.chambre.prix;
-            document.getElementById('recap-paiement').innerHTML = `<strong>${reservation.chambre.nom}</strong> <br> Montant : ${reservation.prixTotal} FCFA`;
-            changerPrefixe();
-            allerAEtape('etape-4');
-        }
-
-        function changerPrefixe() {
-            let reseau = document.getElementById('reseau-momo').value;
-            let champNumero = document.getElementById('numero-client');
-            if (reseau === 'MTN') {
-                champNumero.placeholder = "Ex: 06 000 00 00";
-            } else if (reseau === 'Airtel') {
-                champNumero.placeholder = "Ex: 05 000 00 00";
+            if (value.startsWith('4')) {
+                document.getElementById('badge-visa').classList.add('active');
+            } else if (/^(5[1-5]|2[2-7])/.test(value)) {
+                document.getElementById('badge-mastercard').classList.add('active');
+            } else if (/^3[47]/.test(value)) {
+                document.getElementById('badge-amex').classList.add('active');
+            } else if (/^3(?:0[0-5]|[68])/.test(value)) {
+                document.getElementById('badge-diners').classList.add('active');
+            } else if (/^(50|56|57|58|6)/.test(value)) {
+                document.getElementById('badge-eurocard').classList.add('active');
             }
         }
 
-        // 5. La fonction de Paiement USSD
-        function simulerPaiementMomo() {
-            let numero = document.getElementById('numero-client').value;
-            let reseau = document.getElementById('reseau-momo').value;
-            
-            if(!numero) { alert("Veuillez entrer votre numéro."); return; }
-            
-            // Vérification du préfixe
-            let numeroPropre = numero.replace(/\s/g, ''); 
-            if (reseau === 'MTN' && !numeroPropre.startsWith('06')) {
-                alert("Erreur : Un numéro MTN doit commencer par 06."); return;
-            }
-            if (reseau === 'Airtel' && !numeroPropre.startsWith('05')) {
-                alert("Erreur : Un numéro Airtel doit commencer par 05."); return;
-            }
-
-            let numeroHotel = "068970968"; 
-            let montant = reservation.prixTotal;
-            let codeUSSD = "";
-
-            if (reseau === 'MTN') {
-                codeUSSD = `*105*2*${numeroHotel}*${montant}#`; 
+        // 4. Formateur Date d'expiration MM/AA
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 3) {
+                input.value = value.substring(0, 2) + '/' + value.substring(2, 4);
             } else {
-                codeUSSD = `*150*1*${numeroHotel}*${montant}#`; 
+                input.value = value;
+            }
+        }
+
+        // 5. Ajout dynamique d'une chambre supplémentaire
+        let roomCount = 1;
+        const basePrice = 2948;
+
+        function addAdditionalRoom() {
+            roomCount++;
+            const roomsContainer = document.getElementById('roomsContainer');
+            
+            const newRoomDiv = document.createElement('div');
+            newRoomDiv.className = 'room-line-item';
+            newRoomDiv.style.borderTop = '1px dashed var(--border-color)';
+            newRoomDiv.style.paddingTop = '12px';
+            newRoomDiv.style.marginTop = '12px';
+
+            newRoomDiv.innerHTML = `
+                <div class="price-row">
+                    <span class="price-room-title">Chambre ${roomCount}, Chambre Premier, 1 lit King</span>
+                    <span class="price-amount">2 948,00 €</span>
+                </div>
+                <div class="price-sub-info">Chambres d'hôtes</div>
+                <a href="#" class="price-stay-link" onclick="alert('Détails du séjour : 1 nuit'); return false;">Séjour d'une nuit &gt;</a>
+            `;
+            
+            roomsContainer.appendChild(newRoomDiv);
+            
+            // Recalcul du prix total
+            const newTotal = roomCount * basePrice;
+            const formattedTotal = newTotal.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + ' €';
+            document.getElementById('totalPriceDisplay').textContent = formattedTotal;
+        }
+
+        // 6. Validation et Soumission du Formulaire
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            let isValid = true;
+            const countrySelect = document.getElementById('country');
+            const cardNumber = document.getElementById('cardNumber');
+            const cardExpiry = document.getElementById('cardExpiry');
+            const cardName = document.getElementById('cardName');
+            const privacyCheck = document.getElementById('privacyCheck');
+            const termsCheck = document.getElementById('termsCheck');
+
+            // Réinitialisation des erreurs
+            document.querySelectorAll('.input-box').forEach(el => el.classList.remove('error-field'));
+
+            if (!countrySelect.value) {
+                countrySelect.classList.add('error-field');
+                isValid = false;
             }
 
-            // Encodage du symbole #
-            let lienTelephone = `tel:${codeUSSD.replace('#', '%23')}`;
+            if (cardNumber.value.replace(/\s/g, '').length < 15) {
+                cardNumber.classList.add('error-field');
+                isValid = false;
+            }
 
-            if (confirm(`Vous allez ouvrir votre clavier téléphonique pour payer ${montant} FCFA.\n\nAprès avoir validé avec votre code secret, revenez ici pour obtenir votre reçu.`)) {
-                
-                // Ouvre le téléphone
-                window.open(lienTelephone, '_self');
+            if (cardExpiry.value.length < 5) {
+                cardExpiry.classList.add('error-field');
+                isValid = false;
+            }
 
-                // Bloque la chambre
-                let index = baseDeDonneesChambres.findIndex(ch => ch.id === reservation.chambre.id);
-                baseDeDonneesChambres[index].statut = 'occupee'; 
-                localStorage.setItem('mesChambresHotes', JSON.stringify(baseDeDonneesChambres));
+            if (cardName.value.trim() === '') {
+                cardName.classList.add('error-field');
+                isValid = false;
+            }
+
+            if (!privacyCheck.checked || !termsCheck.checked) {
+                alert('Veuillez accepter les conditions générales ainsi que la politique de confidentialité.');
+                isValid = false;
+            }
+
+            if (isValid) {
+                const modal = document.getElementById('confirmationModal');
+                const modalDetails = document.getElementById('modalDetails');
+                const totalText = document.getElementById('totalPriceDisplay').textContent;
                 
-                // Génère le reçu
-                reservation.codeTransaction = "TXN-" + Math.floor(Math.random() * 1000000);
-                
-                document.getElementById('recu-final').innerHTML = `
-                    <p><strong>Chambre:</strong> ${reservation.chambre.nom}</p>
-                    <p><strong>Transaction (Réf):</strong> ${reservation.codeTransaction}</p>
-                    <p><strong>Montant:</strong> ${reservation.prixTotal} FCFA</p>
-                    <p><strong>Payé via:</strong> ${reseau} (${numero})</p>
+                modalDetails.innerHTML = `
+                    Merci d'avoir choisi <strong>The Peninsula Paris</strong>.<br><br>
+                    <strong>Montant total débité :</strong> ${totalText}<br>
+                    <strong>Nombre de chambre(s) :</strong> ${roomCount}<br>
+                    <strong>Dates :</strong> Mardi 15 septembre 2026 - Mercredi 16 septembre 2026<br><br>
+                    Un e-mail de confirmation a été envoyé à l'adresse enregistrée.
                 `;
                 
-                document.getElementById('btn-envoyer-whatsapp').onclick = function() {
-                    let textMsg = encodeURIComponent(`Bonjour, voici mon reçu de réservation.\nRéférence: ${reservation.codeTransaction}\nChambre: ${reservation.chambre.nom}\nMontant: ${reservation.prixTotal} FCFA.\nNuméro de compte payeur: ${numero}`);
-                    window.open(`https://wa.me/242068970968?text=${textMsg}`, '_blank');
-                };
-
-                allerAEtape('etape-5');
+                modal.classList.add('active');
             }
         }
 
-        // 6. Remise à zéro pour tester encore
-        function reinitialiserSysteme() {
-            localStorage.removeItem('mesChambresHotes');
-            baseDeDonneesChambres = chambresParDefaut;
-            alert("Toutes les chambres sont de nouveau libres !");
-            afficherChambres();
+        function closeModal() {
+            document.getElementById('confirmationModal').classList.remove('active');
         }
     </script>
 </body>
